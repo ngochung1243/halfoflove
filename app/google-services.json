@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "611295363487",
+    "firebase_url": "https://half-of-love.firebaseio.com",
+    "project_id": "half-of-love",
+    "storage_bucket": "half-of-love.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611295363487:android:0558b913cf0fbfee",
+        "android_client_info": {
+          "package_name": "com.launamgoc.halfoflove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611295363487-su4l25umjjuq9ip0macltnf6qto1vu5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk_FEKibZsFJM9g-ywBvThD2KC3WAK7u8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611295363487:android:27c264a732120d06",
+        "android_client_info": {
+          "package_name": "launamgoc.halfoflove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611295363487-r19mjdk84tvjo4mifo7cfg1mlms51fvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "launamgoc.halfoflove",
+            "certificate_hash": "D5127E4995B38633F85D534371EB260F7766E1C1"
+          }
+        },
+        {
+          "client_id": "611295363487-su4l25umjjuq9ip0macltnf6qto1vu5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk_FEKibZsFJM9g-ywBvThD2KC3WAK7u8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611295363487-su4l25umjjuq9ip0macltnf6qto1vu5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
