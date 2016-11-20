@@ -16,7 +16,7 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.EditProfileActivity">
+        <activity android:name=".EditProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.EditDetailActivity"></activity>
+            android:name=".EditDetailActivity"></activity>
     </application>
 
 </manifest>

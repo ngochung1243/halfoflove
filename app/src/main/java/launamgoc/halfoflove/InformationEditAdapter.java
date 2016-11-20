@@ -1,4 +1,4 @@
-package launamgoc.halfoflove.adapter;
+package launamgoc.halfoflove;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import launamgoc.halfoflove.R;
-import launamgoc.halfoflove.activity.EditProfileActivity;
-import launamgoc.halfoflove.model.Information;
 
 /**
  * Created by KhaTran on 11/11/2016.

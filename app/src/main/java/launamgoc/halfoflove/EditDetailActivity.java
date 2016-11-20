@@ -1,4 +1,4 @@
-package launamgoc.halfoflove.activity;
+package launamgoc.halfoflove;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import launamgoc.halfoflove.R;
 
 /**
  * Created by KhaTran on 11/13/2016.

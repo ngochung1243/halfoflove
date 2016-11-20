@@ -1,4 +1,4 @@
-package launamgoc.halfoflove.activity;
+package launamgoc.halfoflove;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import launamgoc.halfoflove.R;
-import launamgoc.halfoflove.adapter.InformationEditAdapter;
-import launamgoc.halfoflove.model.Information;
+import java.util.Map;
 
 /**
  * Created by KhaTran on 11/11/2016.
@@ -59,7 +62,25 @@ public class EditProfileActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new InformationEditAdapter(listView);
-        initializeView();
+
+        // Set Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        mapsrefrence.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChildren()) {
+                            @SuppressWarnings("unchecked")
+                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                            initializeView(value);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
         recyclerView.setAdapter(adapter);
     }
 
@@ -83,25 +104,25 @@ public class EditProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private void initializeView()
+    private void initializeView(Map<String, String> data)
     {
         adapter.addItem(listView.size(),
-                new Information("Full Name", "Kha Tran", listView.size()));
+            new Information("Full Name", data.get("fullname").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mood", "Being loved <3.", listView.size()));
+                new Information("Mood", data.get("mood").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mobile", "0909162189", listView.size()));
+                new Information("Mobile", data.get("mobile").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Location", "Ho Chi Minh City", listView.size()));
+                new Information("Location", data.get("location").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Bio", "", listView.size()));
+                new Information("Bio", data.get("bio").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Email", "khatran216@gmail.com", listView.size()));
+                new Information("Email", data.get("email").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Birthday", "25/06/1995", listView.size()));
+                new Information("Birthday", data.get("birthday").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Gender", "Female", listView.size()));
+                new Information("Gender", data.get("gender").toString(), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Interested in", "", listView.size()));
+                new Information("Hobby", data.get("hobby").toString(), listView.size()));
     }
 }
