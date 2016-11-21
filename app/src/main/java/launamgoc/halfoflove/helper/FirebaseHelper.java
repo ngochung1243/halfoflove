@@ -28,7 +28,6 @@ public class FirebaseHelper {
      * @return
      */
     static public boolean createNewUser(String email, String password){
-        boolean bool = false;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -39,14 +38,13 @@ public class FirebaseHelper {
                             }
                         }
                         else {
-                            if (delegate != null){
+                            if (delegate != null) {
                                 delegate.onCreateNewAccountFailed();
                             }
                         }
                     }
                 });
-        // change return when operate code
-        return bool;
+        return true;
     }
 
     /**

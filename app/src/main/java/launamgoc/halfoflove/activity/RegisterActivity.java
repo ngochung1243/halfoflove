@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
@@ -32,20 +33,38 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        AnhXa();
+        MapControler();
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email, password;
+                String email, password , reemail, repassword;
                 email = edtEmail.getText().toString();
-                password = edtRePassword.getText().toString();
-                FirebaseHelper.createNewUser(email, password);
+                reemail = edtReEmail.getText().toString();
+                password = edtPassword.getText().toString();
+                repassword = edtRePassword.getText().toString();
+
+                if(!reemail.equals(email))
+                {
+                    Toast.makeText(RegisterActivity.this, "Re-email isn't correct", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(!repassword.equals(password))
+                    {
+                        Toast.makeText(RegisterActivity.this, "Re-password isn't correct", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        FirebaseHelper.createNewUser(email, password);
+                    }
+                }
+
             }
         });
         FirebaseHelper.delegate = this;
     }
 
-    private void AnhXa()
+    private void MapControler()
     {
         btnDangKy = (Button)findViewById(R.id.btnRegister);
         edtEmail = (EditText)findViewById(R.id.edtEmail);
