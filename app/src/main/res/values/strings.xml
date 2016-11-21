@@ -6,4 +6,5 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="forgotpassword">I\'ve forgotten my password</string>
+    <string name="registersuc">Thành công</string>
 </resources>

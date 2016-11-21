@@ -12,16 +12,24 @@
         android:textSize="25sp"
         android:layout_marginTop="15dp"/>
 
-
     <EditText
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="Email"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginRight="15dp" />
 
     <EditText
+        android:id="@+id/edtReEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Re-Email"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+
+    <EditText
+        android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -29,28 +37,15 @@
         android:layout_marginRight="15dp"/>
 
     <EditText
+        android:id="@+id/edtRePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Re-Password"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/editText" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Re-Email"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
-
     <Button
+        android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
