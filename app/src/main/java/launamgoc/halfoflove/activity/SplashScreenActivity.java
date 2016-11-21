@@ -1,8 +1,11 @@
-package launamgoc.halfoflove;
+package launamgoc.halfoflove.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.facebook.FacebookSdk;
+
+import launamgoc.halfoflove.R;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
