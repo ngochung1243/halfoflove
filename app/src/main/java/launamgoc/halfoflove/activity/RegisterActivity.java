@@ -1,5 +1,7 @@
 package launamgoc.halfoflove.activity;
 
+import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +16,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.helper.FirebaseHelper;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements FirebaseHelper.FirebaseHelperDelegate{
 
     Button btnDangKy;
     EditText edtEmail;
@@ -23,20 +26,23 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtPassword;
     EditText edtRePassword;
 
-    FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth = FirebaseAuth.getInstance();
         AnhXa();
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Register();
+                String email, password;
+                email = edtEmail.getText().toString();
+                password = edtRePassword.getText().toString();
+                FirebaseHelper.createNewUser(email, password);
             }
         });
+        FirebaseHelper.delegate = this;
     }
 
     private void AnhXa()
@@ -48,25 +54,26 @@ public class RegisterActivity extends AppCompatActivity {
         edtRePassword = (EditText)findViewById(R.id.edtRePassword);
     }
 
-    private void Register(){
-        String email, password;
-        email = edtEmail.getText().toString();
-        password = edtRePassword.getText().toString();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Thành công",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(RegisterActivity.this, "Thất bại",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+    @Override
+    public void onCreateNewAccountSuccess() {
+        Handler hd = new Handler(getMainLooper());
+        hd.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(RegisterActivity.this, "Successfuly", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-                    }
-                });
+    @Override
+    public void onCreateNewAccountFailed() {
+        Handler hd = new Handler(getMainLooper());
+        hd.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }
