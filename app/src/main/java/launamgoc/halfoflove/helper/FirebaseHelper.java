@@ -1,5 +1,12 @@
 package launamgoc.halfoflove.helper;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import launamgoc.halfoflove.model.User;
 
 /**
@@ -8,6 +15,9 @@ import launamgoc.halfoflove.model.User;
 
 public class FirebaseHelper {
 
+
+    public static  FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    public static  FirebaseHelperDelegate delegate;
     /**
      * Create new User with email and password
      * @param email
@@ -26,10 +36,26 @@ public class FirebaseHelper {
      * @param password
      * @return
      */
-    static public User loginWithUser(String email, String password){
+    static public boolean loginWithUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            if (delegate != null){
+                                delegate.onCreateNewAccountSuccess();
+                            }
+                        }
+                        else {
+                            if (delegate != null) {
+                                delegate.onCreateNewAccountFailed();
+                            }
+                        }
+                    }
+                });
 
         // change return when operate code
-        return null;
+        return true;
     }
 
     /**
@@ -150,5 +176,10 @@ public class FirebaseHelper {
 
         // change return when operate code
         return true;
+    }
+
+    public interface FirebaseHelperDelegate{
+        void onCreateNewAccountSuccess();
+        void onCreateNewAccountFailed();
     }
 }
