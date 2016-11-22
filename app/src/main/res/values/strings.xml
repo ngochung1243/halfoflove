@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Half Of Love</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="signinwith">Sign in with</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="forgotpassword">I\'ve forgotten my password</string>
 </resources>
