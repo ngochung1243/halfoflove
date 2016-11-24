@@ -3,12 +3,10 @@ package launamgoc.halfoflove.helper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -83,11 +81,8 @@ public class FirebaseHelper {
      * Login user when login social (add necessary parameter)
      * @return
      */
-    static public User loginWithFacebook(AccessToken token){
+    static public User loginWithSocial(AuthCredential credential){
 
-        Log.d("Facebook", "handleFacebookAccessToken:" + token);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
