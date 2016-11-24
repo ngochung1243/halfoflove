@@ -25,13 +25,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnSignInFb"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="@string/signinwith"
+            android:text="@string/signinwithFB"
             android:textAllCaps="false"
             android:textStyle="normal" />
 
@@ -40,9 +40,10 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
-            android:text="@string/signinwith"
+            android:text="@string/signinwithGG"
             android:textAllCaps="false"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:id="@+id/btnSignInGG" />
     </LinearLayout>
 
     <TextView

@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Half Of Love</string>
-    <string name="signinwith">Sign in with</string>
+    <string name="signinwithFB">Sign in with Facebook</string>
+    <string name="signinwithGG">Sign in with Google</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="forgotpassword">I\'ve forgotten my password</string>
     <!--Facebook String-->
-    <string name="facebook_app_id">318269061893578</string>
+    <string name="facebook_app_id">1812584652364083</string>
 </resources>
