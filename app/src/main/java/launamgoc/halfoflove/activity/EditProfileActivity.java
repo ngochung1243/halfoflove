@@ -10,18 +10,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
+import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Information;
 import launamgoc.halfoflove.model.User;
 
@@ -69,7 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
         adapter = new InformationEditAdapter(listView);
 
          // Set Database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("user1");
         mapsrefrence.addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -85,8 +80,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
-        //initializeView(FirebaseHelper.findUser());
+                });*/
+        initializeView(FirebaseHelper.findUser());
         recyclerView.setAdapter(adapter);
     }
 
