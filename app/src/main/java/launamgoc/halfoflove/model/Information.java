@@ -1,4 +1,4 @@
-package launamgoc.halfoflove;
+package launamgoc.halfoflove.model;
 
 /**
  * Created by KhaTran on 11/11/2016.

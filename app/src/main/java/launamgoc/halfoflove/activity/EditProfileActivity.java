@@ -1,4 +1,4 @@
-package launamgoc.halfoflove;
+package launamgoc.halfoflove.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.adapter.InformationEditAdapter;
+import launamgoc.halfoflove.model.Information;
+import launamgoc.halfoflove.model.User;
 
 /**
  * Created by KhaTran on 11/11/2016.
@@ -63,7 +68,7 @@ public class EditProfileActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new InformationEditAdapter(listView);
 
-        // Set Database
+         // Set Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("user1");
         mapsrefrence.addListenerForSingleValueEvent(
@@ -81,6 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
                     }
                 });
+        //initializeView(FirebaseHelper.findUser());
         recyclerView.setAdapter(adapter);
     }
 
@@ -104,25 +110,47 @@ public class EditProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private void initializeView(Map<String, String> data)
+    private void initializeView(Map<String, String> value)
     {
         adapter.addItem(listView.size(),
-            new Information("Full Name", data.get("fullname").toString(), listView.size()));
+                new Information("Full Name", value.get("fullname"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mood", data.get("mood").toString(), listView.size()));
+                new Information("Mood", value.get("mood"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mobile", data.get("mobile").toString(), listView.size()));
+                new Information("Mobile", value.get("mobile"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Location", data.get("location").toString(), listView.size()));
+                new Information("Location", value.get("location"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Bio", data.get("bio").toString(), listView.size()));
+                new Information("Bio", value.get("bio"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Email", data.get("email").toString(), listView.size()));
+                new Information("Email", value.get("email"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Birthday", data.get("birthday").toString(), listView.size()));
+                new Information("Birthday", value.get("birthday"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Gender", data.get("gender").toString(), listView.size()));
+                new Information("Gender", value.get("gender"), listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Hobby", data.get("hobby").toString(), listView.size()));
+                new Information("Hobby", value.get("hobby"), listView.size()));
+    }
+
+    private void initializeView(User user)
+    {
+        adapter.addItem(listView.size(),
+            new Information("Full Name", user.fullname, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Mood", user.mood, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Mobile", user.mobile, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Location", user.location, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Bio", user.bio, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Email", user.email, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Birthday", user.birthday, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Gender", user.gender, listView.size()));
+        adapter.addItem(listView.size(),
+                new Information("Hobby", user.hobby, listView.size()));
     }
 }

@@ -1,5 +1,13 @@
 package launamgoc.halfoflove.helper;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
+
 import launamgoc.halfoflove.model.User;
 
 /**
@@ -68,8 +76,42 @@ public class FirebaseHelper {
      */
     static public User findUser(){
 
-        // change return when operate code
-        return null;
+        final User[] user = new User[1];
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        mapsrefrence.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChildren()) {
+                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                            user[0] = setUserValue(value);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        return user[0];
+    }
+
+    static private User setUserValue(Map<String, String> value) {
+        User tmp = new User();
+
+        tmp.fullname = value.get("fullname");
+        tmp.mood = value.get("mood");
+        tmp.mobile = value.get("mobile");
+        tmp.location = value.get("location");
+        tmp.bio = value.get("bio");
+        tmp.email = value.get("email");
+        tmp.birthday = value.get("birthday");
+        tmp.gender = value.get("gender");
+        tmp.hobby = value.get("hobby");
+
+        return tmp;
     }
 
     /**
