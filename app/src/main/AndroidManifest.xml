@@ -23,13 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-=======
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LoginActivity">
-
-        </activity>
->>>>>>> Phase_1
     </application>
 
 </manifest>

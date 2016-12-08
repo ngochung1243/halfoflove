@@ -1,14 +1,5 @@
 package launamgoc.halfoflove.helper;
 
-<<<<<<< HEAD
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Map;
-=======
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -18,7 +9,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
->>>>>>> Phase_1
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 import launamgoc.halfoflove.model.User;
 
@@ -47,6 +44,9 @@ public class FirebaseHelper {
         }
     };
     public static FirebaseLoginHelperDelegate loginDelegate;
+    public static FirebaseDatabaseHelperDelegate databaseDelegate;
+
+
     /**
      * Create new User with email and password
      * @param email
@@ -104,7 +104,9 @@ public class FirebaseHelper {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w("Firebase", "signInWithCredential", task.getException());
-                            loginDelegate.onLoginFailed();
+                            if(loginDelegate != null){
+                                loginDelegate.onLoginFailed();
+                            }
                         }
 
                         // ...
@@ -128,20 +130,17 @@ public class FirebaseHelper {
      * Change Infomation of User (add necessary parameter)
      * @return
      */
-    static public boolean changeInfoOfUser(){
-
-        // change return when operate code
-        return true;
+    static public void changeInfoOfUser(String changedValue, String changedData){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        mapsrefrence.child(changedValue).setValue(changedData);
     }
 
     /**
      * Find an User (add necessary parameter)
      * @return
      */
-    static public User findUser(){
-
-        final User[] user = new User[1];
-
+    static public void findUser(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("user1");
         mapsrefrence.addListenerForSingleValueEvent(
@@ -150,7 +149,14 @@ public class FirebaseHelper {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChildren()) {
                             Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
-                            user[0] = setUserValue(value);
+                            if (databaseDelegate != null){
+                                databaseDelegate.onFindUserSuccess(new User(value));
+                            }
+                        }
+                        else {
+                            if(databaseDelegate != null) {
+                                databaseDelegate.onFindUserFailed();
+                            }
                         }
                     }
                     @Override
@@ -158,24 +164,6 @@ public class FirebaseHelper {
 
                     }
                 });
-
-        return user[0];
-    }
-
-    static private User setUserValue(Map<String, String> value) {
-        User tmp = new User();
-
-        tmp.fullname = value.get("fullname");
-        tmp.mood = value.get("mood");
-        tmp.mobile = value.get("mobile");
-        tmp.location = value.get("location");
-        tmp.bio = value.get("bio");
-        tmp.email = value.get("email");
-        tmp.birthday = value.get("birthday");
-        tmp.gender = value.get("gender");
-        tmp.hobby = value.get("hobby");
-
-        return tmp;
     }
 
     /**
@@ -263,5 +251,10 @@ public class FirebaseHelper {
         void onLoginFailed();
         void onLogoutSuccess();
         void onLogoutFailed();
+    }
+
+    public interface FirebaseDatabaseHelperDelegate {
+        void onFindUserSuccess(User user);
+        void onFindUserFailed();
     }
 }

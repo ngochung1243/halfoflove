@@ -2,6 +2,7 @@ package launamgoc.halfoflove.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
@@ -24,7 +25,7 @@ import launamgoc.halfoflove.model.User;
  * Created by KhaTran on 11/11/2016.
  */
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity implements FirebaseHelper.FirebaseDatabaseHelperDelegate{
 
     private RecyclerView recyclerView;
     private InformationEditAdapter adapter;
@@ -34,55 +35,18 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public static int REQUEST_CODE = 1;
 
+    public Handler hd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Set ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar);
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
-        title.setText("Edit profile");
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
-        btnBack.setImageResource(getResources()
-                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        hd = new Handler(getMainLooper());
+        FirebaseHelper.databaseDelegate = this;
 
-        // Set RecyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new InformationEditAdapter(listView);
-
-         // Set Database
-        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mapsrefrence = database.getReference().child("user1");
-        mapsrefrence.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChildren()) {
-                            @SuppressWarnings("unchecked")
-                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
-                            initializeView(value);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
-        initializeView(FirebaseHelper.findUser());
-        recyclerView.setAdapter(adapter);
+        setActionBar();
+        setRecyclerView();
     }
 
     @Override
@@ -94,40 +58,69 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onFindUserSuccess(final User user) {
+        hd.post(new Runnable() {
+            @Override
+            public void run() {
+                setDataRecyclerView(user);
+            }
+        });
+    }
+
+    @Override
+    public void onFindUserFailed() {
+        hd.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(EditProfileActivity.this, "Can't find user's information!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void onClickPost(String title, String content, int position) {
 
         Intent intent = new Intent(EditProfileActivity.this, EditDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("content", content);
-        bundle.putInt("id", position);
         intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private void initializeView(Map<String, String> value)
-    {
-        adapter.addItem(listView.size(),
-                new Information("Full Name", value.get("fullname"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Mood", value.get("mood"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Mobile", value.get("mobile"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Location", value.get("location"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Bio", value.get("bio"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Email", value.get("email"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Birthday", value.get("birthday"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Gender", value.get("gender"), listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("Hobby", value.get("hobby"), listView.size()));
+    private void setActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar);
+
+        TextView title = (TextView) findViewById(R.id.actionbar_title);
+        title.setText("Edit profile");
+
+        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
+        btnBack.setImageResource(getResources()
+                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
-    private void initializeView(User user)
+    private void setRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new InformationEditAdapter(listView);
+
+        // Set data into recyclerview
+        FirebaseHelper.findUser();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setDataRecyclerView(User user)
     {
         adapter.addItem(listView.size(),
             new Information("Full Name", user.fullname, listView.size()));
