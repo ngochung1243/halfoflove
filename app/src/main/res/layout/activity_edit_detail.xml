@@ -5,12 +5,12 @@
     android:layout_height="wrap_content" >
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/et_content"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

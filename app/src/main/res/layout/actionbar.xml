@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <ImageButton
-        android:id="@+id/btn_back"
+        android:id="@+id/ab_btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:id="@+id/actionbar_title"
+        android:id="@+id/ab_tv_title"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 

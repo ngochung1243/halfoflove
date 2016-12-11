@@ -26,8 +26,8 @@ public class EditDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_detail);
 
-        TextView tvTitle = (TextView) findViewById(R.id.title);
-        EditText etText = (EditText) findViewById(R.id.edittext);
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        EditText etText = (EditText) findViewById(R.id.et_content);
 
         tvTitle.setText(getIntent().getExtras().getString("title"));
         etText.setText(getIntent().getExtras().getString("content"));
@@ -41,7 +41,7 @@ public class EditDetailActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
 
-        TextView actionBar_title = (TextView) findViewById(R.id.actionbar_title);
+        TextView actionBar_title = (TextView) findViewById(R.id.ab_tv_title);
         actionBar_title.setText("Save");
         actionBar_title.setGravity(Gravity.RIGHT);
         actionBar_title.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class EditDetailActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {

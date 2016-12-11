@@ -66,9 +66,9 @@ public class InformationEditAdapter extends
 
         public InformationHolder(View itemView) {
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.title);
-            tvContent = (TextView) itemView.findViewById(R.id.content);
-            btnNext = (ImageButton) itemView.findViewById(R.id.btn_next);
+            tvTitle = (TextView) itemView.findViewById(R.id.cv_ep_tv_title);
+            tvContent = (TextView) itemView.findViewById(R.id.cv_ep_tv_content);
+            btnNext = (ImageButton) itemView.findViewById(R.id.cv_ep_btn_next);
         }
 
         public void load(@NonNull final Information data) {
