@@ -94,10 +94,10 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
 
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
+        TextView title = (TextView) findViewById(R.id.ab_tv_title);
         title.setText("Edit profile");
 
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_clear_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {
