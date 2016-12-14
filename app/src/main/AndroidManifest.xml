@@ -16,7 +16,8 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.EditDetailActivity" />
-        <activity android:name=".activity.EditProfileActivity" >
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.ForgotPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RelationshipActivity"/>
+        <activity android:name=".activity.RenewPasswordActivity" />
     </application>
 
 </manifest>
