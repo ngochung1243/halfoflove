@@ -9,6 +9,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 import launamgoc.halfoflove.model.User;
 
@@ -37,6 +44,9 @@ public class FirebaseHelper {
         }
     };
     public static FirebaseLoginHelperDelegate loginDelegate;
+    public static FirebaseDatabaseHelperDelegate databaseDelegate;
+
+
     /**
      * Create new User with email and password
      * @param email
@@ -94,7 +104,9 @@ public class FirebaseHelper {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w("Firebase", "signInWithCredential", task.getException());
-                            loginDelegate.onLoginFailed();
+                            if(loginDelegate != null){
+                                loginDelegate.onLoginFailed();
+                            }
                         }
 
                         // ...
@@ -118,20 +130,40 @@ public class FirebaseHelper {
      * Change Infomation of User (add necessary parameter)
      * @return
      */
-    static public boolean changeInfoOfUser(){
-
-        // change return when operate code
-        return true;
+    static public void changeInfoOfUser(String changedValue, String changedData){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        mapsrefrence.child(changedValue).setValue(changedData);
     }
 
     /**
      * Find an User (add necessary parameter)
      * @return
      */
-    static public User findUser(){
+    static public void findUser(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        mapsrefrence.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChildren()) {
+                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                            if (databaseDelegate != null){
+                                databaseDelegate.onFindUserSuccess(new User(value));
+                            }
+                        }
+                        else {
+                            if(databaseDelegate != null) {
+                                databaseDelegate.onFindUserFailed();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-        // change return when operate code
-        return null;
+                    }
+                });
     }
 
     /**
@@ -219,5 +251,10 @@ public class FirebaseHelper {
         void onLoginFailed();
         void onLogoutSuccess();
         void onLogoutFailed();
+    }
+
+    public interface FirebaseDatabaseHelperDelegate {
+        void onFindUserSuccess(User user);
+        void onFindUserFailed();
     }
 }
