@@ -24,8 +24,7 @@ import launamgoc.halfoflove.model.User;
  */
 
 public class FirebaseHelper {
-
-    public static  FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public static FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -33,7 +32,7 @@ public class FirebaseHelper {
             if (user != null) {
                 // User is signed in
                 Log.d("Firebase", "onAuthStateChanged:signed_in:" + user.getUid());
-                if (loginDelegate != null){
+                if (loginDelegate != null) {
                     loginDelegate.onLoginSuccess();
                 }
             } else {
@@ -46,36 +45,51 @@ public class FirebaseHelper {
     public static FirebaseLoginHelperDelegate loginDelegate;
     public static FirebaseDatabaseHelperDelegate databaseDelegate;
 
+    static public FirebaseHelperDelegate delegate;
 
     /**
      * Create new User with email and password
+     *
      * @param email
      * @param password
      * @return
      */
-    static public boolean createNewUser(String email, String password){
-
-        // change return when operate code
+    static public boolean createNewUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            if (delegate != null) {
+                                delegate.onCreateNewAccountSuccess();
+                            }
+                        } else {
+                            if (delegate != null) {
+                                delegate.onCreateNewAccountFailed();
+                            }
+                        }
+                    }
+                });
         return true;
     }
 
     /**
      * Login user with email and password
+     *
      * @param email
      * @param password
      * @return
      */
-    static public boolean loginWithUser(String email, String password){
+    static public boolean loginWithUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (loginDelegate != null){
+                            if (loginDelegate != null) {
                                 loginDelegate.onLoginSuccess();
                             }
-                        }
-                        else {
+                        } else {
                             if (loginDelegate != null) {
                                 loginDelegate.onLoginFailed();
                             }
@@ -89,9 +103,10 @@ public class FirebaseHelper {
 
     /**
      * Login user when login social (add necessary parameter)
+     *
      * @return
      */
-    static public User loginWithSocial(AuthCredential credential){
+    static public User loginWithSocial(AuthCredential credential) {
 
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -104,7 +119,7 @@ public class FirebaseHelper {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w("Firebase", "signInWithCredential", task.getException());
-                            if(loginDelegate != null){
+                            if (loginDelegate != null) {
                                 loginDelegate.onLoginFailed();
                             }
                         }
@@ -118,9 +133,10 @@ public class FirebaseHelper {
 
     /**
      * Renew Password when User forget (add necessary parameter)
+     *
      * @return
      */
-    static public boolean renewPassword(){
+    static public boolean renewPassword() {
 
         // change return when operate code
         return true;
@@ -128,9 +144,10 @@ public class FirebaseHelper {
 
     /**
      * Change Infomation of User (add necessary parameter)
+     *
      * @return
      */
-    static public void changeInfoOfUser(String changedValue, String changedData){
+    static public void changeInfoOfUser(String changedValue, String changedData) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("user1");
         mapsrefrence.child(changedValue).setValue(changedData);
@@ -138,27 +155,28 @@ public class FirebaseHelper {
 
     /**
      * Find an User (add necessary parameter)
+     *
      * @return
      */
-    static public void findUser(){
+    static public void findUser() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("user1");
         mapsrefrence.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChildren()) {
+                        if (dataSnapshot.hasChildren()) {
                             Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
-                            if (databaseDelegate != null){
+                            if (databaseDelegate != null) {
                                 databaseDelegate.onFindUserSuccess(new User(value));
                             }
-                        }
-                        else {
-                            if(databaseDelegate != null) {
+                        } else {
+                            if (databaseDelegate != null) {
                                 databaseDelegate.onFindUserFailed();
                             }
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
@@ -168,9 +186,10 @@ public class FirebaseHelper {
 
     /**
      * Upload an Image (add necessary parameter)
+     *
      * @return
      */
-    static public String uploadImage(){
+    static public String uploadImage() {
 
         // change return when operate code
         return null;
@@ -178,9 +197,10 @@ public class FirebaseHelper {
 
     /**
      * Adding an Event when User setup (add necessary parameter)
+     *
      * @return
      */
-    static public boolean addEventWithUser(){
+    static public boolean addEventWithUser() {
 
         // change return when operate code
         return true;
@@ -188,9 +208,10 @@ public class FirebaseHelper {
 
     /**
      * Addind a Relationship between 2 Users (add necessary parameter)
+     *
      * @return
      */
-    static public boolean addRelationship(){
+    static public boolean addRelationship() {
 
         // change return when operate code
         return true;
@@ -198,9 +219,10 @@ public class FirebaseHelper {
 
     /**
      * Removing a Relationship between 2 Users (add necessary parameter)
+     *
      * @return
      */
-    static public boolean removeRelationship(){
+    static public boolean removeRelationship() {
 
         // change return when operate code
         return true;
@@ -208,9 +230,10 @@ public class FirebaseHelper {
 
     /**
      * Adding follow when an User want to follow another user (add necessary parameter)
+     *
      * @return
      */
-    static public boolean addFollow(){
+    static public boolean addFollow() {
 
         // change return when operate code
         return true;
@@ -218,9 +241,10 @@ public class FirebaseHelper {
 
     /**
      * Remove follow when an User don't want to follow another user anymore (add necessary parameter)
+     *
      * @return
      */
-    static public boolean removeFollow(){
+    static public boolean removeFollow() {
 
         // change return when operate code
         return true;
@@ -228,9 +252,10 @@ public class FirebaseHelper {
 
     /**
      * Adding New Feed when User adds an event (add necessary parameter)
+     *
      * @return
      */
-    static public boolean addNewFeed(){
+    static public boolean addNewFeed() {
 
         // change return when operate code
         return true;
@@ -238,9 +263,10 @@ public class FirebaseHelper {
 
     /**
      * Chat with another User (add necessary parameter)
+     *
      * @return
      */
-    static public boolean chatToUser(){
+    static public boolean chatToUser() {
 
         // change return when operate code
         return true;
@@ -248,13 +274,26 @@ public class FirebaseHelper {
 
     public interface FirebaseLoginHelperDelegate {
         void onLoginSuccess();
+
         void onLoginFailed();
+
         void onLogoutSuccess();
+
         void onLogoutFailed();
     }
 
     public interface FirebaseDatabaseHelperDelegate {
         void onFindUserSuccess(User user);
+
         void onFindUserFailed();
     }
+
+    public interface FirebaseHelperDelegate {
+        void onCreateNewAccountSuccess();
+
+        void onCreateNewAccountFailed();
+    }
+
 }
+
+

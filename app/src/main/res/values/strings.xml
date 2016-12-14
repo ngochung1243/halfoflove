@@ -7,6 +7,6 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="forgotpassword">I\'ve forgotten my password</string>
-    <!--Facebook String-->
     <string name="facebook_app_id">1812584652364083</string>
+    <string name="registersuc">Thành công</string>
 </resources>
