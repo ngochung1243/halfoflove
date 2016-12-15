@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import launamgoc.halfoflove.R;
-import launamgoc.halfoflove.helper.FirebaseHelper;
 
 /**
  * Created by KhaTran on 11/13/2016.
@@ -26,39 +25,36 @@ public class EditDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_detail);
 
-        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-        EditText etText = (EditText) findViewById(R.id.et_content);
+        TextView tvTitle = (TextView) findViewById(R.id.title);
+        final EditText etText = (EditText) findViewById(R.id.edittext);
 
         tvTitle.setText(getIntent().getExtras().getString("title"));
         etText.setText(getIntent().getExtras().getString("content"));
 
-        setActionBar(tvTitle, etText);
-    }
-
-    private void setActionBar(final TextView changedValue, final EditText changedData) {
+        // Set ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
 
-        TextView actionBar_title = (TextView) findViewById(R.id.actionbar_title);
+        TextView actionBar_title = (TextView) findViewById(R.id.ab_tv_title);
         actionBar_title.setText("Save");
         actionBar_title.setGravity(Gravity.RIGHT);
         actionBar_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String data = changedData.getText().toString();
-                String value = changedValue.getText().toString().toLowerCase();
-                while (value.indexOf(" ") != -1) {
-                    value = value.replaceAll(" ", "");
-                }
-                FirebaseHelper.changeInfoOfUser(value, data);
-                sendIntent(changedData.getText().toString());
+
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("title", etText.getText().toString());
+                bundle.putInt("id", getIntent().getExtras().getInt("id"));
+                intent.putExtras(bundle);
+                setResult(TAG, intent);
                 finish();
             }
         });
 
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -68,14 +64,5 @@ public class EditDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void sendIntent(String changedData) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", changedData.toString());
-        bundle.putInt("id", getIntent().getExtras().getInt("id"));
-        intent.putExtras(bundle);
-        setResult(TAG, intent);
     }
 }

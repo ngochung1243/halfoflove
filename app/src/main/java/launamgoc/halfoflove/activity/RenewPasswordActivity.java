@@ -26,7 +26,7 @@ public class RenewPasswordActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
+        TextView title = (TextView) findViewById(R.id.ab_tv_title);
         title.setText("Renew password");
 
         final EditText et_pass = (EditText) findViewById(R.id.et_pass);

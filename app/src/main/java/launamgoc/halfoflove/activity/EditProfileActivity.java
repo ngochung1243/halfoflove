@@ -2,7 +2,6 @@ package launamgoc.halfoflove.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,22 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
-import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Information;
-import launamgoc.halfoflove.model.User;
 
 /**
  * Created by KhaTran on 11/11/2016.
  */
 
-public class EditProfileActivity extends AppCompatActivity implements FirebaseHelper.FirebaseDatabaseHelperDelegate{
+public class EditProfileActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private InformationEditAdapter adapter;
@@ -35,18 +31,36 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
 
     public static int REQUEST_CODE = 1;
 
-    public Handler hd;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        hd = new Handler(getMainLooper());
-        FirebaseHelper.databaseDelegate = this;
+        // Set ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar);
+        TextView title = (TextView) findViewById(R.id.ab_tv_title);
+        title.setText("Edit profile");
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
+        btnBack.setImageResource(getResources()
+                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-        setActionBar();
-        setRecyclerView();
+        // Set RecyclerView
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new InformationEditAdapter(listView);
+        initializeView();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -58,87 +72,36 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
         }
     }
 
-    @Override
-    public void onFindUserSuccess(final User user) {
-        hd.post(new Runnable() {
-            @Override
-            public void run() {
-                setDataRecyclerView(user);
-            }
-        });
-    }
-
-    @Override
-    public void onFindUserFailed() {
-        hd.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(EditProfileActivity.this, "Can't find user's information!!!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
     public void onClickPost(String title, String content, int position) {
 
         Intent intent = new Intent(EditProfileActivity.this, EditDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("content", content);
+        bundle.putInt("id", position);
         intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private void setActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar);
-
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
-        title.setText("Edit profile");
-
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
-        btnBack.setImageResource(getResources()
-                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
-
-    private void setRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new InformationEditAdapter(listView);
-
-        // Set data into recyclerview
-        FirebaseHelper.findUser();
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void setDataRecyclerView(User user)
+    private void initializeView()
     {
         adapter.addItem(listView.size(),
-            new Information("Full Name", user.fullname, listView.size()));
+                new Information("Full Name", "Kha Tran", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mood", user.mood, listView.size()));
+                new Information("Mood", "Being loved <3.", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mobile", user.mobile, listView.size()));
+                new Information("Mobile", "0909162189", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Location", user.location, listView.size()));
+                new Information("Location", "Ho Chi Minh City", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Bio", user.bio, listView.size()));
+                new Information("Bio", "", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Email", user.email, listView.size()));
+                new Information("Email", "khatran216@gmail.com", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Birthday", user.birthday, listView.size()));
+                new Information("Birthday", "25/06/1995", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Gender", user.gender, listView.size()));
+                new Information("Gender", "Female", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Hobby", user.hobby, listView.size()));
+                new Information("Interested in", "", listView.size()));
     }
 }

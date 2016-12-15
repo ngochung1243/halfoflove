@@ -13,12 +13,10 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity android:name=".activity.SplashScreenActivity">
         </activity>
-        <activity android:name=".activity.LoginActivity"></activity>
-        <activity android:name=".activity.EditDetailActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.ForgotPasswordActivity">
-        </activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity">
+        </activity>
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +25,14 @@
         </activity>
         <activity android:name=".activity.RelationshipActivity"/>
         <activity android:name=".activity.RenewPasswordActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.EditProfileActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.EditDetailActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.ForgotPasswordActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.FriendProfileActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.ChatActivity" />
+        <activity android:name=".activity.CalendarActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.UpdateEventActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.EventInformationActivity" />
     </application>
 
 </manifest>
