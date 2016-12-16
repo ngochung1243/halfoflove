@@ -24,7 +24,7 @@ import launamgoc.halfoflove.model.User;
  * Created by KhaTran on 11/11/2016.
  */
 
-public class EditProfileActivity extends AppCompatActivity /*implements FirebaseHelper.FirebaseDatabaseHelperDelegate*/{
+public class EditProfileActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private InformationEditAdapter adapter;
@@ -45,7 +45,6 @@ public class EditProfileActivity extends AppCompatActivity /*implements Firebase
 //        FirebaseHelper.databaseDelegate = this;
 
         setActionBar();
-        setRecyclerView();
     }
 
     @Override
@@ -94,11 +93,9 @@ public class EditProfileActivity extends AppCompatActivity /*implements Firebase
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
-
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
+        TextView title = (TextView) findViewById(R.id.ab_tv_title);
         title.setText("Edit profile");
-
-        ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_clear_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -107,40 +104,38 @@ public class EditProfileActivity extends AppCompatActivity /*implements Firebase
                 finish();
             }
         });
-    }
 
-    private void setRecyclerView() {
+        // Set RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new InformationEditAdapter(listView);
 
-        // Set data into recyclerview
-//        FirebaseHelper.findUser(MyBundle.mUser.fid);
-        setDataRecyclerView(MyBundle.mUser);
+        initializeView();
+
         recyclerView.setAdapter(adapter);
     }
 
-    private void setDataRecyclerView(User user)
+    private void initializeView()
     {
         adapter.addItem(listView.size(),
-            new Information("Full Name", user.fullname, listView.size()));
+                new Information("Full Name", MyBundle.mUser.fullname, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mood", user.mood, listView.size()));
+                new Information("Mood", MyBundle.mUser.mood, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mobile", user.mobile, listView.size()));
+                new Information("Mobile", MyBundle.mUser.mobile, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Location", user.location, listView.size()));
+                new Information("Location", MyBundle.mUser.location, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Bio", user.bio, listView.size()));
+                new Information("Bio", MyBundle.mUser.bio, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Email", user.email, listView.size()));
+                new Information("Email", MyBundle.mUser.email, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Birthday", user.birthday, listView.size()));
+                new Information("Birthday", MyBundle.mUser.birthday, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Gender", user.gender, listView.size()));
+                new Information("Gender", MyBundle.mUser.gender, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Hobby", user.hobby, listView.size()));
+                new Information("Interested in", MyBundle.mUser.interested, listView.size()));
     }
 }

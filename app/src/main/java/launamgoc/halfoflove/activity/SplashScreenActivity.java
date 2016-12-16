@@ -50,7 +50,7 @@ public class SplashScreenActivity extends Activity {
         hd.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, EditProfileActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
             }
         }, 3000);
     }

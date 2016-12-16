@@ -1,6 +1,5 @@
 package launamgoc.halfoflove.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
+
+        TextView title = (TextView) findViewById(R.id.ab_tv_title);
         title.setText("Reset password");
 
         EditText text_email = (EditText) findViewById(R.id.et_mail);
@@ -37,9 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getBaseContext(), RenewPasswordActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+
             }
         });
 

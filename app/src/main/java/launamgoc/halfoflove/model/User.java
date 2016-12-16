@@ -17,6 +17,7 @@ public class User {
     public String hobby;
     public String bio;
     public String mood;
+    public String interested;
 
     public User(){
         fid = "";
@@ -31,6 +32,7 @@ public class User {
         hobby = "";
         bio = "";
         mood = "";
+        interested = "";
     }
 
 //    public User(String id, Map<String, String> value) {
