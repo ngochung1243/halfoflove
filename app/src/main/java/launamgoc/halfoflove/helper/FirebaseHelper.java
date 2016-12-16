@@ -32,9 +32,7 @@ public class FirebaseHelper {
             if (user != null) {
                 // User is signed in
                 Log.d("Firebase", "onAuthStateChanged:signed_in:" + user.getUid());
-                if (loginDelegate != null) {
-                    loginDelegate.onLoginSuccess();
-                }
+                checkExitedUser(user);
             } else {
                 // User is signed out
                 Log.d("Firebase", "onAuthStateChanged:signed_out");
@@ -54,6 +52,8 @@ public class FirebaseHelper {
      * @param password
      * @return
      */
+
+
     static public boolean createNewUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,6 +73,49 @@ public class FirebaseHelper {
         return true;
     }
 
+    static private void checkExitedUser(final FirebaseUser fuser) {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child(fuser.getUid());
+        mapsrefrence.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User mUser = null;
+                        if (dataSnapshot.exists()) {
+                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                            mUser = dataSnapshot.getValue(User.class);
+
+                        }else {
+                            mUser = createUserDatabase(fuser);
+                        }
+                        if (loginDelegate != null) {
+                            loginDelegate.onLoginSuccess(mUser);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                }
+        );
+    }
+
+    static private User createUserDatabase(FirebaseUser fuser){
+        User user = new User();
+        user.fid = fuser.getUid();
+        if (fuser.getDisplayName() != null){
+            user.fullname = fuser.getDisplayName();
+        }
+        user.email = fuser.getEmail();
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(fuser.getUid()).setValue(user);
+
+        return user;
+    }
     /**
      * Login user with email and password
      *
@@ -85,13 +128,9 @@ public class FirebaseHelper {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                        if (!task.isSuccessful()) {
                             if (loginDelegate != null) {
-                                loginDelegate.onLoginSuccess();
-                            }
-                        } else {
-                            if (loginDelegate != null) {
-                                loginDelegate.onLoginFailed();
+                                loginDelegate.onLoginFailed(task.getException());
                             }
                         }
                     }
@@ -106,7 +145,7 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public User loginWithSocial(AuthCredential credential) {
+    static public User loginWithSocial(final AuthCredential credential) {
 
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -118,12 +157,11 @@ public class FirebaseHelper {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w("Firebase", "signInWithCredential", task.getException());
+                            Log.w("Firebase", "signInWithCredential:onFailed", task.getException());
                             if (loginDelegate != null) {
-                                loginDelegate.onLoginFailed();
+                                loginDelegate.onLoginFailed(task.getException());
                             }
                         }
-
                         // ...
                     }
                 });
@@ -147,9 +185,9 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public void changeInfoOfUser(String changedValue, String changedData) {
+    static public void changeInfoOfUser(String fid, String changedValue, String changedData) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        DatabaseReference mapsrefrence = database.getReference().child("users").child(fid);
         mapsrefrence.child(changedValue).setValue(changedData);
     }
 
@@ -158,17 +196,18 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public void findUser() {
+    static public void findUser(String fid) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mapsrefrence = database.getReference().child("user1");
+        DatabaseReference mapsrefrence = database.getReference().child("users").child(fid);
         mapsrefrence.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChildren()) {
-                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+//                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                            User mUser = dataSnapshot.getValue(User.class);
                             if (databaseDelegate != null) {
-                                databaseDelegate.onFindUserSuccess(new User(value));
+                                databaseDelegate.onFindUserSuccess(mUser);
                             }
                         } else {
                             if (databaseDelegate != null) {
@@ -181,7 +220,8 @@ public class FirebaseHelper {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                }
+        );
     }
 
     /**
@@ -273,13 +313,13 @@ public class FirebaseHelper {
     }
 
     public interface FirebaseLoginHelperDelegate {
-        void onLoginSuccess();
+        void onLoginSuccess(User user);
 
-        void onLoginFailed();
+        void onLoginFailed(Exception ex);
 
         void onLogoutSuccess();
 
-        void onLogoutFailed();
+        void onLogoutFailed(Exception ex);
     }
 
     public interface FirebaseDatabaseHelperDelegate {

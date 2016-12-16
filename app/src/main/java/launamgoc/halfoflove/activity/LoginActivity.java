@@ -30,6 +30,8 @@ import java.util.Arrays;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
+import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.User;
 
 public class LoginActivity extends AppCompatActivity implements FirebaseHelper.FirebaseLoginHelperDelegate {
 
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
 
         hd = new Handler(getMainLooper());
 
@@ -76,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                Log.e("Facebook", "facebook:onFailed:" + exception.getMessage());
             }
         });
 
@@ -179,21 +184,22 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onLoginSuccess(final User user) {
         hd.post(new Runnable() {
             @Override
             public void run() {
+                MyBundle.mUser = user;
                 Toast.makeText(LoginActivity.this, "Successfuly", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
-    public void onLoginFailed() {
+    public void onLoginFailed(final Exception ex) {
         hd.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Failed: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -204,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
     }
 
     @Override
-    public void onLogoutFailed() {
+    public void onLogoutFailed(Exception ex) {
 
     }
 

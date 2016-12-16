@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,19 +62,19 @@ public class InformationEditAdapter extends
 
         public TextView tvTitle;
         public TextView tvContent;
-        public ImageButton btnNext;
+        public LinearLayout layoutEditItem;
 
         public InformationHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.cv_ep_tv_title);
             tvContent = (TextView) itemView.findViewById(R.id.cv_ep_tv_content);
-            btnNext = (ImageButton) itemView.findViewById(R.id.cv_ep_btn_next);
+            layoutEditItem = (LinearLayout) itemView.findViewById(R.id.layoutEditItem);
         }
 
         public void load(@NonNull final Information data) {
             tvTitle.setText(data.getTitle());
             tvContent.setText(data.getContent());
-            btnNext.setOnClickListener(new View.OnClickListener() {
+            layoutEditItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     EditProfileActivity activity = (EditProfileActivity) view.getContext();

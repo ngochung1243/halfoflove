@@ -10,22 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
-import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Information;
+import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
 
 /**
  * Created by KhaTran on 11/11/2016.
  */
 
-public class EditProfileActivity extends AppCompatActivity implements FirebaseHelper.FirebaseDatabaseHelperDelegate{
+public class EditProfileActivity extends AppCompatActivity /*implements FirebaseHelper.FirebaseDatabaseHelperDelegate*/{
 
     private RecyclerView recyclerView;
     private InformationEditAdapter adapter;
@@ -43,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
         setContentView(R.layout.activity_edit_profile);
 
         hd = new Handler(getMainLooper());
-        FirebaseHelper.databaseDelegate = this;
+//        FirebaseHelper.databaseDelegate = this;
 
         setActionBar();
         setRecyclerView();
@@ -53,30 +52,31 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && data != null) {
-            adapter.updateItem(data.getExtras().getInt("id"),
-                    data.getExtras().getString("title"));
+            Bundle bundle = data.getExtras();
+            Information changeInfo = new Information(bundle.getString("title"), bundle.getString("content"), bundle.getInt("id"));
+            adapter.updateItem(changeInfo.getId(), changeInfo.getContent());
         }
     }
 
-    @Override
-    public void onFindUserSuccess(final User user) {
-        hd.post(new Runnable() {
-            @Override
-            public void run() {
-                setDataRecyclerView(user);
-            }
-        });
-    }
-
-    @Override
-    public void onFindUserFailed() {
-        hd.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(EditProfileActivity.this, "Can't find user's information!!!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    @Override
+//    public void onFindUserSuccess(final User user) {
+//        hd.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                setDataRecyclerView(user);
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public void onFindUserFailed() {
+//        hd.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(EditProfileActivity.this, "Can't find user's information!!!", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     public void onClickPost(String title, String content, int position) {
 
@@ -84,6 +84,7 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("content", content);
+        bundle.putInt("id", position);
         intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_CODE);
     }
@@ -116,7 +117,8 @@ public class EditProfileActivity extends AppCompatActivity implements FirebaseHe
         adapter = new InformationEditAdapter(listView);
 
         // Set data into recyclerview
-        FirebaseHelper.findUser();
+//        FirebaseHelper.findUser(MyBundle.mUser.fid);
+        setDataRecyclerView(MyBundle.mUser);
         recyclerView.setAdapter(adapter);
     }
 

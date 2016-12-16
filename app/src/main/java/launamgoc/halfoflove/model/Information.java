@@ -10,6 +10,10 @@ public class Information {
     private String content;
     private int id;
 
+    public Information(){
+
+    }
+
     public Information(String title, String content, int id) {
         this.title = title;
         this.content = content;
