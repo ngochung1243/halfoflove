@@ -23,16 +23,9 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
 
-        TextView actionBar_title = (TextView) findViewById(R.id.ab_tv_title);
-        actionBar_title.setText("NameUser");
-        actionBar_title.setGravity(Gravity.RIGHT);
-        actionBar_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-            }
-        });
+        TextView actionBarTitle = (TextView) findViewById(R.id.ab_tv_title);
+        actionBarTitle.setText("NameUser");
+        actionBarTitle.setGravity(Gravity.RIGHT);
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

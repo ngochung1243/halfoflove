@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="launamgoc.halfoflove">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,12 +10,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name=".activity.SplashScreenActivity">
-        </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity android:name=".activity.SplashScreenActivity" />
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.RegisterActivity">
-        </activity>
+        <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,16 +24,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RelationshipActivity"/>
+        <activity android:name=".activity.RelationshipActivity" />
         <activity android:name=".activity.RenewPasswordActivity" />
         <activity android:name="launamgoc.halfoflove.activity.EditProfileActivity" />
         <activity android:name="launamgoc.halfoflove.activity.EditDetailActivity" />
         <activity android:name="launamgoc.halfoflove.activity.ForgotPasswordActivity" />
-        <activity android:name="launamgoc.halfoflove.activity.FriendProfileActivity" />
+        <activity android:name="launamgoc.halfoflove.activity.FriendTimelineActivity" />
         <activity android:name="launamgoc.halfoflove.activity.ChatActivity" />
         <activity android:name=".activity.CalendarActivity" />
         <activity android:name="launamgoc.halfoflove.activity.UpdateEventActivity" />
         <activity android:name="launamgoc.halfoflove.activity.EventInformationActivity" />
+        <activity android:name=".activity.TimelineActivity" />
     </application>
 
 </manifest>

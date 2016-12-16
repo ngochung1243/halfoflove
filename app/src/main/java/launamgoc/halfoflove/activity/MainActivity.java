@@ -1,6 +1,8 @@
 package launamgoc.halfoflove.activity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,22 +10,34 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.ChatListAdapter;
 import launamgoc.halfoflove.adapter.NewFeedAdapter;
 import launamgoc.halfoflove.model.ChatElement;
 import launamgoc.halfoflove.model.NewFeedElement;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageButton btnTimeline, btnTimelinePartner, btnAccountSett, btnRelaSett;
+    @BindView(R.id.btn_timeline)
+    ImageButton btnTimeline;
+    @BindView(R.id.btn_timeline_partner)
+    ImageButton btnTimelinePartner;
+    @BindView(R.id.btn_account_setting)
+    ImageButton btnAccountSet;
+    @BindView(R.id.btn_relationship_setting)
+    ImageButton btnRelaSet;
+    EditText etSearch;
 
     private RecyclerView recyclerView;
     private ChatListAdapter chatListAdapter;
@@ -37,57 +51,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        ImageButton btnTimeline = (ImageButton) findViewById(R.id.btn_timeline);
-        ImageButton btnTimelinePartner = (ImageButton) findViewById(R.id.btn_timeline_partner);
-        ImageButton btnAccountSett = (ImageButton) findViewById(R.id.btn_account_setting);
-        ImageButton btnRelaSett = (ImageButton) findViewById(R.id.btn_relationship_setting);
-
-        btnTimeline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        btnTimelinePartner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), FriendProfileActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            }
-        });
-
-        btnAccountSett.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), EditProfileActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            }
-        });
-
-        btnRelaSett.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            }
-        });
+        btnTimeline.setOnClickListener(this);
+        btnTimelinePartner.setOnClickListener(this);
+        btnAccountSet.setOnClickListener(this);
+        btnRelaSet.setOnClickListener(this);
 
         // Set ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar_main);
+        etSearch = (EditText) findViewById(R.id.ab_et_search);
+        etSearch.setOnClickListener(this);
 
         // Set RecyclerView
         setChatListRecyclerView();
         setNewFeedRecyclerView();
 
         loadTabs();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnTimeline) {
+            Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+        if (v == btnTimelinePartner) {
+            Intent intent = new Intent(getBaseContext(), FriendTimelineActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+        if (v == btnAccountSet) {
+            Intent intent = new Intent(getBaseContext(), EditProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+        if (v == btnRelaSet) {
+            Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+        if (v == etSearch) {
+            showSetNotiDialog();
+        }
     }
 
     public void onChatListClick() {
@@ -172,5 +182,27 @@ public class MainActivity extends AppCompatActivity {
                 new ChatElement(R.drawable.ava, "Kha Tran", chatElementList.size()));
         chatListAdapter.addItem(chatElementList.size(),
                 new ChatElement(R.drawable.ava, "Kha Tran", chatElementList.size()));
+    }
+
+    private void showSetNotiDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_search, null);
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setTitle("Search Options");
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //do something with edt.getText().toString();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
 }

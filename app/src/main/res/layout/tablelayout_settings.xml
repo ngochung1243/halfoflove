@@ -149,15 +149,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="WE HAVE BEEN TOGETHER"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="200 DAYS"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:gravity="center" >
+                    android:gravity="center"
+                    android:layout_marginBottom="15dp">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -175,7 +203,7 @@
                     <ImageButton
                         android:id="@+id/btn_account_setting"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_arrow_right"
                         android:tint="@color/button_material_light"
                         android:background="@android:color/transparent"/>
@@ -187,7 +215,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:gravity="center" >
+                    android:gravity="center"
+                    android:layout_marginBottom="15dp" >
 
                     <ImageView
                         android:layout_width="30dp"
@@ -205,7 +234,7 @@
                     <ImageButton
                         android:id="@+id/btn_relationship_setting"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_arrow_right"
                         android:tint="@color/button_material_light"
                         android:background="@android:color/transparent"/>
@@ -216,8 +245,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:orientation="horizontal" >
 
                     <ImageView
                         android:layout_width="30dp"

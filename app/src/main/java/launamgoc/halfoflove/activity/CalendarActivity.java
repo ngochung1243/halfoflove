@@ -1,7 +1,6 @@
 package launamgoc.halfoflove.activity;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +20,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,311 +30,222 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 
-@TargetApi(3)
-public class CalendarActivity extends Activity implements OnClickListener {
-    private static final String tag = "MyCalendarActivity";
+import static launamgoc.halfoflove.R.id.num_events_per_day;
 
-    private TextView currentMonth;
-    private ImageView prevMonth;
-    private ImageView nextMonth;
-    private GridView calendarView;
-    private GridCellAdapter adapter;
+public class CalendarActivity extends Activity implements OnClickListener {
+
+    @BindView(R.id.btn_nextMonth)
+    ImageView mNextMonth;
+    @BindView(R.id.btn_prevMonth)
+    ImageView mPrevMonth;
+    @BindView(R.id.tv_currentMonth)
+    TextView mCurrentMonth;
+    @BindView(R.id.btn_back)
+    TextView mBack;
+    @BindView(R.id.btn_addEvent)
+    TextView mAdd;
+    @BindView(R.id.iv_calendarheader)
+    ImageView mCalendarHeader;
+    @BindView(R.id.gv_calendar)
+    GridView mCalendarView;
+
+    private GridCellAdapter _adapter;
     private Calendar _calendar;
-    private Button add;
+
     @SuppressLint("NewApi")
-    private int month, year;
+    private int _month, _year;
     @SuppressWarnings("unused")
     @SuppressLint({"NewApi", "NewApi", "NewApi", "NewApi"})
-    private final DateFormat dateFormatter = new DateFormat();
-    private static final String dateTemplate = "MMMM yyyy";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     add.setOnClickListener(this);
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    private final DateFormat _dateFormatter = new DateFormat();
+    private static final String _dateTemplate = "MMMM yyyy";
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
-        ImageView calendarHeader = (ImageView) findViewById(R.id.iv_calendarheader);
-        calendarHeader.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        add = (Button) findViewById(R.id.btn_addEvent);
+        ButterKnife.bind(this);
 
         _calendar = Calendar.getInstance(Locale.getDefault());
-        month = _calendar.get(Calendar.MONTH) + 1;
-        year = _calendar.get(Calendar.YEAR);
-        Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
-                + year);
+        _month = _calendar.get(Calendar.MONTH) + 1;
+        _year = _calendar.get(Calendar.YEAR);
 
-        prevMonth = (ImageView) this.findViewById(R.id.btn_prevMonth);
-        prevMonth.setOnClickListener(this);
+        mPrevMonth.setOnClickListener(this);
+        mNextMonth.setOnClickListener(this);
+        mAdd.setOnClickListener(this);
+        mBack.setOnClickListener(this);
 
-        currentMonth = (TextView) this.findViewById(R.id.tv_currentMonth);
-        currentMonth.setText(DateFormat.format(dateTemplate,
-                _calendar.getTime()));
+        mCalendarHeader.setScaleType(ImageView.ScaleType.FIT_XY);
+        mCurrentMonth.setText(DateFormat.format(_dateTemplate, _calendar.getTime()));
 
-        nextMonth = (ImageView) this.findViewById(R.id.btn_nextMonth);
-        nextMonth.setOnClickListener(this);
-
-        calendarView = (GridView) this.findViewById(R.id.gv_calendar);
-
-        // Initialised
-        adapter = new GridCellAdapter(getApplicationContext(),
-                R.id.calendar_day_gridcell, month, year);
-        adapter.notifyDataSetChanged();
-        calendarView.setAdapter(adapter);
+        _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, _month, _year);
+        _adapter.notifyDataSetChanged();
+        mCalendarView.setAdapter(_adapter);
     }
 
-    /**
-     * @param month
-     * @param year
-     */
     private void setGridCellAdapterToDate(int month, int year) {
-        adapter = new GridCellAdapter(getApplicationContext(),
-                R.id.calendar_day_gridcell, month, year);
+        _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         _calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
-        currentMonth.setText(DateFormat.format(dateTemplate,
-                _calendar.getTime()));
-        adapter.notifyDataSetChanged();
-        calendarView.setAdapter(adapter);
+        _adapter.notifyDataSetChanged();
+
+        mCurrentMonth.setText(DateFormat.format(_dateTemplate, _calendar.getTime()));
+        mCalendarView.setAdapter(_adapter);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == prevMonth) {
-            if (month <= 1) {
-                month = 12;
-                year--;
+        if (v == mPrevMonth) {
+            if (_month <= 1) {
+                _month = 12;
+                _year--;
             } else {
-                month--;
+                _month--;
             }
-            Log.d(tag, "Setting Prev Month in GridCellAdapter: " + "Month: "
-                    + month + " Year: " + year);
-            setGridCellAdapterToDate(month, year);
+
+            setGridCellAdapterToDate(_month, _year);
         }
-        if (v == nextMonth) {
-            if (month > 11) {
-                month = 1;
-                year++;
+        if (v == mNextMonth) {
+            if (_month > 11) {
+                _month = 1;
+                _year++;
             } else {
-                month++;
+                _month++;
             }
-            Log.d(tag, "Setting Next Month in GridCellAdapter: " + "Month: "
-                    + month + " Year: " + year);
-            setGridCellAdapterToDate(month, year);
+
+            setGridCellAdapterToDate(_month, _year);
         }
-        if (v == add) {
+        if (v == mAdd) {
             Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
             startActivity(intent);
+        }
+        if (v == mBack) {
+            finish();
         }
     }
 
     @Override
     public void onDestroy() {
-        Log.d(tag, "Destroying View …");
         super.onDestroy();
     }
 
-    // Inner Class
+    private void showCustomDialog() {
+        AlertDialog chooseDialog;
+
+        final CharSequence[] items = {"Create a new event", "Set notification"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch (item) {
+                    case 0:
+                        Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        showSetNotiDialog();
+                        break;
+                }
+                dialog.dismiss();
+            }
+        });
+        chooseDialog = builder.create();
+        chooseDialog.show();
+    }
+
+    private void showSetNotiDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CalendarActivity.this);
+        LayoutInflater inflater = CalendarActivity.this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_set_notification, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText edt = (EditText) dialogView.findViewById(R.id.noti_title);
+
+        dialogBuilder.setTitle("Set notification");
+        dialogBuilder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //do something with edt.getText().toString();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
     public class GridCellAdapter extends BaseAdapter implements OnClickListener {
-        private static final String tag = "GridCellAdapter";
+        private static final int DAY_OFFSET = 1;
+
         private final Context _context;
 
-        private final List<String> list;
-        private static final int DAY_OFFSET = 1;
-        private final String[] weekdays = new String[]{"Sun", "Mon", "Tue",
+        private int _daysInMonth;
+        private int _currentDayOfMonth;
+        private int _currentWeekDay;
+
+        private Button _gridcell;
+        private TextView _num_events_per_day;
+
+        private final List<String> _list;
+        private final HashMap<String, Integer> _eventsPerMonthMap;
+
+        private final SimpleDateFormat _dateFormatter = new SimpleDateFormat(
+                "dd-MMM-yyyy");
+        private final String[] _weekdays = new String[]{"Sun", "Mon", "Tue",
                 "Wed", "Thu", "Fri", "Sat"};
-        private final String[] months = {"January", "February", "March",
+        private final String[] _months = {"January", "February", "March",
                 "April", "May", "June", "July", "August", "September",
                 "October", "November", "December"};
-        private final int[] daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30,
+        private final int[] _daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30,
                 31, 30, 31};
-        private int daysInMonth;
-        private int currentDayOfMonth;
-        private int currentWeekDay;
-        private Button gridcell;
-        private TextView num_events_per_day;
-        private final HashMap<String, Integer> eventsPerMonthMap;
-        private final SimpleDateFormat dateFormatter = new SimpleDateFormat(
-                "dd-MMM-yyyy");
 
-        // Days in Current Month
         public GridCellAdapter(Context context, int textViewResourceId,
                                int month, int year) {
             super();
             this._context = context;
-            this.list = new ArrayList<String>();
-            Log.d(tag, "==> Passed in Date FOR Month: " + month + " "
-                    + "Year: " + year);
+            this._list = new ArrayList<String>();
+
             Calendar calendar = Calendar.getInstance();
             setCurrentDayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
             setCurrentWeekDay(calendar.get(Calendar.DAY_OF_WEEK));
-            Log.d(tag, "New Calendar:= " + calendar.getTime().toString());
-            Log.d(tag, "CurrentDayOfWeek :" + getCurrentWeekDay());
-            Log.d(tag, "CurrentDayOfMonth :" + getCurrentDayOfMonth());
 
-            // Print Month
             printMonth(month, year);
 
-            // Find Number of Events
-            eventsPerMonthMap = findNumberOfEventsPerMonth(year, month);
+            _eventsPerMonthMap = findNumberOfEventsPerMonth(year, month);
         }
 
         private String getMonthAsString(int i) {
-            return months[i];
-        }
-
-        private String getWeekDayAsString(int i) {
-            return weekdays[i];
+            return _months[i];
         }
 
         private int getNumberOfDaysOfMonth(int i) {
-            return daysOfMonth[i];
+            return _daysOfMonth[i];
         }
 
         public String getItem(int position) {
-            return list.get(position);
+            return _list.get(position);
+        }
+
+        public int getCurrentDayOfMonth() {
+            return _currentDayOfMonth;
+        }
+
+        private void setCurrentDayOfMonth(int currentDayOfMonth) {
+            this._currentDayOfMonth = currentDayOfMonth;
+        }
+
+        public void setCurrentWeekDay(int currentWeekDay) {
+            this._currentWeekDay = currentWeekDay;
         }
 
         @Override
         public int getCount() {
-            return list.size();
-        }
-
-        /**
-         * Prints Month
-         *
-         * @param mm
-         * @param yy
-         */
-        private void printMonth(int mm, int yy) {
-            Log.d(tag, "==> printMonth: mm: " + mm + " " + "yy: " + yy);
-            int trailingSpaces = 0;
-            int daysInPrevMonth = 0;
-            int prevMonth = 0;
-            int prevYear = 0;
-            int nextMonth = 0;
-            int nextYear = 0;
-
-            int currentMonth = mm - 1;
-            String currentMonthName = getMonthAsString(currentMonth);
-            daysInMonth = getNumberOfDaysOfMonth(currentMonth);
-
-            Log.d(tag, "Current Month: " + " " + currentMonthName + " having "
-                    + daysInMonth + " days.");
-
-            GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);
-            Log.d(tag, "Gregorian Calendar:= " + cal.getTime().toString());
-
-            if (currentMonth == 11) {
-                prevMonth = currentMonth - 1;
-                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-                nextMonth = 0;
-                prevYear = yy;
-                nextYear = yy + 1;
-                Log.d(tag, "*->PrevYear: " + prevYear + " PrevMonth:"
-                        + prevMonth + " NextMonth: " + nextMonth
-                        + " NextYear: " + nextYear);
-            } else if (currentMonth == 0) {
-                prevMonth = 11;
-                prevYear = yy - 1;
-                nextYear = yy;
-                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-                nextMonth = 1;
-                Log.d(tag, "**-> PrevYear: " + prevYear + " PrevMonth:"
-                        + prevMonth + " NextMonth: " + nextMonth
-                        + " NextYear: " + nextYear);
-            } else {
-                prevMonth = currentMonth - 1;
-                nextMonth = currentMonth + 1;
-                nextYear = yy;
-                prevYear = yy;
-                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-                Log.d(tag, "***—> PrevYear: " + prevYear + " PrevMonth:"
-                        + prevMonth + " NextMonth: " + nextMonth
-                        + " NextYear: " + nextYear);
-            }
-
-            int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK) - 1;
-            trailingSpaces = currentWeekDay;
-
-            Log.d(tag, "Week Day:" + currentWeekDay + " is "
-                    + getWeekDayAsString(currentWeekDay));
-            Log.d(tag, "No. Trailing space to Add: " + trailingSpaces);
-            Log.d(tag, "No. of Days in Previous Month: " + daysInPrevMonth);
-
-            if (cal.isLeapYear(cal.get(Calendar.YEAR)))
-                if (mm == 2)
-                    ++daysInMonth;
-                else if (mm == 3)
-                    ++daysInPrevMonth;
-
-            // Trailing Month days
-            for (int i = 0; i < trailingSpaces; i++) {
-                Log.d(tag,
-                        "PREV MONTH:= "
-                                + prevMonth
-                                + " => "
-                                + getMonthAsString(prevMonth)
-                                + " "
-                                + String.valueOf((daysInPrevMonth
-                                - trailingSpaces + DAY_OFFSET)
-                                + i));
-                list.add(String
-                        .valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET)
-                                + i)
-                        + "-GREY"
-                        + "-"
-                        + getMonthAsString(prevMonth)
-                        + "-"
-                        + prevYear);
-            }
-
-            // Current Month Days
-            for (int i = 1; i <= daysInMonth; i++) {
-                Log.d(currentMonthName, String.valueOf(i) + " "
-                        + getMonthAsString(currentMonth) + " " + yy);
-                if (i == getCurrentDayOfMonth()) {
-                    list.add(String.valueOf(i) + "-BLUE" + "-"
-                            + getMonthAsString(currentMonth) + "-" + yy);
-                } else {
-                    list.add(String.valueOf(i) + "-WHITE" + "-"
-                            + getMonthAsString(currentMonth) + "-" + yy);
-                }
-            }
-
-            // Leading Month days
-            for (int i = 0; i < list.size() % 7; i++) {
-                Log.d(tag, "NEXT MONTH:= " + getMonthAsString(nextMonth));
-                list.add(String.valueOf(i + 1) + "-GREY" + "-"
-                        + getMonthAsString(nextMonth) + "-" + nextYear);
-            }
-        }
-
-        /**
-         * NOTE: YOU NEED TO IMPLEMENT THIS PART Given the YEAR, MONTH, retrieve
-         * ALL entries from a SQLite database for that month. Iterate over the
-         * List of All entries, and get the dateCreated, which is converted into
-         * day.
-         *
-         * @param year
-         * @param month
-         * @return
-         */
-        private HashMap<String, Integer> findNumberOfEventsPerMonth(int year,
-                                                                    int month) {
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
-
-            return map;
+            return _list.size();
         }
 
         @Override
@@ -349,53 +256,47 @@ public class CalendarActivity extends Activity implements OnClickListener {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
+
             if (row == null) {
                 LayoutInflater inflater = (LayoutInflater) _context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.gridcell_calendar_day, parent, false);
             }
 
-            // Get a reference to the Day gridcell
-            gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
-            gridcell.setOnClickListener(this);
+            _gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+            _gridcell.setOnClickListener(this);
 
-            // ACCOUNT FOR SPACING
-
-            Log.d(tag, "Current Day: " + getCurrentDayOfMonth());
-            String[] day_color = list.get(position).split("-");
+            String[] day_color = _list.get(position).split("-");
             String theday = day_color[0];
             String themonth = day_color[2];
             String theyear = day_color[3];
-            if ((!eventsPerMonthMap.isEmpty()) && (eventsPerMonthMap != null)) {
-                if (eventsPerMonthMap.containsKey(theday)) {
-                    num_events_per_day = (TextView) row
-                            .findViewById(R.id.num_events_per_day);
-                    Integer numEvents = (Integer) eventsPerMonthMap.get(theday);
-                    num_events_per_day.setText(numEvents.toString());
+            if ((!_eventsPerMonthMap.isEmpty()) && (_eventsPerMonthMap != null)) {
+                if (_eventsPerMonthMap.containsKey(theday)) {
+                    _num_events_per_day = (TextView) row
+                            .findViewById(num_events_per_day);
+                    Integer numEvents = (Integer) _eventsPerMonthMap.get(theday);
+                    _num_events_per_day.setText(numEvents.toString());
                 }
             }
 
-            // Set the Day GridCell
-            gridcell.setText(theday);
-            gridcell.setTag(theday + "-" + themonth + "-" + theyear);
-            Log.d(tag, "Setting GridCell " + theday + "-" + themonth + "-"
-                    + theyear);
+            _gridcell.setText(theday);
+            _gridcell.setTag(theday + "-" + themonth + "-" + theyear);
 
             if (day_color[1].equals("GREY")) {
-                gridcell.setTextColor(getResources()
+                _gridcell.setTextColor(getResources()
                         .getColor(R.color.pink2));
-                gridcell.setTextSize(15);
+                _gridcell.setTextSize(15);
             }
             if (day_color[1].equals("WHITE")) {
-                gridcell.setTextColor(getResources()
+                _gridcell.setTextColor(getResources()
                         .getColor(R.color.pink));
-                gridcell.setTextSize(15);
+                _gridcell.setTextSize(15);
             }
             if (day_color[1].equals("BLUE")) {
-                gridcell.setTextColor(getResources()
+                _gridcell.setTextColor(getResources()
                         .getColor(R.color.violet));
-                gridcell.setTextSize(18);
-                gridcell.setTypeface(null, Typeface.BOLD_ITALIC);
+                _gridcell.setTextSize(18);
+                _gridcell.setTypeface(null, Typeface.BOLD_ITALIC);
             }
             return row;
         }
@@ -403,7 +304,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
         @Override
         public void onClick(View view) {
             String date_month_year = (String) view.getTag();
-            Log.e(tag, date_month_year);
 
             if(date_month_year.compareTo("11-December-2016") == 0)
             {
@@ -416,76 +316,89 @@ public class CalendarActivity extends Activity implements OnClickListener {
             }
 
             try {
-                Date parsedDate = dateFormatter.parse(date_month_year);
-                Log.d(tag, "Parsed Date: " + parsedDate.toString());
+                Date parsedDate = _dateFormatter.parse(date_month_year);
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
-        public int getCurrentDayOfMonth() {
-            return currentDayOfMonth;
-        }
+        private void printMonth(int mm, int yy) {
 
-        private void setCurrentDayOfMonth(int currentDayOfMonth) {
-            this.currentDayOfMonth = currentDayOfMonth;
-        }
+            int trailingSpaces = 0;
+            int daysInPrevMonth = 0;
+            int prevMonth = 0;
+            int prevYear = 0;
+            int mNextMonth = 0;
+            int nextYear = 0;
+            int currentMonth = mm - 1;
 
-        public void setCurrentWeekDay(int currentWeekDay) {
-            this.currentWeekDay = currentWeekDay;
-        }
+            String currentMonthName = getMonthAsString(currentMonth);
+            _daysInMonth = getNumberOfDaysOfMonth(currentMonth);
+            GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);
 
-        public int getCurrentWeekDay() {
-            return currentWeekDay;
-        }
+            if (currentMonth == 11) {
+                prevMonth = currentMonth - 1;
+                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
+                mNextMonth = 0;
+                prevYear = yy;
+                nextYear = yy + 1;
+            } else if (currentMonth == 0) {
+                prevMonth = 11;
+                prevYear = yy - 1;
+                nextYear = yy;
+                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
+                mNextMonth = 1;
+            } else {
+                prevMonth = currentMonth - 1;
+                mNextMonth = currentMonth + 1;
+                nextYear = yy;
+                prevYear = yy;
+                daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
+            }
 
-        private void showCustomDialog() {
-            AlertDialog chooseDialog;
+            int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK) - 1;
+            trailingSpaces = currentWeekDay;
 
-            final CharSequence[] items = {"Create a new event", "Set notification"};
+            if (cal.isLeapYear(cal.get(Calendar.YEAR)))
+                if (mm == 2)
+                    ++_daysInMonth;
+                else if (mm == 3)
+                    ++daysInPrevMonth;
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
-            builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
+            // Trailing Month days
+            for (int i = 0; i < trailingSpaces; i++) {
+                _list.add(String
+                        .valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET)
+                                + i)
+                        + "-GREY"
+                        + "-"
+                        + getMonthAsString(prevMonth)
+                        + "-"
+                        + prevYear);
+            }
 
-                    switch (item) {
-                        case 0:
-                            Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
-                            startActivity(intent);
-                            break;
-                        case 1:
-                            showSetNotiDialog();
-                            break;
-                    }
-                    dialog.dismiss();
+            for (int i = 1; i <= _daysInMonth; i++) {
+                if (i == getCurrentDayOfMonth()) {
+                    _list.add(String.valueOf(i) + "-BLUE" + "-"
+                            + getMonthAsString(currentMonth) + "-" + yy);
+                } else {
+                    _list.add(String.valueOf(i) + "-WHITE" + "-"
+                            + getMonthAsString(currentMonth) + "-" + yy);
                 }
-            });
-            chooseDialog = builder.create();
-            chooseDialog.show();
+            }
+
+            for (int i = 0; i < _list.size() % 7; i++) {
+                _list.add(String.valueOf(i + 1) + "-GREY" + "-"
+                        + getMonthAsString(mNextMonth) + "-" + nextYear);
+            }
         }
 
-        private void showSetNotiDialog() {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CalendarActivity.this);
-            LayoutInflater inflater = CalendarActivity.this.getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.dialog_set_notification, null);
-            dialogBuilder.setView(dialogView);
+        private HashMap<String, Integer> findNumberOfEventsPerMonth(int year,
+                                                                    int month) {
+            HashMap<String, Integer> map = new HashMap<String, Integer>();
 
-            final EditText edt = (EditText) dialogView.findViewById(R.id.noti_title);
-
-            dialogBuilder.setTitle("Set notification");
-            dialogBuilder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    //do something with edt.getText().toString();
-                }
-            });
-            dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                }
-            });
-            AlertDialog dialog = dialogBuilder.create();
-            dialog.show();
+            return map;
         }
     }
 }
