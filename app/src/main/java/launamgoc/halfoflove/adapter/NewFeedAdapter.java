@@ -1,5 +1,8 @@
 package launamgoc.halfoflove.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +57,10 @@ public class NewFeedAdapter  extends
         notifyItemInserted(position);
     }
 
+    public void clear(){
+        listView.clear();
+    }
+
     public class NewFeedHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivAvatar;
@@ -69,13 +79,56 @@ public class NewFeedAdapter  extends
         }
 
         public void load(@NonNull final NewFeedElement data) {
-            ivAvatar.setImageResource(data.getAva());
-            ivAvatar.setScaleType(ImageView.ScaleType.FIT_XY);
             tvName.setText(data.getName());
             tvDay.setText(data.getDay());
             tvContent.setText(data.getContent());
-            ivImage.setImageResource(data.getImage());
-            ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            new DownloadImageAsyncTask().execute(data);
+        }
+
+        private class DownloadImageAsyncTask extends AsyncTask<NewFeedElement, Void, Bitmap[]> {
+
+            @Override
+            protected Bitmap[] doInBackground(NewFeedElement... newFeedElements) {
+                URL ava_url = null;
+                URL photo_url = null;
+                Bitmap[] bitmaps = new Bitmap[2];
+                try {
+                    Bitmap ava_bmp = null;
+                    Bitmap photo_bmp = null;
+                    if (newFeedElements[0].getAva() != null && !newFeedElements[0].getAva().equals("")){
+                        ava_url = new URL(newFeedElements[0].getAva());
+                        ava_bmp = BitmapFactory.decodeStream(ava_url.openConnection().getInputStream());
+                    }
+                    if (newFeedElements[0].getImage() != null && !newFeedElements[0].getImage().equals("")){
+                        photo_url = new URL(newFeedElements[0].getImage());
+                        photo_bmp = BitmapFactory.decodeStream(photo_url.openConnection().getInputStream());
+                    }
+
+                    bitmaps[0] = ava_bmp;
+                    bitmaps[1] = photo_bmp;
+                    return bitmaps;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap[] bitmaps) {
+                if (bitmaps[0] != null){
+                    ivAvatar.setImageBitmap(bitmaps[0]);
+                    ivAvatar.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
+
+                if (bitmaps[1] != null){
+                    ivImage.setImageBitmap(bitmaps[1]);
+                    ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
+            }
         }
     }
 }

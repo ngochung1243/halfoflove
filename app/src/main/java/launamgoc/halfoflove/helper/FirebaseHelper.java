@@ -25,6 +25,7 @@ import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
+import launamgoc.halfoflove.model.UserEvent;
 
 /**
  * Created by Admin on 11/21/2016.
@@ -39,7 +40,7 @@ public class FirebaseHelper {
             if (user != null) {
                 // User is signed in
                 Log.d("Firebase", "onAuthStateChanged:signed_in:" + user.getUid());
-                checkExitedUser(user);
+                checkExitedUser(user, loginDelegate);
             } else {
                 // User is signed out
                 Log.d("Firebase", "onAuthStateChanged:signed_out");
@@ -47,10 +48,9 @@ public class FirebaseHelper {
             // ...
         }
     };
-    public static FirebaseLoginHelperDelegate loginDelegate;
-    public static FirebaseUserDelegate databaseDelegate;
 
     static public FirebaseHelperDelegate delegate;
+    static public FirebaseLoginHelperDelegate loginDelegate;
 
     /**
      * Create new User with email and password
@@ -61,7 +61,7 @@ public class FirebaseHelper {
      */
 
 
-    static public boolean createNewUser(String email, String password) {
+    static public boolean createNewUser(String email, String password, final FirebaseHelperDelegate delegate) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -80,24 +80,23 @@ public class FirebaseHelper {
         return true;
     }
 
-    static private void checkExitedUser(final FirebaseUser fuser) {
+    static public void checkExitedUser(final FirebaseUser fuser, final FirebaseLoginHelperDelegate delegate) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mapsrefrence = database.getReference().child(fuser.getUid());
+        DatabaseReference mapsrefrence = database.getReference().child("users").child(fuser.getUid());
         mapsrefrence.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User mUser = null;
-                        if (dataSnapshot.exists()) {
-                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                        if (dataSnapshot.hasChildren()) {
                             mUser = dataSnapshot.getValue(User.class);
 
                         }else {
                             mUser = createUserDatabase(fuser);
                         }
-                        if (loginDelegate != null) {
-                            loginDelegate.onLoginSuccess(mUser);
+                        if (delegate != null) {
+                            delegate.onLoginSuccess(mUser);
                         }
                     }
 
@@ -192,7 +191,7 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public void changeInfoOfUser(String fid, String changedValue, String changedData) {
+    static public void changeInfoOfUser(String fid, String changedValue, Object changedData) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("users").child(fid);
         mapsrefrence.child(changedValue).setValue(changedData);
@@ -211,21 +210,20 @@ public class FirebaseHelper {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChildren()) {
-//                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
                             User mUser = dataSnapshot.getValue(User.class);
-                            if (userDelegate != null) {
+                            if (mUser.allow_find){
                                 userDelegate.onFindUserSuccess(mUser);
+                            }else {
+                                userDelegate.onFindUserSuccess(null);
                             }
                         } else {
-                            if (userDelegate != null) {
-                                userDelegate.onFindUserFailed();
-                            }
+                            userDelegate.onFindUserSuccess(null);
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        userDelegate.onFindUserFailed();
                     }
                 }
         );
@@ -266,29 +264,33 @@ public class FirebaseHelper {
         return true;
     }
 
-    static public void getEvent(final String fid, final FirebaseEventDelegate eventDelegate){
+    static public void getEvent(final User user, final FirebaseEventDelegate eventDelegate){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mapsrefrence = database.getReference().child("event");
-        Query query_event = mapsrefrence.orderByChild("fid").equalTo(fid);
+        Query query_event = mapsrefrence.orderByChild("fid").equalTo(user.fid);
         query_event.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<AppEvent>events = new ArrayList<AppEvent>();
+                List<UserEvent>events = new ArrayList<UserEvent>();
                 Map snapshot = (Map)dataSnapshot.getValue();
                 if (snapshot != null){
                     for (int i = 0; i < snapshot.size();i ++){
                         final AppEvent event = new AppEvent();
                         event.id = (String)snapshot.keySet().toArray()[i];
                         Map value = (Map)snapshot.get(event.id);
-                        event.fid = fid;
+                        event.fid = user.fid;
                         event.name = (String)value.get("name");
                         event.description = (String)value.get("description");
                         event.start_time = (String)value.get("start_time");
                         event.end_time = (String)value.get("end_time");
                         event.post_time = (String)value.get("post_time");
-                        events.add(event);
+                        event.photo_url = (String)value.get("photo_url");
+                        UserEvent u_event = new UserEvent(user, event);
+                        events.add(u_event);
                     }
                     eventDelegate.onFindEventSuccess(events);
+                }else {
+                    eventDelegate.onFindEventSuccess(null);
                 }
             }
 
@@ -433,7 +435,7 @@ public class FirebaseHelper {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("follow");
 
-        Query query_follower = mapsrefrence.orderByChild("id_follower").equalTo(fid);
+        Query query_follower = mapsrefrence.orderByChild("id_following").equalTo(fid);
         query_follower.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -497,7 +499,7 @@ public class FirebaseHelper {
     }
 
     public interface FirebaseEventDelegate{
-        void onFindEventSuccess(List<AppEvent>events);
+        void onFindEventSuccess(List<UserEvent>events);
         void onFindEventFailed(String error);
     }
 

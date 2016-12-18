@@ -2,6 +2,8 @@ package launamgoc.halfoflove.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,47 +11,43 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Information;
-import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.User;
+
+import static launamgoc.halfoflove.model.MyBundle.mUserBusiness;
 
 /**
  * Created by KhaTran on 11/13/2016.
  */
 
 public class EditDetailActivity extends AppCompatActivity {
-
     public static int TAG = 1;
 
-    Information changeInfo;
+    @BindView(R.id.title)
     TextView tvTitle;
+    @BindView(R.id.edittext)
     EditText etText;
+    @BindView(R.id.btn_save)
+    TextView btnSave;
+
+    Information changeInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_detail);
+        ButterKnife.bind(this);
+
         Bundle bundle = getIntent().getExtras();
         changeInfo = new Information(bundle.getString("title"), bundle.getString("content"), bundle.getInt("id"));
 
-        tvTitle = (TextView) findViewById(R.id.title);
-        etText = (EditText) findViewById(R.id.edittext);
-
         tvTitle.setText(changeInfo.getTitle());
         etText.setText(changeInfo.getContent());
-        setActionBar();
-    }
-
-    private void setActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar);
-
-        TextView actionBar_title = (TextView) findViewById(R.id.ab_tv_title);
-        actionBar_title.setText(changeInfo.getTitle());
-        actionBar_title.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = changeInfo.getTitle();
@@ -59,11 +57,37 @@ public class EditDetailActivity extends AppCompatActivity {
                 }
                 title = title.toLowerCase();
                 changeInfo.setContent(value);
-                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid,title, value);
-                sendIntent();
-                finish();
+                FirebaseHelper.changeInfoOfUser(mUserBusiness.mUser.fid,title, value);
+                FirebaseHelper.findUser(mUserBusiness.mUser.fid, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        mUserBusiness.mUser = user;
+                        Handler hd = new Handler(Looper.getMainLooper());
+                        hd.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendIntent();
+                                finish();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
             }
         });
+
+        setActionBar();
+    }
+
+    private void setActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar);
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

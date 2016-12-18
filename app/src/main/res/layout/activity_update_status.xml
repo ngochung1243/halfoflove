@@ -6,20 +6,22 @@
     android:padding="20dp">
 
     <EditText
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Event name"
         android:textSize="15dp"
         android:background="@color/lightgray"
         android:padding="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:hint="Event's name"/>
 
     <EditText
+        android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
-        android:text="What's on your mind?"
+        android:hint="What's on your mind?"
         android:textSize="15dp"
         android:background="@color/lightgray"
         android:padding="10dp"/>
@@ -44,12 +46,15 @@
             android:paddingLeft="30dp">
 
             <RadioButton
+                android:id="@+id/rdb_public"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Public" />
+                android:text="Public"
+                android:checked="true"/>
 
             <RadioButton
+                android:id="@+id/rdb_private"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -60,6 +65,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -84,6 +90,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_video"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

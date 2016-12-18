@@ -31,7 +31,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private List<Information> listView = new ArrayList<Information>();
 
-    public static int REQUEST_CODE = 1;
+    public static int REQUEST_CODE = 102;
 
     public Handler hd;
 
@@ -96,10 +96,11 @@ public class EditProfileActivity extends AppCompatActivity {
         title.setText("Edit profile");
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
-                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
+                .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(1, null);
                 finish();
             }
         });

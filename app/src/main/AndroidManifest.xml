@@ -39,6 +39,7 @@
         <activity android:name=".activity.NewFeedTabActivity" />
         <activity android:name=".activity.ChatListTabActivity" />
         <activity android:name=".activity.SettingsTabActivity" />
+        <activity android:name=".activity.SearchActivity" />
     </application>
 
 </manifest>

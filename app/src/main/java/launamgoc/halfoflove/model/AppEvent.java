@@ -1,5 +1,7 @@
 package launamgoc.halfoflove.model;
 
+import java.util.UUID;
+
 /**
  * Created by Admin on 12/18/2016.
  */
@@ -15,7 +17,7 @@ public class AppEvent {
     public String photo_url;
 
     public AppEvent(){
-        id = "";
+        id = UUID.randomUUID().toString();
         fid = "";
         name = "";
         start_time = "";

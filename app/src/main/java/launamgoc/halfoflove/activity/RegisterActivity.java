@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
                     }
                     else
                     {
-                        FirebaseHelper.createNewUser(email, password);
+                        FirebaseHelper.createNewUser(email, password, RegisterActivity.this);
                     }
                 }
 

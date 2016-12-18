@@ -18,8 +18,8 @@ public class User {
     public String bio;
     public String mood;
     public String interested;
-    public String allow_find;
-    public String allow_see_timeline;
+    public boolean allow_find;
+    public boolean allow_see_timeline;
 
     public User(){
         fid = "";
@@ -35,20 +35,10 @@ public class User {
         bio = "";
         mood = "";
         interested = "";
-        allow_find = "true";
-        allow_see_timeline = "true";
-    }
+        allow_find = true;
+        allow_see_timeline = true;
 
-//    public User(String id, Map<String, String> value) {
-//        this.fid = id;
-//        this.fullname = value.get("fullname");
-//        this.mood = value.get("mood");
-//        this.mobile = value.get("mobile");
-//        this.location = value.get("location");
-//        this.bio = value.get("bio");
-//        this.email = value.get("email");
-//        this.birthday = value.get("birthday");
-//        this.gender = value.get("gender");
-//        this.hobby = value.get("hobby");
-//    }
+        photo_url = "";
+        cover_url = "";
+    }
 }

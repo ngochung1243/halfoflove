@@ -6,24 +6,24 @@ package launamgoc.halfoflove.model;
 
 public class NewFeedElement {
 
-    private int avatarId;
+    private String ava_url;
     private String name;
     private String day;
     private String content;
-    private int image;
+    private String photo_url;
     private int id;
 
-    public NewFeedElement(int avatarId, String name, String day, String content, int image, int id) {
-        this.avatarId = avatarId;
+    public NewFeedElement(String ava_url, String name, String day, String content, String photo_url, int id) {
+        this.ava_url = ava_url;
         this.name = name;
         this.day = day;
         this.content = content;
-        this.image = image;
+        this.photo_url = photo_url;
         this.id = id;
     }
 
-    public int getAva() {
-        return avatarId;
+    public String getAva() {
+        return ava_url;
     }
 
     public String getName() {
@@ -38,8 +38,8 @@ public class NewFeedElement {
         return content;
     }
 
-    public int getImage() {
-        return image;
+    public String getImage() {
+        return photo_url;
     }
 
     public int getId() {

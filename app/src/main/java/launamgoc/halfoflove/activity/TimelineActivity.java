@@ -154,9 +154,14 @@ public class TimelineActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
-                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                return bmp;
+                if (MyBundle.mUserBusiness.mUser.cover_url != null && !MyBundle.mUserBusiness.mUser.cover_url.equals("")){
+                    url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    return bmp;
+                }else {
+                    return null;
+                }
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;
@@ -182,9 +187,13 @@ public class TimelineActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                url = new URL(MyBundle.mUserBusiness.mUser.photo_url);
-                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                return bmp;
+                if (MyBundle.mUserBusiness.mUser.photo_url != null && !MyBundle.mUserBusiness.mUser.photo_url.equals("")){
+                    url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    return bmp;
+                }else {
+                    return null;
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;

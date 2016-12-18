@@ -19,11 +19,11 @@ public class UserBusiness {
 
     public User mUser = new User();
     public Relationship mRelationship = new Relationship();
-    public User pUser = new User();
+    public User pUser = null;
     public List<User> mFollowers = new ArrayList<>();
     public int mNum_followers = 0;
-    public List<AppEvent>mEvents = new ArrayList<>();
-    public List<AppEvent>allEvents = new ArrayList<>();
+    public List<UserEvent>mEvents = new ArrayList<>();
+    public List<UserEvent>allEvents = new ArrayList<>();
 
     public void getRelationShip(final UserBusinessListener listener){
         FirebaseHelper.findRelationship(mUser.fid, new FirebaseHelper.FirebaseRelationshipDelegate() {
@@ -57,6 +57,9 @@ public class UserBusiness {
             @Override
             public void onFindNumFollower(final int num_follower) {
                 mNum_followers = num_follower;
+                if (num_follower == 0){
+                    listener.onComplete(UserBusinessResult.SUCCESS);
+                }
             }
 
             @Override
@@ -84,9 +87,9 @@ public class UserBusiness {
     }
 
     public void getMyEvents(final UserBusinessListener listener){
-        FirebaseHelper.getEvent(mUser.fid, new FirebaseHelper.FirebaseEventDelegate() {
+        FirebaseHelper.getEvent(mUser, new FirebaseHelper.FirebaseEventDelegate() {
             @Override
-            public void onFindEventSuccess(List<AppEvent> events) {
+            public void onFindEventSuccess(List<UserEvent> events) {
                 mEvents = events;
                 listener.onComplete(UserBusinessResult.SUCCESS);
             }
@@ -105,26 +108,33 @@ public class UserBusiness {
         allEvents.clear();
         allEvents.addAll(mEvents);
 
-        for (int i = 0; i < mFollowers.size(); i ++){
-            User targetUser = mFollowers.get(i);
-            if (targetUser.allow_see_timeline.equals("true")){
-                FirebaseHelper.getEvent(mFollowers.get(i).fid, new FirebaseHelper.FirebaseEventDelegate() {
-                    @Override
-                    public void onFindEventSuccess(List<AppEvent> events) {
-                        allEvents.addAll(events);
-                        count ++;
-                        if (count == mFollowers.size()){
-                            listener.onComplete(UserBusinessResult.SUCCESS);
+        if (mFollowers.size() != 0){
+            for (int i = 0; i < mFollowers.size(); i ++){
+                User targetUser = mFollowers.get(i);
+                if (targetUser.allow_see_timeline){
+                    FirebaseHelper.getEvent(mFollowers.get(i), new FirebaseHelper.FirebaseEventDelegate() {
+                        @Override
+                        public void onFindEventSuccess(List<UserEvent> events) {
+                            if (events != null){
+                                allEvents.addAll(events);
+                            }
+                            count ++;
+                            if (count == mFollowers.size()){
+                                listener.onComplete(UserBusinessResult.SUCCESS);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFindEventFailed(String error) {
-                        listener.onComplete(UserBusinessResult.FAILED);
-                    }
-                });
+                        @Override
+                        public void onFindEventFailed(String error) {
+                            listener.onComplete(UserBusinessResult.FAILED);
+                        }
+                    });
+                }
             }
+        }else{
+            listener.onComplete(UserBusinessResult.SUCCESS);
         }
+
     }
 
     public interface UserBusinessListener {
