@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import launamgoc.halfoflove.R;
-import launamgoc.halfoflove.activity.MainActivity;
+import launamgoc.halfoflove.activity.ChatListTabActivity;
 import launamgoc.halfoflove.model.ChatElement;
 
 /**
@@ -73,8 +73,8 @@ public class ChatListAdapter extends
             cvChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity activity = (MainActivity) view.getContext();
-                    activity.onChatListClick();
+                    ChatListTabActivity activity = (ChatListTabActivity) view.getContext();
+                    activity.onItemClick();
                 }
             });
         }
