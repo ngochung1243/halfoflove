@@ -18,6 +18,7 @@
             card_view:cardCornerRadius="4dp">
 
             <LinearLayout
+                android:id="@+id/layout_timeline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -59,7 +60,6 @@
                 </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/btn_timeline"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_arrow_right"
@@ -79,6 +79,7 @@
             card_view:cardCornerRadius="4dp">
 
             <LinearLayout
+                android:id="@+id/layout_timeline_partner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -119,7 +120,6 @@
                 </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/btn_timeline_partner"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_arrow_right"
@@ -180,6 +180,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_account_setting"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -201,7 +202,6 @@
                         android:textSize="15sp" />
 
                     <ImageButton
-                        android:id="@+id/btn_account_setting"
                         android:layout_width="40dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_arrow_right"
@@ -211,6 +211,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_relationship_setting"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -232,7 +233,6 @@
                         android:textSize="15sp" />
 
                     <ImageButton
-                        android:id="@+id/btn_relationship_setting"
                         android:layout_width="40dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_arrow_right"

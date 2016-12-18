@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Information;
@@ -19,37 +21,29 @@ import launamgoc.halfoflove.model.MyBundle;
  */
 
 public class EditDetailActivity extends AppCompatActivity {
-
     public static int TAG = 1;
 
-    Information changeInfo;
+    @BindView(R.id.title)
     TextView tvTitle;
+    @BindView(R.id.edittext)
     EditText etText;
+    @BindView(R.id.btn_save)
+    TextView btnSave;
+
+    Information changeInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_detail);
+        ButterKnife.bind(this);
+
         Bundle bundle = getIntent().getExtras();
         changeInfo = new Information(bundle.getString("title"), bundle.getString("content"), bundle.getInt("id"));
 
-        tvTitle = (TextView) findViewById(R.id.title);
-        etText = (EditText) findViewById(R.id.edittext);
-
         tvTitle.setText(changeInfo.getTitle());
         etText.setText(changeInfo.getContent());
-        setActionBar();
-    }
-
-    private void setActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar);
-
-        TextView actionBar_title = (TextView) findViewById(R.id.ab_tv_title);
-        actionBar_title.setText(changeInfo.getTitle());
-        actionBar_title.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = changeInfo.getTitle();
@@ -64,6 +58,15 @@ public class EditDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        setActionBar();
+    }
+
+    private void setActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar);
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

@@ -2,14 +2,11 @@ package launamgoc.halfoflove.activity;
 
 import android.annotation.TargetApi;
 import android.app.LocalActivityManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TabHost;
@@ -59,30 +56,9 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSetNotiDialog();
+                Intent intent = new Intent(getBaseContext(), SearchActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    private void showSetNotiDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.dialog_search, null);
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setTitle("Search Options");
-        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //do something with edt.getText().toString();
-            }
-        });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-            }
-        });
-
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
     }
 }

@@ -18,7 +18,6 @@ import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
 import launamgoc.halfoflove.model.Information;
 import launamgoc.halfoflove.model.MyBundle;
-import launamgoc.halfoflove.model.User;
 
 /**
  * Created by KhaTran on 11/11/2016.
@@ -97,7 +96,7 @@ public class EditProfileActivity extends AppCompatActivity {
         title.setText("Edit profile");
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
-                .getIdentifier("ic_clear_back", "drawable", getPackageName()));
+                .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

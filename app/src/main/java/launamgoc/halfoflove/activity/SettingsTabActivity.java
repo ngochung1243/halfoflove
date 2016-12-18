@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,14 +16,14 @@ import launamgoc.halfoflove.R;
 
 public class SettingsTabActivity extends Activity implements View.OnClickListener {
 
-    @BindView(R.id.btn_timeline)
-    ImageButton btnTimeline;
-    @BindView(R.id.btn_timeline_partner)
-    ImageButton btnTimelinePartner;
-    @BindView(R.id.btn_account_setting)
-    ImageButton btnAccountSet;
-    @BindView(R.id.btn_relationship_setting)
-    ImageButton btnRelaSet;
+    @BindView(R.id.layout_timeline)
+    LinearLayout mTimeline;
+    @BindView(R.id.layout_timeline_partner)
+    LinearLayout mTimelinePartner;
+    @BindView(R.id.layout_account_setting)
+    LinearLayout mAccountSet;
+    @BindView(R.id.layout_relationship_setting)
+    LinearLayout mRelaSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,30 +31,30 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.tablelayout_settings);
         ButterKnife.bind(this);
 
-        btnTimeline.setOnClickListener(this);
-        btnTimelinePartner.setOnClickListener(this);
-        btnAccountSet.setOnClickListener(this);
-        btnRelaSet.setOnClickListener(this);
+        mTimeline.setOnClickListener(this);
+        mTimelinePartner.setOnClickListener(this);
+        mAccountSet.setOnClickListener(this);
+        mRelaSet.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnTimeline) {
+        if (v == mTimeline) {
             Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
-        if (v == btnTimelinePartner) {
+        if (v == mTimelinePartner) {
             Intent intent = new Intent(getBaseContext(), FriendTimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
-        if (v == btnAccountSet) {
+        if (v == mAccountSet) {
             Intent intent = new Intent(getBaseContext(), EditProfileActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
-        if (v == btnRelaSet) {
+        if (v == mRelaSet) {
             Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);

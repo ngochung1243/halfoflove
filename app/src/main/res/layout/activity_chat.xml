@@ -7,19 +7,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/com_facebook_button_background_color_disabled">
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </ListView>
+
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal" >
 
         <ImageButton
             android:layout_width="50dp"
@@ -28,6 +30,7 @@
             android:tint="@color/colorAccent"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_insert_emoticon"/>
+
         <EditText
             android:layout_weight="1"
             android:layout_gravity="bottom"
@@ -41,5 +44,7 @@
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_send"
             android:background="@android:color/transparent"/>
+
     </LinearLayout>
+
 </LinearLayout>

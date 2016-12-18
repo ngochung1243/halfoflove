@@ -7,8 +7,8 @@
 
     <ImageButton
         android:id="@+id/ab_btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:background="@android:color/transparent"
         android:tint="#ffffff"
         android:layout_gravity="left"/>
@@ -20,7 +20,7 @@
         android:gravity="center"
         android:id="@+id/ab_tv_title"
         android:textColor="#ffffff"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/ab_btn_next"

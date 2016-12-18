@@ -1,10 +1,12 @@
 package launamgoc.halfoflove.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import launamgoc.halfoflove.R;
@@ -59,11 +61,15 @@ public class RelationshipActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relationship);
+
+        setActionBar();
+
         Spinner spinRelationship=(Spinner) findViewById(R.id.spnRelatioship);
         Spinner spinTime =  (Spinner) findViewById(R.id.spnTime);
         Spinner spinYear = (Spinner) findViewById(R.id.spnYear);
         Spinner spinMonth = (Spinner) findViewById(R.id.spnMonth);
         Spinner spinDay  = (Spinner) findViewById(R.id.spnDay);
+
         ArrayAdapter<String> adapterRelationship=new ArrayAdapter<String>
                 (
                         this,
@@ -118,6 +124,22 @@ public class RelationshipActivity extends AppCompatActivity {
                 (android.R.layout.simple_list_item_single_choice);
         spinDay.setAdapter(adapterDay);
         spinDay.setOnItemSelectedListener(new MyProcessEvent());
+    }
+
+    private void setActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar);
+        ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
+        btnBack.setImageResource(getResources()
+                .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private class MyProcessEvent implements
