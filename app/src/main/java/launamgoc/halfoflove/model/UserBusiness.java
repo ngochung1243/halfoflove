@@ -22,6 +22,8 @@ public class UserBusiness {
     public User pUser = new User();
     public List<User> mFollowers = new ArrayList<>();
     public int mNum_followers = 0;
+    public List<AppEvent>mEvents = new ArrayList<>();
+    public List<AppEvent>allEvents = new ArrayList<>();
 
     public void getRelationShip(final UserBusinessListener listener){
         FirebaseHelper.findRelationship(mUser.fid, new FirebaseHelper.FirebaseRelationshipDelegate() {
@@ -81,12 +83,48 @@ public class UserBusiness {
         FirebaseHelper.removeEvent(follow_id);
     }
 
-    public void getMyEvents(UserBusinessListener listener){
+    public void getMyEvents(final UserBusinessListener listener){
+        FirebaseHelper.getEvent(mUser.fid, new FirebaseHelper.FirebaseEventDelegate() {
+            @Override
+            public void onFindEventSuccess(List<AppEvent> events) {
+                mEvents = events;
+                listener.onComplete(UserBusinessResult.SUCCESS);
+            }
 
+            @Override
+            public void onFindEventFailed(String error) {
+                listener.onComplete(UserBusinessResult.FAILED);
+            }
+        });
     }
 
-    public void getAllEvents(){
-        
+    int count = 0;
+
+    public void getAllEvents(final UserBusinessListener listener){
+        count = 0;
+        allEvents.clear();
+        allEvents.addAll(mEvents);
+
+        for (int i = 0; i < mFollowers.size(); i ++){
+            User targetUser = mFollowers.get(i);
+            if (targetUser.allow_see_timeline.equals("true")){
+                FirebaseHelper.getEvent(mFollowers.get(i).fid, new FirebaseHelper.FirebaseEventDelegate() {
+                    @Override
+                    public void onFindEventSuccess(List<AppEvent> events) {
+                        allEvents.addAll(events);
+                        count ++;
+                        if (count == mFollowers.size()){
+                            listener.onComplete(UserBusinessResult.SUCCESS);
+                        }
+                    }
+
+                    @Override
+                    public void onFindEventFailed(String error) {
+                        listener.onComplete(UserBusinessResult.FAILED);
+                    }
+                });
+            }
+        }
     }
 
     public interface UserBusinessListener {

@@ -13,4 +13,15 @@ public class AppEvent {
     public String post_time;
     public String description;
     public String photo_url;
+
+    public AppEvent(){
+        id = "";
+        fid = "";
+        name = "";
+        start_time = "";
+        end_time = "";
+        post_time = "";
+        description = "";
+        photo_url = "";
+    }
 }

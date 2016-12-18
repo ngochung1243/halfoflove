@@ -266,6 +266,39 @@ public class FirebaseHelper {
         return true;
     }
 
+    static public void getEvent(final String fid, final FirebaseEventDelegate eventDelegate){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("event");
+        Query query_event = mapsrefrence.orderByChild("fid").equalTo(fid);
+        query_event.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<AppEvent>events = new ArrayList<AppEvent>();
+                Map snapshot = (Map)dataSnapshot.getValue();
+                if (snapshot != null){
+                    for (int i = 0; i < snapshot.size();i ++){
+                        final AppEvent event = new AppEvent();
+                        event.id = (String)snapshot.keySet().toArray()[i];
+                        Map value = (Map)snapshot.get(event.id);
+                        event.fid = fid;
+                        event.name = (String)value.get("name");
+                        event.description = (String)value.get("description");
+                        event.start_time = (String)value.get("start_time");
+                        event.end_time = (String)value.get("end_time");
+                        event.post_time = (String)value.get("post_time");
+                        events.add(event);
+                    }
+                    eventDelegate.onFindEventSuccess(events);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                eventDelegate.onFindEventFailed(databaseError.getMessage());
+            }
+        });
+    }
+
     /**
      * Addind a Relationship between 2 Users (add necessary parameter)
      *
@@ -437,17 +470,6 @@ public class FirebaseHelper {
     }
 
     /**
-     * Adding New Feed when User adds an event (add necessary parameter)
-     *
-     * @return
-     */
-    static public boolean addNewFeed() {
-
-        // change return when operate code
-        return true;
-    }
-
-    /**
      * Chat with another User (add necessary parameter)
      *
      * @return
@@ -472,6 +494,11 @@ public class FirebaseHelper {
         void onFindUserSuccess(User user);
 
         void onFindUserFailed();
+    }
+
+    public interface FirebaseEventDelegate{
+        void onFindEventSuccess(List<AppEvent>events);
+        void onFindEventFailed(String error);
     }
 
     public interface FirebaseFollowerDelegate {

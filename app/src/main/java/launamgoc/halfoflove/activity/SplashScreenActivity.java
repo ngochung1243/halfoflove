@@ -18,10 +18,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
+import launamgoc.halfoflove.model.UserBusiness;
 
 public class SplashScreenActivity extends Activity {
 
@@ -82,5 +86,36 @@ public class SplashScreenActivity extends Activity {
         mUser.photo_url = "http://www.w3schools.com/css/img_fjords.jpg";
         mUser.cover_url = "http://www.w3schools.com/css/img_fjords.jpg";
         MyBundle.mUserBusiness.mUser = mUser;
+
+        getEvent();
+    }
+
+    void createEvent(){
+        AppEvent event = new AppEvent();
+        event.id = "dgdfjhsfkf";
+        event.fid = MyBundle.mUserBusiness.mUser.fid;
+        event.name = "Alo";
+        event.description = "fdvjhcxkjv";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        event.start_time = currentDateandTime;
+        event.end_time = currentDateandTime;
+        event.post_time = currentDateandTime;
+        MyBundle.mUserBusiness.addEvent(event);
+    }
+
+    void getEvent(){
+        // Test get event
+        MyBundle.mUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
+            @Override
+            public void onComplete(UserBusiness.UserBusinessResult result) {
+                if (result == UserBusiness.UserBusinessResult.SUCCESS){
+                    for (int i = 0 ; i < MyBundle.mUserBusiness.mEvents.size(); i++){
+                        Log.d("test", MyBundle.mUserBusiness.mEvents.get(i).name);
+                    }
+
+                }
+            }
+        });
     }
 }
