@@ -13,10 +13,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import launamgoc.halfoflove.model.AppEvent;
+import launamgoc.halfoflove.model.Follow;
+import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 
 /**
@@ -41,7 +48,7 @@ public class FirebaseHelper {
         }
     };
     public static FirebaseLoginHelperDelegate loginDelegate;
-    public static FirebaseDatabaseHelperDelegate databaseDelegate;
+    public static FirebaseUserDelegate databaseDelegate;
 
     static public FirebaseHelperDelegate delegate;
 
@@ -196,7 +203,7 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public void findUser(String fid) {
+    static public void findUser(String fid, final FirebaseUserDelegate userDelegate) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("users").child(fid);
         mapsrefrence.addListenerForSingleValueEvent(
@@ -206,12 +213,12 @@ public class FirebaseHelper {
                         if (dataSnapshot.hasChildren()) {
 //                            Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
                             User mUser = dataSnapshot.getValue(User.class);
-                            if (databaseDelegate != null) {
-                                databaseDelegate.onFindUserSuccess(mUser);
+                            if (userDelegate != null) {
+                                userDelegate.onFindUserSuccess(mUser);
                             }
                         } else {
-                            if (databaseDelegate != null) {
-                                databaseDelegate.onFindUserFailed();
+                            if (userDelegate != null) {
+                                userDelegate.onFindUserFailed();
                             }
                         }
                     }
@@ -229,6 +236,7 @@ public class FirebaseHelper {
      *
      * @return
      */
+
     static public String uploadImage() {
 
         // change return when operate code
@@ -236,12 +244,24 @@ public class FirebaseHelper {
     }
 
     /**
-     * Adding an Event when User setup (add necessary parameter)
+     * Adding an AppEvent when User setup (add necessary parameter)
      *
      * @return
      */
-    static public boolean addEventWithUser() {
+    static public boolean addEvent(AppEvent event) {
 
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("event").child(event.id).setValue(event);
+        // change return when operate code
+        return true;
+    }
+
+    static public boolean removeEvent(String event_id) {
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("event").child(event_id).removeValue();
         // change return when operate code
         return true;
     }
@@ -251,8 +271,10 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public boolean addRelationship() {
-
+    static public boolean addRelationship(Relationship relationship) {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("relationship").child(relationship.id).setValue(relationship);
         // change return when operate code
         return true;
     }
@@ -262,10 +284,88 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public boolean removeRelationship() {
-
+    static public boolean removeRelationship(String relationship_id) {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("event").child(relationship_id).removeValue();
         // change return when operate code
         return true;
+    }
+
+    static public void findRelationship(final String fid, final FirebaseRelationshipDelegate relationshipDelegate){
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("relationship");
+        Query query_relationship1 = mapsrefrence.orderByChild("id_request").equalTo(fid);
+        query_relationship1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map snapshot = (HashMap)dataSnapshot.getValue();
+                if (snapshot != null){
+                    final Relationship relationship = new Relationship();
+                    relationship.id = (String)snapshot.keySet().toArray()[0];
+                    Map value = (Map)snapshot.get(relationship.id);
+                    relationship.id_request = fid;
+                    relationship.id_accept = (String)value.get("id_accept");
+                    relationship.start_time = (String)value.get("start_time");
+                    relationship.end_time = (String)value.get("end_time");
+                    findUser(relationship.id_accept, new FirebaseUserDelegate() {
+                        @Override
+                        public void onFindUserSuccess(User user) {
+                            relationshipDelegate.onFindRelationshipSuccess(relationship, user);
+                        }
+
+                        @Override
+                        public void onFindUserFailed() {
+
+                        }
+                    });
+
+                }else {
+                    Query query_relationship2 = mapsrefrence.orderByChild("id_accept").equalTo(fid);
+                    query_relationship2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Map snapshot = (HashMap)dataSnapshot.getValue();
+                            if (snapshot != null){
+                                final Relationship relationship = new Relationship();
+                                relationship.id = (String)snapshot.keySet().toArray()[0];
+                                Map value = (Map)snapshot.get(relationship.id);
+                                relationship.id_request = (String)value.get("id_request");
+                                relationship.id_accept = fid;
+                                relationship.start_time = (String)value.get("start_time");
+                                relationship.end_time = (String)value.get("end_time");
+                                findUser(relationship.id_request, new FirebaseUserDelegate() {
+                                    @Override
+                                    public void onFindUserSuccess(User user) {
+                                        relationshipDelegate.onFindRelationshipSuccess(relationship, user);
+                                    }
+
+                                    @Override
+                                    public void onFindUserFailed() {
+
+                                    }
+                                });
+
+                            }else {
+                                relationshipDelegate.onFindRelationshipFailed("Can't find anything");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                relationshipDelegate.onFindRelationshipFailed(databaseError.getMessage());
+            }
+        });
     }
 
     /**
@@ -273,8 +373,11 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public boolean addFollow() {
+    static public boolean addFollow(Follow follow) {
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("follow");
+        mapsrefrence.child(follow.id).setValue(follow);
         // change return when operate code
         return true;
     }
@@ -284,10 +387,53 @@ public class FirebaseHelper {
      *
      * @return
      */
-    static public boolean removeFollow() {
+    static public boolean removeFollow(String follow_id) {
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("follow");
+        mapsrefrence.child(follow_id).removeValue();
         // change return when operate code
         return true;
+    }
+
+    static public void findFollower(String fid, final FirebaseFollowerDelegate followDelegate){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("follow");
+
+        Query query_follower = mapsrefrence.orderByChild("id_follower").equalTo(fid);
+        query_follower.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                Map snapshot = (HashMap)dataSnapshot.getValue();
+                if (snapshot != null){
+                    final List<User>follow_users = new ArrayList<User>();
+                    followDelegate.onFindNumFollower(snapshot.size());
+
+                    for (int i = 0; i < snapshot.size(); i ++){
+                        String key = snapshot.keySet().toArray()[i].toString();
+                        Map value = (Map) snapshot.get(key);
+                        String id_follower =  (String)value.get("id_follower");
+                        findUser(id_follower, new FirebaseUserDelegate() {
+                            @Override
+                            public void onFindUserSuccess(User user) {
+                                followDelegate.onFindFollowerSuccess(user);
+                            }
+
+                            @Override
+                            public void onFindUserFailed() {
+                            }
+                        });
+                    }
+                }else {
+                    followDelegate.onFindFollowerFailed("Can't find anything");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                followDelegate.onFindFollowerFailed(databaseError.getMessage());
+            }
+        });
     }
 
     /**
@@ -322,10 +468,21 @@ public class FirebaseHelper {
         void onLogoutFailed(Exception ex);
     }
 
-    public interface FirebaseDatabaseHelperDelegate {
+    public interface FirebaseUserDelegate {
         void onFindUserSuccess(User user);
 
         void onFindUserFailed();
+    }
+
+    public interface FirebaseFollowerDelegate {
+        void onFindNumFollower(int num_follower);
+        void onFindFollowerSuccess(User user);
+        void onFindFollowerFailed(String error);
+    }
+
+    public interface FirebaseRelationshipDelegate{
+        void onFindRelationshipSuccess(Relationship relationship, User partner);
+        void onFindRelationshipFailed(String error);
     }
 
     public interface FirebaseHelperDelegate {

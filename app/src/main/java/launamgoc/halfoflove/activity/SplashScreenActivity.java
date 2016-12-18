@@ -79,6 +79,8 @@ public class SplashScreenActivity extends Activity {
     void TestData(){
         User mUser = new User();
         mUser.fid = "db17jjCUowTHWqjbhZlO61lV5wW2";
-        MyBundle.mUser = mUser;
+        mUser.photo_url = "http://www.w3schools.com/css/img_fjords.jpg";
+        mUser.cover_url = "http://www.w3schools.com/css/img_fjords.jpg";
+        MyBundle.mUserBusiness.mUser = mUser;
     }
 }

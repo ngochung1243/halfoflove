@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         hd.post(new Runnable() {
             @Override
             public void run() {
-                MyBundle.mUser = user;
+                MyBundle.mUserBusiness.mUser = user;
                 Toast.makeText(LoginActivity.this, "Successfuly", Toast.LENGTH_LONG).show();
             }
         });

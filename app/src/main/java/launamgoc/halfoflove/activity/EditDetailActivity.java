@@ -59,7 +59,7 @@ public class EditDetailActivity extends AppCompatActivity {
                 }
                 title = title.toLowerCase();
                 changeInfo.setContent(value);
-                FirebaseHelper.changeInfoOfUser(MyBundle.mUser.fid,title, value);
+                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid,title, value);
                 sendIntent();
                 finish();
             }

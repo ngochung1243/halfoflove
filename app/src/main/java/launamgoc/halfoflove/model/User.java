@@ -18,6 +18,8 @@ public class User {
     public String bio;
     public String mood;
     public String interested;
+    public String allow_find;
+    public String allow_see_timeline;
 
     public User(){
         fid = "";
@@ -33,6 +35,8 @@ public class User {
         bio = "";
         mood = "";
         interested = "";
+        allow_find = "true";
+        allow_see_timeline = "true";
     }
 
 //    public User(String id, Map<String, String> value) {

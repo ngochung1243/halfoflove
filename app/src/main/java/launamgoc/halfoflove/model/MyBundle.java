@@ -5,5 +5,5 @@ package launamgoc.halfoflove.model;
  */
 
 public class MyBundle {
-    public static User mUser;
+    public static UserBusiness mUserBusiness = new UserBusiness();
 }

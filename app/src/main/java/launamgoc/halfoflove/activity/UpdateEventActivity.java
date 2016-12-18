@@ -29,7 +29,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.darkpink)));
 
         TextView title = (TextView) findViewById(R.id.ab_tv_title);
-        title.setText("Update Event");
+        title.setText("Update AppEvent");
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

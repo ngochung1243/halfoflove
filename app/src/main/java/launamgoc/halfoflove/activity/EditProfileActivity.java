@@ -18,7 +18,6 @@ import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.InformationEditAdapter;
 import launamgoc.halfoflove.model.Information;
 import launamgoc.halfoflove.model.MyBundle;
-import launamgoc.halfoflove.model.User;
 
 /**
  * Created by KhaTran on 11/11/2016.
@@ -120,22 +119,22 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initializeView()
     {
         adapter.addItem(listView.size(),
-                new Information("Full Name", MyBundle.mUser.fullname, listView.size()));
+                new Information("Full Name", MyBundle.mUserBusiness.mUser.fullname, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mood", MyBundle.mUser.mood, listView.size()));
+                new Information("Mood", MyBundle.mUserBusiness.mUser.mood, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Mobile", MyBundle.mUser.mobile, listView.size()));
+                new Information("Mobile", MyBundle.mUserBusiness.mUser.mobile, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Location", MyBundle.mUser.location, listView.size()));
+                new Information("Location", MyBundle.mUserBusiness.mUser.location, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Bio", MyBundle.mUser.bio, listView.size()));
+                new Information("Bio", MyBundle.mUserBusiness.mUser.bio, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Email", MyBundle.mUser.email, listView.size()));
+                new Information("Email", MyBundle.mUserBusiness.mUser.email, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Birthday", MyBundle.mUser.birthday, listView.size()));
+                new Information("Birthday", MyBundle.mUserBusiness.mUser.birthday, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Gender", MyBundle.mUser.gender, listView.size()));
+                new Information("Gender", MyBundle.mUserBusiness.mUser.gender, listView.size()));
         adapter.addItem(listView.size(),
-                new Information("Interested in", MyBundle.mUser.interested, listView.size()));
+                new Information("Interested in", MyBundle.mUserBusiness.mUser.interested, listView.size()));
     }
 }
