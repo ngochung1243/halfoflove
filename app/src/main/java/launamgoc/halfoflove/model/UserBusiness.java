@@ -86,7 +86,7 @@ public class UserBusiness {
     }
 
     public void getAllEvents(){
-
+        
     }
 
     public interface UserBusinessListener {
