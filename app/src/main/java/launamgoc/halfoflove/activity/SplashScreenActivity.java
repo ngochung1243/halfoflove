@@ -8,6 +8,7 @@ import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
@@ -294,7 +295,13 @@ public class SplashScreenActivity extends Activity {
                                         Log.d("test", MyBundle.mUserBusiness.allEvents.get(i).event.name);
                                     }
                                     Log.d("test", "ok");
-                                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                    Handler hd = new Handler(Looper.getMainLooper());
+                                    hd.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                        }
+                                    });
                                 }
                             });
                         }

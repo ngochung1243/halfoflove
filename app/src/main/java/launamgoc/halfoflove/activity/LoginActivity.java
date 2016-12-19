@@ -54,8 +54,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
         hd = new Handler(getMainLooper());
 
         callbackManager = CallbackManager.Factory.create();

@@ -94,6 +94,11 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     void setMyLayout(){
         tv_name.setText(MyBundle.mUserBusiness.mUser.fullname);
         new DownloadMyAvatarImageAsyncTask().execute();
@@ -132,11 +137,12 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             Intent intent = new Intent(getBaseContext(), FriendTimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
+
         }
         if (v == mAccountSet) {
             Intent intent = new Intent(this, EditProfileActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityForResult(intent, EditProfileActivity.REQUEST_CODE);
+            startActivity(intent);
         }
         if (v == mRelaSet) {
             Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);

@@ -12,24 +12,28 @@ import android.widget.EditText;
 import android.widget.TabHost;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.model.MyBundle;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
+    public static LocalActivityManager mLocalActivityManager;
 
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager = new LocalActivityManager(this, true);
         mLocalActivityManager.dispatchCreate(savedInstanceState);
+        MyBundle.test = 3;
         tabHost = (TabHost)findViewById(android.R.id.tabhost);
         tabHost.setup(mLocalActivityManager);
 
         setTabs();
         setActionBar();
+
+        MyBundle.mLocalActivityManager = mLocalActivityManager;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -60,10 +64,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
