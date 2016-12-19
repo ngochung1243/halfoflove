@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         setTabs();
         setActionBar();
-
-        MyBundle.mLocalActivityManager = mLocalActivityManager;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -64,5 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        SettingsTabActivity settingsTabActivity = (SettingsTabActivity) mLocalActivityManager.getCurrentActivity();
+        settingsTabActivity.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -64,14 +64,14 @@ public class SplashScreenActivity extends Activity {
 
 
         Handler hd = new Handler(getMainLooper());
-//        hd.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-//            }
-//        }, 3000);
+        hd.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
+        }, 2000);
 
-        getUser();
+//        getUser();
     }
 
     public void getKeyHash(){
@@ -299,7 +299,7 @@ public class SplashScreenActivity extends Activity {
                                     hd.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                                         }
                                     });
                                 }

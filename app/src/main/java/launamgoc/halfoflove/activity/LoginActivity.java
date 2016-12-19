@@ -36,6 +36,7 @@ import launamgoc.halfoflove.model.User;
 public class LoginActivity extends AppCompatActivity implements FirebaseHelper.FirebaseLoginHelperDelegate {
 
     final int RC_GG_SIGN_IN = 100;
+    public static int REQUEST_LOGOUT = 500;
 
     EditText edtEmail;
     EditText edtPassword;
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 
     CallbackManager callbackManager;
 
-    GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
 
     Handler hd;
 
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestProfile()
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -104,6 +106,9 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
             public void onClick(View view) {
                 String email = edtEmail.getText().toString();
                 String password = edtPassword.getText().toString();
+                if (email == null || email == "" || password == null || password == ""){
+                    Toast.makeText(LoginActivity.this, "Please input all fields!!!", Toast.LENGTH_SHORT).show();
+                }
 
                 FirebaseHelper.loginWithUser(email,password);
             }
@@ -138,31 +143,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_GG_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                Log.d("Google", "Sign In Success!");
-                GoogleSignInAccount account = result.getSignInAccount();
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                FirebaseHelper.loginWithSocial(credential);
-            } else {
-                // Google Sign In failed, update UI appropriately
-                // ...
-                Log.d("Google", "Sign In failed!");
-            }
-        }
-    }
-
     private void MapController()
     {
         edtEmail = (EditText)findViewById(R.id.edtEmail);
@@ -181,15 +161,50 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         startActivityForResult(signInIntent, RC_GG_SIGN_IN);
     }
 
+    private void startMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onLoginSuccess(final User user) {
         hd.post(new Runnable() {
             @Override
             public void run() {
                 MyBundle.mUserBusiness.mUser = user;
-                Toast.makeText(LoginActivity.this, "Successfuly", Toast.LENGTH_LONG).show();
+//                MyBundle.mUserBusiness.load(new UserBusiness.UserBusinessListener() {
+//                    @Override
+//                    public void onComplete(UserBusiness.UserBusinessResult result) {
+//                        if (result == UserBusiness.UserBusinessResult.SUCCESS){
+//                            MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
+//                            startMainActivity();
+//                        }
+//                    }
+//                });
+
+                startMainActivity();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_GG_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                FirebaseHelper.loginWithSocial(credential);
+            } else {
+                Toast.makeText(LoginActivity.this, "Login Google Account Failed!!!", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

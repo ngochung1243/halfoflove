@@ -80,9 +80,10 @@
                 android:layout_height="wrap_content"
                 android:text=" 08/10/2016"
                 android:textSize="13dp"
-                android:layout_marginTop="7dp"
                 android:textStyle="italic"
-                android:layout_toRightOf="@+id/text2"/>
+                android:layout_alignTop="@+id/relationship"
+                android:layout_toRightOf="@+id/text2"
+                android:layout_toEndOf="@+id/text2" />
 
         </RelativeLayout>
 
@@ -115,8 +116,8 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
         <RelativeLayout>
 

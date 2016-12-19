@@ -3,6 +3,7 @@ package launamgoc.halfoflove.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -69,6 +70,8 @@ public class TimelineActivity extends AppCompatActivity {
 
         setActionBar();
 
+        setActions();
+
         loadInfo();
 
         loadCover();
@@ -107,6 +110,25 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    private void setActions(){
+        tv_name_partner.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tv_num_follower.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        tv_name_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        tv_num_follower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
     private void loadCover(){
         new DownloadCoverImageAsyncTask().execute();
     }
@@ -136,15 +158,8 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void loadBeingLove(){
-        MyBundle.mUserBusiness.getRelationShip(new UserBusiness.UserBusinessListener() {
-            @Override
-            public void onComplete(UserBusiness.UserBusinessResult result) {
-                if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    tv_first_date.setText(MyBundle.mUserBusiness.mRelationship.start_time);
-                    tv_name_partner.setText(MyBundle.mUserBusiness.pUser.fullname);
-                }
-            }
-        });
+        tv_first_date.setText(MyBundle.mUserBusiness.mRelationship.start_time);
+        tv_name_partner.setText(MyBundle.mUserBusiness.pUser.fullname);
     }
 
 

@@ -389,7 +389,7 @@ public class FirebaseHelper {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            relationshipDelegate.onFindRelationshipFailed(databaseError.getMessage());
                         }
                     });
                 }
@@ -471,6 +471,46 @@ public class FirebaseHelper {
         });
     }
 
+    static public void findFollowings(String fid, final FirebaseFollowingDelegate followDelegate){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("follow");
+
+        Query query_following = mapsrefrence.orderByChild("id_follower").equalTo(fid);
+        query_following.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                Map snapshot = (HashMap)dataSnapshot.getValue();
+                if (snapshot != null){
+                    final List<User>follow_users = new ArrayList<User>();
+                    followDelegate.onFindNumFollowing(snapshot.size());
+
+                    for (int i = 0; i < snapshot.size(); i ++){
+                        String key = snapshot.keySet().toArray()[i].toString();
+                        Map value = (Map) snapshot.get(key);
+                        String id_follower =  (String)value.get("id_follower");
+                        findUser(id_follower, new FirebaseUserDelegate() {
+                            @Override
+                            public void onFindUserSuccess(User user) {
+                                followDelegate.onFindFollowingSuccess(user);
+                            }
+
+                            @Override
+                            public void onFindUserFailed() {
+                            }
+                        });
+                    }
+                }else {
+                    followDelegate.onFindFollowingFailed("Can't find anything");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                followDelegate.onFindFollowingFailed(databaseError.getMessage());
+            }
+        });
+    }
+
     /**
      * Chat with another User (add necessary parameter)
      *
@@ -507,6 +547,12 @@ public class FirebaseHelper {
         void onFindNumFollower(int num_follower);
         void onFindFollowerSuccess(User user);
         void onFindFollowerFailed(String error);
+    }
+
+    public interface FirebaseFollowingDelegate {
+        void onFindNumFollowing(int num_follower);
+        void onFindFollowingSuccess(User user);
+        void onFindFollowingFailed(String error);
     }
 
     public interface FirebaseRelationshipDelegate{

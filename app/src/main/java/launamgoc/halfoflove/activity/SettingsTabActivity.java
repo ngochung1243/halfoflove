@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.UserBusiness;
 
 /**
  * Created by KhaTran on 12/18/2016.
@@ -32,6 +33,9 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
 
     @BindView(R.id.cardview_partner)
     CardView cardview_partner;
+    @BindView(R.id.cardview_logout)
+    CardView cardview_logout;
+
     @BindView(R.id.layout_timeline)
     LinearLayout mTimeline;
     @BindView(R.id.layout_timeline_partner)
@@ -62,6 +66,8 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.tablelayout_settings);
         ButterKnife.bind(this);
 
+        cardview_logout.setOnClickListener(this);
+
         mTimeline.setOnClickListener(this);
         mTimelinePartner.setOnClickListener(this);
         mAccountSet.setOnClickListener(this);
@@ -87,11 +93,14 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         });
 
         setMyLayout();
-        if (MyBundle.mUserBusiness.pUser == null){
-            cardview_partner.setVisibility(View.GONE);
-        }else {
-            setPartnerLayout();
-        }
+
+        loadRelationship();
+
+//        if (MyBundle.mUserBusiness.pUser == null){
+//            cardview_partner.setVisibility(View.GONE);
+//        }else {
+//            setPartnerLayout();
+//        }
     }
 
     @Override
@@ -107,6 +116,23 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
     void setPartnerLayout(){
         tv_name_partner.setText(MyBundle.mUserBusiness.pUser.fullname);
         new DownloadPartnerAvatarImageAsyncTask().execute();
+    }
+
+    private void loadRelationship(){
+        MyBundle.mUserBusiness.getRelationShip(new UserBusiness.UserBusinessListener() {
+            @Override
+            public void onComplete(UserBusiness.UserBusinessResult result) {
+                if (result == UserBusiness.UserBusinessResult.SUCCESS){
+                    cardview_partner.setVisibility(View.VISIBLE);
+                    setPartnerLayout();
+
+                    MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
+                    MyBundle.pUserBusiness.pUser = MyBundle.mUserBusiness.mUser;
+                }else {
+                    cardview_partner.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     void loadDaysTogether(){
@@ -142,12 +168,16 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         if (v == mAccountSet) {
             Intent intent = new Intent(this, EditProfileActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
+            getParent().startActivityForResult(intent, EditProfileActivity.REQUEST_CODE);
         }
         if (v == mRelaSet) {
             Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityForResult(intent, RelationshipActivity.RELATIONSHIP_CODE);
+            getParent().startActivityForResult(intent, RelationshipActivity.RELATIONSHIP_CODE);
+        }
+        if (v == cardview_logout){
+            MyBundle.mUserBusiness.logout();
+            getParent().finish();
         }
     }
 

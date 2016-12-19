@@ -100,7 +100,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.mLocalActivityManager.dispatchResume();
+                setResult(1);
                 finish();
             }
         });

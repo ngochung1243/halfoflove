@@ -33,14 +33,20 @@ public class NewFeedTabActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablelayout_newfeed);
 
+        setRecyclerView();
+
+        initializeView();
+    }
+
+    private void setRecyclerView(){
         // Set RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NewFeedAdapter(listView);
-        initializeView();
         recyclerView.setAdapter(adapter);
+
     }
 
     private void initializeView() {
