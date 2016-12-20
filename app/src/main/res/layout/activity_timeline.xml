@@ -77,7 +77,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_location"
@@ -110,7 +110,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_relationship"
@@ -153,7 +153,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_birthday"
@@ -176,7 +176,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_email"
@@ -199,7 +199,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_follower"
@@ -232,7 +232,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_interested_in"
@@ -255,7 +255,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ImageView
                 android:id="@+id/icon_bio"

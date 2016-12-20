@@ -65,7 +65,8 @@ public class NewFeedAdapter  extends
 
         public ImageView ivAvatar;
         public TextView tvName;
-        public TextView tvDay;
+        public TextView tvStartTime;
+        public TextView tvEndTime;
         public TextView tvContent;
         public ImageView ivImage;
 
@@ -73,14 +74,16 @@ public class NewFeedAdapter  extends
             super(itemView);
             ivAvatar = (ImageView) itemView.findViewById(R.id.cv_nf_ava);
             tvName = (TextView) itemView.findViewById(R.id.cv_nf_name);
-            tvDay = (TextView) itemView.findViewById(R.id.cv_nf_day);
+            tvStartTime = (TextView) itemView.findViewById(R.id.cv_nf_starttime);
+            tvEndTime = (TextView) itemView.findViewById(R.id.cv_nf_endtime);
             tvContent = (TextView) itemView.findViewById(R.id.cv_nf_content);
             ivImage = (ImageView) itemView.findViewById(R.id.cv_nf_image);
         }
 
         public void load(@NonNull final NewFeedElement data) {
             tvName.setText(data.getName());
-            tvDay.setText(data.getDay());
+            tvStartTime.setText(data.getStarttime());
+            tvEndTime.setText(data.getEndtime());
             tvContent.setText(data.getContent());
 
             new DownloadImageAsyncTask().execute(data);

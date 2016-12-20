@@ -59,7 +59,7 @@ public class NewFeedTabActivity extends Activity {
                         User targetUser = MyBundle.mUserBusiness.allEvents.get(i).user;
                         AppEvent targetEvent = MyBundle.mUserBusiness.allEvents.get(i).event;
                         adapter.addItem(listView.size(),
-                                new NewFeedElement(targetUser.photo_url, targetUser.fullname, targetEvent.post_time, targetEvent.description, targetEvent.photo_url, listView.size()));
+                                new NewFeedElement(targetUser.photo_url, targetUser.fullname, targetEvent.start_time, targetEvent.end_time, targetEvent.description, targetEvent.photo_url, listView.size()));
                     }
                 }
             }

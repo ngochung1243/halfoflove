@@ -16,11 +16,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".activity.SplashScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
@@ -35,11 +31,21 @@
         <activity android:name=".activity.CalendarActivity" />
         <activity android:name="launamgoc.halfoflove.activity.UpdateEventActivity" />
         <activity android:name="launamgoc.halfoflove.activity.EventInformationActivity" />
-        <activity android:name=".activity.TimelineActivity" />
-        <activity android:name=".activity.NewFeedTabActivity" />
+        <activity android:name=".activity.TimelineActivity">
+
+        </activity>
+        <activity android:name=".activity.NewFeedTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.ChatListTabActivity" />
         <activity android:name=".activity.SettingsTabActivity" />
-        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.SearchActivity">
+
+        </activity>
     </application>
 
 </manifest>

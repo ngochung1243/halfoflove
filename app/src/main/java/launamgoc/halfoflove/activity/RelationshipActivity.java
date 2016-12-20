@@ -17,15 +17,8 @@ public class RelationshipActivity extends AppCompatActivity {
 
     String spnRelationship[]={
             "Single",
-            "In a relationship",
-            "Divorced"};
+            "In a relationship"};
 
-    String spnTime[]={
-            "Day",
-            "Month",
-            "Year",
-            "Forever"
-    };
 
     String spnYear[]={
             "Year",
@@ -83,16 +76,6 @@ public class RelationshipActivity extends AppCompatActivity {
         spinRelationship.setAdapter(adapterRelationship);
         spinRelationship.setOnItemSelectedListener(new MyProcessEvent());
 
-        ArrayAdapter<String> adapterTime=new ArrayAdapter<String>
-                (
-                        this,
-                        android.R.layout.simple_spinner_item,
-                        spnTime
-                );
-        adapterTime.setDropDownViewResource
-                (android.R.layout.simple_list_item_single_choice);
-        spinTime.setAdapter(adapterTime);
-        spinTime.setOnItemSelectedListener(new MyProcessEvent());
 
         ArrayAdapter<String> adapterYear=new ArrayAdapter<String>
                 (

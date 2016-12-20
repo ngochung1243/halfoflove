@@ -8,15 +8,17 @@ public class NewFeedElement {
 
     private String ava_url;
     private String name;
-    private String day;
+    private String starttime;
+    private String endtime;
     private String content;
     private String photo_url;
     private int id;
 
-    public NewFeedElement(String ava_url, String name, String day, String content, String photo_url, int id) {
+    public NewFeedElement(String ava_url, String name, String starttime, String endtime, String content, String photo_url, int id) {
         this.ava_url = ava_url;
         this.name = name;
-        this.day = day;
+        this.starttime = starttime;
+        this.endtime = endtime;
         this.content = content;
         this.photo_url = photo_url;
         this.id = id;
@@ -30,8 +32,12 @@ public class NewFeedElement {
         return name;
     }
 
-    public String getDay() {
-        return day;
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public String getEndtime() {
+        return endtime;
     }
 
     public String getContent() {
