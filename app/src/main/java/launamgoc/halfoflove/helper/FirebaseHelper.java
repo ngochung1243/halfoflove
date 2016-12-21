@@ -487,8 +487,8 @@ public class FirebaseHelper {
                     for (int i = 0; i < snapshot.size(); i ++){
                         String key = snapshot.keySet().toArray()[i].toString();
                         Map value = (Map) snapshot.get(key);
-                        String id_follower =  (String)value.get("id_follower");
-                        findUser(id_follower, new FirebaseUserDelegate() {
+                        String id_following =  (String)value.get("id_following");
+                        findUser(id_following, new FirebaseUserDelegate() {
                             @Override
                             public void onFindUserSuccess(User user) {
                                 followDelegate.onFindFollowingSuccess(user);
