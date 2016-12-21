@@ -60,7 +60,6 @@ public class RelationshipActivity extends AppCompatActivity {
         setActionBar();
 
         Spinner spinRelationship=(Spinner) findViewById(R.id.spnRelatioship);
-        Spinner spinTime =  (Spinner) findViewById(R.id.spnTime);
         Spinner spinYear = (Spinner) findViewById(R.id.spnYear);
         Spinner spinMonth = (Spinner) findViewById(R.id.spnMonth);
         Spinner spinDay  = (Spinner) findViewById(R.id.spnDay);

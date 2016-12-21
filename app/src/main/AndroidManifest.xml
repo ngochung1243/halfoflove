@@ -16,7 +16,11 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".activity.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
@@ -35,11 +39,7 @@
 
         </activity>
         <activity android:name=".activity.NewFeedTabActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.ChatListTabActivity" />
         <activity android:name=".activity.SettingsTabActivity" />

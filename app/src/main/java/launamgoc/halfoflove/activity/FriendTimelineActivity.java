@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,8 +45,6 @@ public class FriendTimelineActivity extends AppCompatActivity {
     TextView tv_name;
     @BindView(R.id.name_partner)
     TextView tv_name_partner;
-    @BindView(R.id.btn_follow)
-    Button btn_follow;
     @BindView(R.id.location)
     TextView tv_location;
     @BindView(R.id.first_date)
