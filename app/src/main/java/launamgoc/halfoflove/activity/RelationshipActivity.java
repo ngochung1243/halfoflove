@@ -9,16 +9,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 
 public class RelationshipActivity extends AppCompatActivity {
+
+    @BindView(R.id.spnRelatioship)
+    Spinner spinRelationship;
+    @BindView(R.id.spnYear)
+    Spinner spinYear;
+    @BindView(R.id.spnMonth)
+    Spinner spinMonth;
+    @BindView(R.id.spnDay)
+    Spinner spinDay;
 
     public static int RELATIONSHIP_CODE = 101;
 
     String spnRelationship[]={
             "Single",
             "In a relationship"};
-
 
     String spnYear[]={
             "Year",
@@ -52,17 +62,14 @@ public class RelationshipActivity extends AppCompatActivity {
             "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
             "30", "31"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relationship);
+        ButterKnife.bind(this);
 
         setActionBar();
-
-        Spinner spinRelationship=(Spinner) findViewById(R.id.spnRelatioship);
-        Spinner spinYear = (Spinner) findViewById(R.id.spnYear);
-        Spinner spinMonth = (Spinner) findViewById(R.id.spnMonth);
-        Spinner spinDay  = (Spinner) findViewById(R.id.spnDay);
 
         ArrayAdapter<String> adapterRelationship=new ArrayAdapter<String>
                 (

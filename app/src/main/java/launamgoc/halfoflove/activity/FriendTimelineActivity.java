@@ -45,6 +45,8 @@ public class FriendTimelineActivity extends AppCompatActivity {
     TextView tv_name;
     @BindView(R.id.name_partner)
     TextView tv_name_partner;
+//    @BindView(R.id.btn_follow)
+//    Button btn_follow;
     @BindView(R.id.location)
     TextView tv_location;
     @BindView(R.id.first_date)
