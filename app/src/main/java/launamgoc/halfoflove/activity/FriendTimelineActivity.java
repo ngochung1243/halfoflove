@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.DiaryViewAdapter;
-import launamgoc.halfoflove.model.Information;
+import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.UserBusiness;
 
@@ -45,8 +46,8 @@ public class FriendTimelineActivity extends AppCompatActivity {
     TextView tv_name;
     @BindView(R.id.name_partner)
     TextView tv_name_partner;
-//    @BindView(R.id.btn_follow)
-//    Button btn_follow;
+    @BindView(R.id.btn_follow)
+    Button btn_follow;
     @BindView(R.id.location)
     TextView tv_location;
     @BindView(R.id.first_date)
@@ -69,7 +70,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Information> listView = new ArrayList<Information>();
+    private List<DiaryContent> listView = new ArrayList<DiaryContent>();
 
     Handler hd;
 
@@ -87,15 +88,15 @@ public class FriendTimelineActivity extends AppCompatActivity {
         setActions();
         setTabs();
 
-        loadInfo();
-
-        loadCover();
-
-        loadAvatar();
-
-        loadNumFollower();
-
-        loadBeingLove();
+//        loadInfo();
+//
+//        loadCover();
+//
+//        loadAvatar();
+//
+//        loadNumFollower();
+//
+//        loadBeingLove();
     }
     
     private void setActionBar(){
@@ -154,7 +155,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
         spec = tab.newTabSpec("t1");
         spec.setContent(R.id.tab_infor);
-        spec.setIndicator("Information");
+        spec.setIndicator("DiaryContent");
         tab.addTab(spec);
 
         spec = tab.newTabSpec("t2");
@@ -168,59 +169,11 @@ public class FriendTimelineActivity extends AppCompatActivity {
     private void initializeDiary()
     {
         adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+                new DiaryContent(0, R.raw.video, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
         adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new Information("17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
     }
 
     private void loadCover(){

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -20,11 +19,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +33,7 @@ import launamgoc.halfoflove.R;
 
 import static launamgoc.halfoflove.R.id.num_events_per_day;
 
-public class CalendarActivity extends Activity implements OnClickListener {
+public class CalendarActivity extends Activity implements View.OnClickListener {
 
     @BindView(R.id.btn_nextMonth)
     ImageView mNextMonth;
@@ -46,8 +43,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
     TextView mCurrentMonth;
     @BindView(R.id.btn_back)
     TextView mBack;
-    @BindView(R.id.btn_addEvent)
-    TextView mAdd;
     @BindView(R.id.iv_calendarheader)
     ImageView mCalendarHeader;
     @BindView(R.id.gv_calendar)
@@ -75,7 +70,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 
         mPrevMonth.setOnClickListener(this);
         mNextMonth.setOnClickListener(this);
-        mAdd.setOnClickListener(this);
         mBack.setOnClickListener(this);
 
         mCalendarHeader.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -116,10 +110,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
             }
 
             setGridCellAdapterToDate(_month, _year);
-        }
-        if (v == mAdd) {
-            Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
-            startActivity(intent);
         }
         if (v == mBack) {
             finish();
@@ -179,7 +169,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
         dialog.show();
     }
 
-    public class GridCellAdapter extends BaseAdapter implements OnClickListener {
+    public class GridCellAdapter extends BaseAdapter implements View.OnClickListener {
         private static final int DAY_OFFSET = 1;
 
         private final Context _context;
@@ -305,22 +295,22 @@ public class CalendarActivity extends Activity implements OnClickListener {
         public void onClick(View view) {
             String date_month_year = (String) view.getTag();
 
-            if(date_month_year.compareTo("11-December-2016") == 0)
-            {
-                Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
-                startActivity(intent);
-            }
-            else
-            {
-                showCustomDialog();
-            }
-
-            try {
-                Date parsedDate = _dateFormatter.parse(date_month_year);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+//            if(date_month_year.compareTo("11-December-2016") == 0)
+//            {
+//                Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
+//                startActivity(intent);
+//            }
+//            else
+//            {
+//                showCustomDialog();
+//            }
+//
+//            try {
+//                Date parsedDate = _dateFormatter.parse(date_month_year);
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         }
 
         private void printMonth(int mm, int yy) {

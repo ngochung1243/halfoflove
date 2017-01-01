@@ -29,7 +29,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private InformationEditAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Information> listView = new ArrayList<Information>();
+    private List<Information> listView = new ArrayList<>();
 
     public static int REQUEST_CODE = 102;
 

@@ -22,7 +22,7 @@ import launamgoc.halfoflove.model.Information;
 public class InformationEditAdapter extends
         RecyclerView.Adapter<InformationEditAdapter.InformationHolder>{
 
-    private List<Information> listView = new ArrayList<Information>();
+    private List<Information> listView = new ArrayList<>();
 
     public InformationEditAdapter(List<Information> listView) {
         this.listView = listView;
