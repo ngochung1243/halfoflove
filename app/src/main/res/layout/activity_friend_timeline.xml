@@ -72,7 +72,6 @@
             android:layout_marginRight="15dp"
             android:text="Follow"
             android:textColor="@color/white"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -120,7 +119,5 @@
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
-
     </LinearLayout>
-
 </LinearLayout>

@@ -62,7 +62,6 @@ public class FriendTimelineActivity extends AppCompatActivity {
     TextView tv_interested;
     @BindView(R.id.bio)
     TextView tv_bio;
-    
     @BindView(R.id.cover)
     LinearLayout layout_cover;
     
@@ -70,7 +69,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<DiaryContent> listView = new ArrayList<DiaryContent>();
+    private List<DiaryContent> listView = new ArrayList<>();
 
     Handler hd;
 
@@ -100,7 +99,6 @@ public class FriendTimelineActivity extends AppCompatActivity {
     }
     
     private void setActionBar(){
-        // Set ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -117,7 +115,6 @@ public class FriendTimelineActivity extends AppCompatActivity {
     }
     
     private void setRecyclerView(){
-        // Set RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -155,7 +152,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
         spec = tab.newTabSpec("t1");
         spec.setContent(R.id.tab_infor);
-        spec.setIndicator("DiaryContent");
+        spec.setIndicator("Information");
         tab.addTab(spec);
 
         spec = tab.newTabSpec("t2");
