@@ -1,23 +1,35 @@
 package launamgoc.halfoflove.model;
 
 /**
- * Created by KhaTran on 1/1/2017.
+ * Created by KhaTran on 11/11/2016.
  */
 
-public class Information {
+public class DiaryContent {
 
     private String title;
     private String content;
+    private int imageId;
+    private int videoId;
     private int id;
 
-    public Information(){
+    public DiaryContent(){
 
     }
 
-    public Information(String title, String content, int id) {
+    public DiaryContent(int image, int video, String title, String content, int id) {
+        this.imageId = image;
+        this.videoId = video;
         this.title = title;
         this.content = content;
         this.id = id;
+    }
+
+    public int getImage() {
+        return imageId;
+    }
+
+    public int getVideo() {
+        return videoId;
     }
 
     public String getTitle() {

@@ -9,20 +9,28 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.adapter.DiaryViewAdapter;
+import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.UserBusiness;
 
@@ -32,7 +40,7 @@ import static launamgoc.halfoflove.R.id.num_follower;
  * Created by KhaTran on 12/16/2016.
  */
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.avatar)
     ImageView iv_avatar;
@@ -57,34 +65,42 @@ public class TimelineActivity extends AppCompatActivity {
     @BindView(R.id.cover)
     LinearLayout layout_cover;
 
+    private RecyclerView recyclerView;
+    private DiaryViewAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    private List<DiaryContent> listView = new ArrayList<>();
+
     Handler hd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        ButterKnife.bind(this);
 
         hd = new Handler(getMainLooper());
 
-        ButterKnife.bind(this);
+        iv_avatar.setOnClickListener(this);
+        layout_cover.setOnClickListener(this);
 
         setActionBar();
-
         setActions();
+        setRecyclerView();
+        setTabs();
 
-        loadInfo();
-
-        loadCover();
-
-        loadAvatar();
-
-        loadNumFollower();
-
-        loadBeingLove();
+//        loadInfo();
+//
+//        loadCover();
+//
+//        loadAvatar();
+//
+//        loadNumFollower();
+//
+//        loadBeingLove();
     }
 
     private void setActionBar(){
-        // Set ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -110,6 +126,36 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    private void setRecyclerView(){
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new DiaryViewAdapter(listView);
+        initializeDiary();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setTabs()
+    {
+        final TabHost tab=(TabHost) findViewById (android.R.id.tabhost);
+
+        tab.setup();
+        TabHost.TabSpec spec;
+
+        spec = tab.newTabSpec("t1");
+        spec.setContent(R.id.tab_infor);
+        spec.setIndicator("Information");
+        tab.addTab(spec);
+
+        spec = tab.newTabSpec("t2");
+        spec.setContent(R.id.tab_diary);
+        spec.setIndicator("Love Diary");
+        tab.addTab(spec);
+
+        tab.setCurrentTab(0);
+    }
+
     private void setActions(){
         tv_name_partner.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv_num_follower.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -127,6 +173,16 @@ public class TimelineActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == iv_avatar) {
+            Toast.makeText(this, "Change ava", Toast.LENGTH_SHORT).show();
+        }
+        else if(view == layout_cover) {
+            Toast.makeText(this, "Change cover", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadCover(){
@@ -157,11 +213,20 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void loadBeingLove(){
+    private void loadBeingLove() {
         tv_first_date.setText(MyBundle.mUserBusiness.mRelationship.start_time);
         tv_name_partner.setText(MyBundle.mUserBusiness.pUser.fullname);
     }
 
+    private void initializeDiary()
+    {
+        adapter.addItem(listView.size(),
+                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+        adapter.addItem(listView.size(),
+                new DiaryContent(0, R.raw.video, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+        adapter.addItem(listView.size(),
+                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+    }
 
     private class DownloadCoverImageAsyncTask extends AsyncTask<Void, Void, Bitmap>{
 
@@ -223,7 +288,6 @@ public class TimelineActivity extends AppCompatActivity {
             if (bitmap != null){
                 iv_avatar.setImageBitmap(bitmap);
             }
-
         }
     }
 }

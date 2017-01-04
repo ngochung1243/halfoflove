@@ -64,224 +64,53 @@
             android:textColor="#ffffff"
             android:textSize="10dp"
             android:layout_weight="1"/>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TabHost
+            android:id="@android:id/tabhost"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/icon_location"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_location"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lives in"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_location"/>
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TabWidget>
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HCM City"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/text"/>
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tab_infor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
+                        <include layout="@layout/tablelayout_information" />
+                    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/icon_relationship"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_relationship"/>
+                    <LinearLayout
+                        android:id="@+id/tab_diary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/relationship"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Being in love"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_relationship"/>
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" from "
-                android:textSize="13dp"
-                android:layout_marginTop="7dp"
-                android:textStyle="italic"
-                android:layout_toRightOf="@+id/relationship"/>
-
-            <TextView
-                android:id="@+id/first_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08/10/2016"
-                android:textSize="13dp"
-                android:layout_marginTop="7dp"
-                android:textStyle="italic"
-                android:layout_toRightOf="@+id/text2"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
-
-            <ImageView
-                android:id="@+id/icon_birthday"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_birthday"/>
-
-            <TextView
-                android:id="@+id/birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="25/06/1995"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_birthday"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
-
-            <ImageView
-                android:id="@+id/icon_email"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_email"/>
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="khatran216@gmail.com"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_email"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
-
-            <ImageView
-                android:id="@+id/icon_follower"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_follower"/>
-
-            <TextView
-                android:id="@+id/num_follower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_follower"/>
-
-            <TextView
-                android:id="@+id/followers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="followers"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/num_follower"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
-
-            <ImageView
-                android:id="@+id/icon_interested_in"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_heart"/>
-
-            <TextView
-                android:id="@+id/interested_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guitar"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_interested_in"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" >
-
-            <ImageView
-                android:id="@+id/icon_bio"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_bio"/>
-
-            <TextView
-                android:id="@+id/bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giới thiệu"
-                android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/icon_bio"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4" >
-
-        </LinearLayout>
-
+                        <include layout="@layout/tablelayout_diary" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
     </LinearLayout>
 
     <Button
@@ -292,5 +121,4 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:background="@color/darkpink"/>
-
 </LinearLayout>
