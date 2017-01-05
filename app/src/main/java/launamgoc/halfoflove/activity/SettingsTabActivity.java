@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -122,14 +123,27 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         MyBundle.mUserBusiness.getRelationShip(new UserBusiness.UserBusinessListener() {
             @Override
             public void onComplete(UserBusiness.UserBusinessResult result) {
+                Handler hd = new Handler(getMainLooper());
                 if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    cardview_partner.setVisibility(View.VISIBLE);
-                    setPartnerLayout();
+                    hd.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            cardview_partner.setVisibility(View.VISIBLE);
+                            setPartnerLayout();
 
-                    MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
-                    MyBundle.pUserBusiness.pUser = MyBundle.mUserBusiness.mUser;
+                            MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
+                            MyBundle.pUserBusiness.pUser = MyBundle.mUserBusiness.mUser;
+                        }
+                    });
+
                 }else {
-                    cardview_partner.setVisibility(View.GONE);
+                    hd.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            cardview_partner.setVisibility(View.GONE);
+                        }
+                    });
+
                 }
             }
         });

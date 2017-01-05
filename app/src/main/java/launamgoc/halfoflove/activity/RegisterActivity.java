@@ -65,13 +65,20 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
         edtRePassword = (EditText)findViewById(R.id.edtRePassword);
     }
 
+    private void refreshView(){
+        edtEmail.setText("");
+        edtReEmail.setText("");
+        edtPassword.setText("");
+        edtRePassword.setText("");
+    }
+
     @Override
     public void onCreateNewAccountSuccess() {
         Handler hd = new Handler(getMainLooper());
         hd.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(RegisterActivity.this, "Successfuly", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Create account successfuly!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -82,7 +89,8 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
         hd.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                refreshView();
+                Toast.makeText(RegisterActivity.this, "Account existed or network had problem!!!", Toast.LENGTH_LONG).show();
             }
         });
 

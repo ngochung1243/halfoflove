@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
     Button btnLogin;
     Button btnSignInFb;
     Button btnSignInGG;
+    TextView btnRegister;
 
     CallbackManager callbackManager;
 
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginManager.getInstance().logOut();
+        MyBundle.mUserBusiness.logout();
 
         // Callback registration
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -127,6 +129,13 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                 loginWithGG();
             }
         });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startRegisterActivity();
+            }
+        });
     }
 
     @Override
@@ -150,6 +159,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         btnLogin =  (Button)findViewById(R.id.btnLogin);
         btnSignInFb = (Button)findViewById(R.id.btnSignInFb);
         btnSignInGG = (Button)findViewById(R.id.btnSignInGG);
+        btnRegister = (TextView)findViewById(R.id.btnRegister);
     }
 
     public void loginWithFb(){
@@ -163,6 +173,11 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 
     private void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void startRegisterActivity(){
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
