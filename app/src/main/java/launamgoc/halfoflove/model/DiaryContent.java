@@ -8,28 +8,28 @@ public class DiaryContent {
 
     private String title;
     private String content;
-    private int imageId;
-    private int videoId;
+    private String imageUrl;
+    private String videoUrl;
     private int id;
 
     public DiaryContent(){
 
     }
 
-    public DiaryContent(int image, int video, String title, String content, int id) {
-        this.imageId = image;
-        this.videoId = video;
+    public DiaryContent(String title, String content, String image, String video, int id) {
         this.title = title;
         this.content = content;
+        this.imageUrl = image;
+        this.videoUrl = video;
         this.id = id;
     }
 
-    public int getImage() {
-        return imageId;
+    public String getImage() {
+        return imageUrl;
     }
 
-    public int getVideo() {
-        return videoId;
+    public String getVideo() {
+        return videoUrl;
     }
 
     public String getTitle() {

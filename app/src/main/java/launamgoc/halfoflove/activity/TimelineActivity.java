@@ -30,9 +30,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.DiaryViewAdapter;
+import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.NewFeedElement;
+import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
+import launamgoc.halfoflove.helper.FirebaseHelper;
+import launamgoc.halfoflove.model.UserEvent;
 
 import static launamgoc.halfoflove.R.id.num_follower;
 
@@ -220,12 +225,25 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
     private void initializeDiary()
     {
-        adapter.addItem(listView.size(),
-                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new DiaryContent(0, R.raw.video, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-        adapter.addItem(listView.size(),
-                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new DiaryContent(0, R.raw.video, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
+        adapter.clear();
+        MyBundle.mUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
+            @Override
+            public void onComplete(UserBusiness.UserBusinessResult result) {
+                if (result == UserBusiness.UserBusinessResult.SUCCESS){
+                    for (int i = 0; i < MyBundle.mUserBusiness.mEvents.size(); i ++){
+                        AppEvent targetEvent = MyBundle.mUserBusiness.mEvents.get(i).event;
+                        adapter.addItem(i, new DiaryContent(targetEvent.post_time, targetEvent.description,
+                                targetEvent.photo_url, targetEvent.video_url, i));
+                    }
+                }
+            }
+        });
     }
 
     private class DownloadCoverImageAsyncTask extends AsyncTask<Void, Void, Bitmap>{
