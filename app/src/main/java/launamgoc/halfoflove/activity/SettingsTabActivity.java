@@ -89,7 +89,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 MyBundle.mUserBusiness.mUser.allow_see_timeline = b;
-                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid, "allow_see_timeline", String.valueOf(MyBundle.mUserBusiness.mUser.allow_see_timeline));
+                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid, "allow_see_timeline", MyBundle.mUserBusiness.mUser.allow_see_timeline);
             }
         });
 

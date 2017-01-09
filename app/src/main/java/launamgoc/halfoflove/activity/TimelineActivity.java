@@ -94,15 +94,15 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         setRecyclerView();
         setTabs();
 
-//        loadInfo();
-//
-//        loadCover();
-//
-//        loadAvatar();
-//
-//        loadNumFollower();
-//
-//        loadBeingLove();
+        loadInfo();
+
+        loadCover();
+
+        loadAvatar();
+
+        loadNumFollower();
+
+        loadBeingLove();
     }
 
     private void setActionBar(){
