@@ -34,6 +34,8 @@ import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
 
+import static launamgoc.halfoflove.helper.FirebaseHelper.getToken;
+
 public class LoginActivity extends AppCompatActivity implements FirebaseHelper.FirebaseLoginHelperDelegate {
 
     final int RC_GG_SIGN_IN = 100;
@@ -113,6 +115,10 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                 }
 
                 FirebaseHelper.loginWithUser(email,password);
+
+//                String token = FirebaseHelper.getToken();
+//                Toast.makeText(LoginActivity.this, "Token: ["+token+"]", Toast.LENGTH_SHORT).show();
+
             }
         });
         FirebaseHelper.loginDelegate = this;

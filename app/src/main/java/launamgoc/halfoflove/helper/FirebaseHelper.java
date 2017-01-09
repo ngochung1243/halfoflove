@@ -2,6 +2,7 @@ package launamgoc.halfoflove.helper;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,12 +16,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import launamgoc.halfoflove.activity.MainActivity;
 import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.Relationship;
@@ -509,6 +512,15 @@ public class FirebaseHelper {
                 followDelegate.onFindFollowingFailed(databaseError.getMessage());
             }
         });
+    }
+
+    static public String getToken(){
+        String token = FirebaseInstanceId.getInstance().getToken();
+        return token;
+    }
+
+    static public void sendRequestRelationshipToUser(User user_to){
+
     }
 
     /**
