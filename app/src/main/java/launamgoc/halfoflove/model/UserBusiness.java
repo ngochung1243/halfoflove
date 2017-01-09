@@ -1,6 +1,7 @@
 package launamgoc.halfoflove.model;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -8,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import launamgoc.halfoflove.activity.LoginActivity;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 
 /**
@@ -206,6 +208,12 @@ public class UserBusiness {
             }
         });
     }
+
+    public void getToken(){
+        mUser.token = FirebaseHelper.getToken();
+    }
+
+    public void receiveMessage
 
     public interface UserBusinessListener {
         void onComplete(UserBusinessResult result);

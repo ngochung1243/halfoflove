@@ -18,6 +18,7 @@ public class User {
     public String bio;
     public String mood;
     public String interested;
+    public String token;
     public boolean allow_find;
     public boolean allow_see_timeline;
 
@@ -35,6 +36,8 @@ public class User {
         bio = "";
         mood = "";
         interested = "";
+        token = "";
+
         allow_find = true;
         allow_see_timeline = true;
 
