@@ -1,8 +1,8 @@
 package launamgoc.halfoflove.activity;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,26 +13,25 @@ import java.util.List;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.SearchAdapter;
-import launamgoc.halfoflove.model.ChatElement;
 import launamgoc.halfoflove.model.User;
-import launamgoc.halfoflove.model.UserBusiness;
 
+public class FollowingActivity extends AppCompatActivity {
 
-public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SearchAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+
     public static List<User> listView = new ArrayList<User>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         setActionBar();
-        if(listView==null)
-        {
+        if (listView == null) {
             listView = new ArrayList<User>();
         }
 
@@ -43,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SearchAdapter(listView, this);
         recyclerView.setAdapter(adapter);
+
     }
 
     private void setActionBar() {

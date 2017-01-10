@@ -5,14 +5,21 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
+import java.util.List;
+
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mLocalActivityManager = new LocalActivityManager(this, true);
         mLocalActivityManager.dispatchCreate(savedInstanceState);
         MyBundle.test = 3;
-        tabHost = (TabHost)findViewById(android.R.id.tabhost);
+        tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(mLocalActivityManager);
 
         setTabs();
@@ -54,12 +61,32 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar_main);
 
-        EditText search = (EditText) findViewById(R.id.ab_et_search);
-        search.setOnClickListener(new View.OnClickListener() {
+        final EditText ed_Search = (EditText) findViewById(R.id.ab_et_search);
+        ImageView im_Seach = (ImageView) findViewById(R.id.im_Seach);
+        im_Seach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
+
+                String fullname = ed_Search.getText().toString();
+                FirebaseHelper.findUserByName(fullname, new FirebaseHelper.FirebaseFindUserDelegate() {
+                    @Override
+                    public void onFindUserByNameSuccess(List<User> users) {
+                        SearchActivity.listView = users;
+                        Handler handler = new Handler(getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent i_Seach = new Intent(MainActivity.this, SearchActivity.class);
+                                startActivity(i_Seach);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+
             }
         });
     }

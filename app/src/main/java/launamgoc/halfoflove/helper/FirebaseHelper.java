@@ -290,13 +290,60 @@ public class FirebaseHelper {
                     }
                     eventDelegate.onFindEventSuccess(events);
                 }else {
-                    eventDelegate.onFindEventSuccess(null);
+                    eventDelegate.onFindEventSuccess(new ArrayList<UserEvent>());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 eventDelegate.onFindEventFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+
+    static public void findUserByName(final String fullname, final FirebaseFindUserDelegate findUserDelegate){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("users");
+        Query query_event = mapsrefrence.orderByChild("fullname").equalTo(fullname);
+        query_event.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<User> users = new ArrayList<User>();
+                Map snapshot = (Map)dataSnapshot.getValue();
+                if (snapshot != null){
+                    for (int i = 0; i < snapshot.size();i ++){
+                        final User user = new User();
+                        user.fid = (String)snapshot.keySet().toArray()[i];
+                        Map value = (Map)snapshot.get(user.fid);
+                        user.allow_find = (Boolean)value.get("allow_find");
+                        if(user.allow_find){
+                            user.fullname = (String)value.get("fullname");
+                            user.birthday = (String)value.get("birthday");
+                            user.photo_url = (String)value.get("photo_url");
+                            user.cover_url = (String)value.get("cover_url");
+                            user.gender = (String)value.get("gender");
+                            user.location = (String)value.get("location");
+                            user.mobile = (String)value.get("mobile");
+                            user.email = (String)value.get("email");
+                            user.hobby = (String)value.get("hobby");
+                            user.bio = (String)value.get("bio");
+                            user.mood = (String)value.get("mood");
+                            user.interested = (String)value.get("interested");
+                            user.allow_see_timeline = (Boolean)value.get("allow_see_timeline");
+                            users.add(user);
+                        }
+
+                    }
+                    findUserDelegate.onFindUserByNameSuccess(users);
+                }else {
+                    findUserDelegate.onFindUserByNameSuccess(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                findUserDelegate.onFindUserFailed();
             }
         });
     }
@@ -535,6 +582,11 @@ public class FirebaseHelper {
     public interface FirebaseUserDelegate {
         void onFindUserSuccess(User user);
 
+        void onFindUserFailed();
+    }
+
+    public interface FirebaseFindUserDelegate{
+        void onFindUserByNameSuccess(List<User> users);
         void onFindUserFailed();
     }
 

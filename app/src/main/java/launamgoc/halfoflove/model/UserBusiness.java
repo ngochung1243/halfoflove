@@ -207,6 +207,20 @@ public class UserBusiness {
         });
     }
 
+    public void findUserByName(String fullname){
+        FirebaseHelper.findUserByName(fullname, new FirebaseHelper.FirebaseFindUserDelegate() {
+            @Override
+            public void onFindUserByNameSuccess(List<User> users) {
+
+            }
+
+            @Override
+            public void onFindUserFailed() {
+
+            }
+        });
+    }
+
     public interface UserBusinessListener {
         void onComplete(UserBusinessResult result);
     }
