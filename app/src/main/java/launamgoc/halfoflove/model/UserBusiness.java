@@ -305,7 +305,19 @@ public class UserBusiness {
 
             @Override
             public void onSendMessageFailed() {
+            }
+        });
+    }
 
+    public void findUserByName(String fullname){
+        FirebaseHelper.findUserByName(fullname, new FirebaseHelper.FirebaseFindUserDelegate() {
+            @Override
+            public void onFindUserByNameSuccess(List<User> users) {
+
+            }
+
+            @Override
+            public void onFindUserFailed() {
             }
         });
     }

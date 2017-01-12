@@ -74,6 +74,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+
     private List<DiaryContent> listView = new ArrayList<>();
 
     Handler hd;
@@ -286,7 +287,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
             URL url = null;
             try {
                 if (MyBundle.mUserBusiness.mUser.photo_url != null && !MyBundle.mUserBusiness.mUser.photo_url.equals("")){
-                    url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
+                    url = new URL(MyBundle.mUserBusiness.mUser.photo_url);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                     return bmp;
                 }else {

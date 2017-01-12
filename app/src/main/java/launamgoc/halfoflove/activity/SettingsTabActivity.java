@@ -174,6 +174,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             startActivity(intent);
         }
         if (v == mTimelinePartner) {
+            FriendTimelineActivity.userBusiness = MyBundle.pUserBusiness;
             Intent intent = new Intent(getBaseContext(), FriendTimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);

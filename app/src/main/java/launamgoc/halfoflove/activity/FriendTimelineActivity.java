@@ -1,5 +1,6 @@
 package launamgoc.halfoflove.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
@@ -31,6 +32,7 @@ import launamgoc.halfoflove.adapter.DiaryViewAdapter;
 import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
 
 import static launamgoc.halfoflove.R.id.btnChat;
@@ -68,7 +70,9 @@ public class FriendTimelineActivity extends AppCompatActivity {
     LinearLayout layout_cover;
     @BindView(R.id.btnChat)
     Button btnChat;
-    
+
+    public static UserBusiness userBusiness;
+
     private RecyclerView recyclerView;
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -86,23 +90,42 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
         setActionBar();
         setRecyclerView();
         setActions();
         setTabs();
 
-//        loadInfo();
-//
-//        loadCover();
-//
-//        loadAvatar();
-//
-//        loadNumFollower();
-//
-//        loadBeingLove();
+        loadInfo();
+
+        loadCover();
+
+        loadAvatar();
+
+        loadNumFollower();
+
+        loadBeingLove();
+
+        processFollowButton();
+
+        tv_num_follower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FollowingActivity.listView = userBusiness.mFollowers;
+
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i_Following = new Intent(FriendTimelineActivity.this, FollowingActivity.class);
+                        startActivity(i_Following);
+                    }
+                });
+            }
+        });
     }
-    
-    private void setActionBar(){
+
+    private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -117,8 +140,8 @@ public class FriendTimelineActivity extends AppCompatActivity {
             }
         });
     }
-    
-    private void setRecyclerView(){
+
+    private void setRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -127,8 +150,8 @@ public class FriendTimelineActivity extends AppCompatActivity {
         initializeDiary();
         recyclerView.setAdapter(adapter);
     }
-    
-    private void setActions(){
+
+    private void setActions() {
         tv_name_partner.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv_num_follower.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -149,13 +172,13 @@ public class FriendTimelineActivity extends AppCompatActivity {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startChatActivity();
             }
         });
     }
 
-    private void setTabs()
-    {
-        final TabHost tab=(TabHost) findViewById (android.R.id.tabhost);
+    private void setTabs() {
+        final TabHost tab = (TabHost) findViewById(android.R.id.tabhost);
 
         tab.setup();
         TabHost.TabSpec spec;
@@ -173,8 +196,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
         tab.setCurrentTab(0);
     }
 
-    private void initializeDiary()
-    {
+    private void initializeDiary() {
 //        adapter.addItem(listView.size(),
 //                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
 //        adapter.addItem(listView.size(),
@@ -182,12 +204,12 @@ public class FriendTimelineActivity extends AppCompatActivity {
 //        adapter.addItem(listView.size(),
 //                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
         adapter.clear();
-        MyBundle.pUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
+        userBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
             @Override
             public void onComplete(UserBusiness.UserBusinessResult result) {
-                if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    for (int i = 0; i < MyBundle.pUserBusiness.mEvents.size(); i ++){
-                        AppEvent targetEvent = MyBundle.pUserBusiness.mEvents.get(i).event;
+                if (result == UserBusiness.UserBusinessResult.SUCCESS) {
+                    for (int i = 0; i < userBusiness.mEvents.size(); i++) {
+                        AppEvent targetEvent = userBusiness.mEvents.get(i).event;
                         adapter.addItem(i, new DiaryContent(targetEvent.post_time, targetEvent.description,
                                 targetEvent.photo_url, targetEvent.video_url, i));
                     }
@@ -196,37 +218,74 @@ public class FriendTimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void loadCover(){
+    private void startChatActivity(){
+        ChatActivity.targetUser = userBusiness.mUser;
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
+
+    private void loadCover() {
         new FriendTimelineActivity.DownloadCoverImageAsyncTask().execute();
     }
 
-    private void loadAvatar(){
+    private void loadAvatar() {
         new FriendTimelineActivity.DownloadAvatarImageAsyncTask().execute();
     }
 
-    private void loadInfo(){
-        tv_name.setText(MyBundle.pUserBusiness.mUser.fullname);
-        tv_location.setText(MyBundle.pUserBusiness.mUser.location);
-        tv_birthday.setText(MyBundle.pUserBusiness.mUser.birthday);
-        tv_email.setText(MyBundle.pUserBusiness.mUser.email);
-        tv_interested.setText(MyBundle.pUserBusiness.mUser.email);
-        tv_bio.setText(MyBundle.pUserBusiness.mUser.bio);
+    private void loadInfo() {
+        tv_name.setText(userBusiness.mUser.fullname);
+        tv_location.setText(userBusiness.mUser.location);
+        tv_birthday.setText(userBusiness.mUser.birthday);
+        tv_email.setText(userBusiness.mUser.email);
+        tv_interested.setText(userBusiness.mUser.email);
+        tv_bio.setText(userBusiness.mUser.bio);
     }
 
-    private void loadNumFollower(){
-        MyBundle.pUserBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
+    private void loadNumFollower() {
+        userBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
             @Override
             public void onComplete(UserBusiness.UserBusinessResult result) {
-                if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    tv_num_follower.setText(String.valueOf(MyBundle.pUserBusiness.mNum_followers));
+                if (result == UserBusiness.UserBusinessResult.SUCCESS) {
+                    tv_num_follower.setText(String.valueOf(userBusiness.mNum_followers));
                 }
             }
         });
     }
+    private void processFollowButton() {
+        List<User> lwFollowing = MyBundle.mUserBusiness.mFollowings;
+        for (int i = 0; i < lwFollowing.size(); i++) {
+            if (userBusiness.mUser.fid == lwFollowing.get(i).fid && userBusiness.mUser.fid == MyBundle.mUserBusiness.pUser.fid) {
+                btn_follow.setVisibility(View.INVISIBLE);
+                return;
+            } else {
+                if ((userBusiness.mUser.fid == lwFollowing.get(i).fid && userBusiness.mUser.fid != MyBundle.mUserBusiness.pUser.fid)) {
+                    btn_follow.setText("UNFOLLOW");
+                    return;
+                } else {
+                    btn_follow.setText("FOLLOW");
+                }
+            }
+        }
+    }
 
-    private void loadBeingLove(){
-        tv_first_date.setText(MyBundle.mUserBusiness.mRelationship.start_time);
-        tv_name_partner.setText(MyBundle.pUserBusiness.pUser.fullname);
+    private void loadBeingLove() {
+        userBusiness.getRelationShip(new UserBusiness.UserBusinessListener() {
+            @Override
+            public void onComplete(UserBusiness.UserBusinessResult result) {
+                if (result == UserBusiness.UserBusinessResult.SUCCESS) {
+                    Handler hd = new Handler(getMainLooper());
+                    hd.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_first_date.setText(userBusiness.mRelationship.start_time);
+                            tv_name_partner.setText(userBusiness.pUser.fullname);
+                        }
+                    });
+
+                }
+            }
+        });
+
     }
 
 
@@ -236,11 +295,11 @@ public class FriendTimelineActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                if (MyBundle.pUserBusiness.mUser.cover_url != null && !MyBundle.pUserBusiness.mUser.cover_url.equals("")){
-                    url = new URL(MyBundle.pUserBusiness.mUser.cover_url);
+                if (userBusiness.mUser.cover_url != null && !userBusiness.mUser.cover_url.equals("")) {
+                    url = new URL(userBusiness.mUser.cover_url);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                     return bmp;
-                }else {
+                } else {
                     return null;
                 }
 
@@ -255,7 +314,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null){
+            if (bitmap != null) {
                 ImageView imv = new ImageView(FriendTimelineActivity.this);
                 imv.setImageBitmap(bitmap);
                 layout_cover.setBackground(imv.getDrawable());
@@ -263,17 +322,17 @@ public class FriendTimelineActivity extends AppCompatActivity {
         }
     }
 
-    private class DownloadAvatarImageAsyncTask extends AsyncTask<Void, Void, Bitmap>{
+    private class DownloadAvatarImageAsyncTask extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                if (MyBundle.pUserBusiness.mUser.photo_url != null && !MyBundle.pUserBusiness.mUser.photo_url.equals("")){
-                    url = new URL(MyBundle.pUserBusiness.mUser.cover_url);
+                if (userBusiness.mUser.photo_url != null && !userBusiness.mUser.photo_url.equals("")) {
+                    url = new URL(userBusiness.mUser.photo_url);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                     return bmp;
-                }else {
+                } else {
                     return null;
                 }
             } catch (MalformedURLException e) {
@@ -287,7 +346,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null){
+            if (bitmap != null) {
                 iv_avatar.setImageBitmap(bitmap);
             }
 

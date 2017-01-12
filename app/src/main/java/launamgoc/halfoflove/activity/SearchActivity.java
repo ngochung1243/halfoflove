@@ -12,37 +12,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import launamgoc.halfoflove.R;
-import launamgoc.halfoflove.adapter.ChatListAdapter;
+import launamgoc.halfoflove.adapter.SearchAdapter;
 import launamgoc.halfoflove.model.ChatElement;
+import launamgoc.halfoflove.model.User;
+import launamgoc.halfoflove.model.UserBusiness;
 
-/**
- * Created by KhaTran on 12/18/2016.
- */
 
 public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ChatListAdapter adapter;
+    private SearchAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<ChatElement> listView = new ArrayList<ChatElement>();
-
+    public static List<User> listView = new ArrayList<User>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         setActionBar();
+        if(listView==null)
+        {
+            listView = new ArrayList<User>();
+        }
 
         // Set RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ChatListAdapter();
-
-//        initializeView();
-
+        adapter = new SearchAdapter(listView, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -62,17 +61,4 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void initializeView() {
-//        adapter.addItem(listView.size(),
-//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-//    }
 }
