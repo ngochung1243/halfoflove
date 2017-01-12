@@ -5,12 +5,33 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import launamgoc.halfoflove.activity.LoginActivity;
+import launamgoc.halfoflove.helper.FirebaseAPIHelper;
 import launamgoc.halfoflove.helper.FirebaseHelper;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+import static android.R.id.message;
 
 /**
  * Created by Admin on 12/18/2016.
@@ -30,6 +51,7 @@ public class UserBusiness {
     public int mNum_followers = 0;
     public List<UserEvent>mEvents = new ArrayList<>();
     public List<UserEvent>allEvents = new ArrayList<>();
+    public List<ChatMessage>mChatMessages = new ArrayList<>();
 
     public void logout(){
         FirebaseAuth.getInstance().signOut();
@@ -211,9 +233,82 @@ public class UserBusiness {
 
     public void getToken(){
         mUser.token = FirebaseHelper.getToken();
+        FirebaseHelper.changeInfoOfUser(mUser.fid, "token", mUser.token);
     }
 
-    public void receiveMessage
+    public void actionWhenReceiveMessage(Map<String, String> message){
+
+    }
+
+    public void getChatMessages(final UserBusinessListener listener){
+        FirebaseHelper.getChatMessage(mUser.fid, new FirebaseHelper.FirebaseChatMessageDelegate() {
+            @Override
+            public void onFindChatMessageSuccess(List<ChatMessage> chatMessages) {
+                mChatMessages = chatMessages;
+                sortChatMessage();
+                listener.onComplete(UserBusinessResult.SUCCESS);
+            }
+
+            @Override
+            public void onFindUserMessageFailed(String error) {
+                listener.onComplete(UserBusinessResult.FAILED);
+            }
+        });
+    }
+
+    private void sortChatMessage(){
+        Collections.sort(mChatMessages, new Comparator<ChatMessage>() {
+            @Override
+            public int compare(ChatMessage o1, ChatMessage o2) {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                try {
+                    Date d1 = format.parse(o1.datetime);
+                    Date d2 = format.parse(o2.datetime);
+                    return d1.compareTo(d2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return 0;
+            }
+        });
+    }
+
+    public void postNewMessage(User receive_user, String content_message){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.id_sender = mUser.fid;
+        chatMessage.id_receiver = receive_user.fid;
+        chatMessage.name_sender = mUser.fullname;
+        chatMessage.name_receiver = receive_user.fullname;
+        chatMessage.message = content_message;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        chatMessage.datetime = format.format(c.getTime());
+        FirebaseHelper.createNewChatMessageInDb(chatMessage);
+    }
+
+    public void sendMessageToUser(final User to_user, final String content_message){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("sender_url", mUser.photo_url);
+        data.put("kind", "message");
+        data.put("message", content_message);
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+                postNewMessage(to_user, content_message);
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+
+            }
+        });
+    }
 
     public interface UserBusinessListener {
         void onComplete(UserBusinessResult result);

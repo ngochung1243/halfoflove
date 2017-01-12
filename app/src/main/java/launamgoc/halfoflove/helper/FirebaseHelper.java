@@ -2,7 +2,6 @@ package launamgoc.halfoflove.helper;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,17 +17,26 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import launamgoc.halfoflove.activity.MainActivity;
 import launamgoc.halfoflove.model.AppEvent;
+import launamgoc.halfoflove.model.ChatMessage;
 import launamgoc.halfoflove.model.Follow;
+import launamgoc.halfoflove.model.Message;
+import launamgoc.halfoflove.model.MessageResponse;
 import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserEvent;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by Admin on 11/21/2016.
@@ -54,6 +62,12 @@ public class FirebaseHelper {
 
     static public FirebaseHelperDelegate delegate;
     static public FirebaseLoginHelperDelegate loginDelegate;
+
+    static private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://fcm.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    static private FirebaseAPIHelper apiHelper = retrofit.create(FirebaseAPIHelper.class);
 
     /**
      * Create new User with email and password
@@ -514,7 +528,72 @@ public class FirebaseHelper {
         });
     }
 
-    static public String getToken(){
+    static public void getChatMessage(final String userId, final FirebaseChatMessageDelegate chatMessageDelegate){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("chat_message");
+
+        final Query query_chat_sender = mapsrefrence.orderByChild("id_sender").equalTo(userId);
+        query_chat_sender.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                final List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
+                Map snapshot = (Map)dataSnapshot.getValue();
+                if (snapshot != null){
+                    for (int i = 0; i < snapshot.size();i ++){
+                        final ChatMessage chatMessage = new ChatMessage();
+                        chatMessage.id = (String)snapshot.keySet().toArray()[i];
+                        Map value = (Map)snapshot.get(chatMessage.id);
+                        chatMessage.id_sender = (String)value.get("id_sender");
+                        chatMessage.id_receiver = (String)value.get("id_receiver");
+                        chatMessage.id_receiver = (String)value.get("id_receiver");
+                        chatMessage.name_sender = (String)value.get("name_sender");
+                        chatMessage.name_receiver = (String)value.get("name_receiver");
+                        chatMessage.message = (String)value.get("message");
+                        chatMessage.datetime = (String)value.get("datetime");
+                        chatMessages.add(chatMessage);
+                    }
+
+                }
+                    Query query_chat_receiver = mapsrefrence.orderByChild("id_receiver").equalTo(userId);
+                    query_chat_receiver.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(final DataSnapshot dataSnapshot) {
+
+                            Map snapshot = (Map)dataSnapshot.getValue();
+                            if (snapshot != null) {
+                                for (int i = 0; i < snapshot.size(); i++) {
+                                    final ChatMessage chatMessage = new ChatMessage();
+                                    chatMessage.id = (String) snapshot.keySet().toArray()[i];
+                                    Map value = (Map) snapshot.get(chatMessage.id);
+                                    chatMessage.id_sender = (String) value.get("id_sender");
+                                    chatMessage.id_receiver = (String) value.get("id_receiver");
+                                    chatMessage.id_receiver = (String) value.get("id_receiver");
+                                    chatMessage.name_sender = (String) value.get("name_sender");
+                                    chatMessage.name_receiver = (String) value.get("name_receiver");
+                                    chatMessage.message = (String) value.get("message");
+                                    chatMessage.datetime = (String) value.get("datetime");
+                                    chatMessages.add(chatMessage);
+                                }
+                            }
+
+                            chatMessageDelegate.onFindChatMessageSuccess(chatMessages);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            chatMessageDelegate.onFindUserMessageFailed(databaseError.getMessage());
+                        }
+                    });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                chatMessageDelegate.onFindUserMessageFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+    static public String getToken() {
         String token = FirebaseInstanceId.getInstance().getToken();
         return token;
     }
@@ -523,13 +602,31 @@ public class FirebaseHelper {
 
     }
 
+    static public void createNewChatMessageInDb(ChatMessage chatMessage){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("chat_message");
+        mapsrefrence.child(chatMessage.id).setValue(chatMessage);
+    }
+
     /**
      * Chat with another User (add necessary parameter)
      *
      * @return
      */
-    static public boolean chatToUser() {
+    static public boolean sendMessage(Message message, final FirebaseSendMessageDelegate sendMessageDelegate) {
+        Call<MessageResponse> call = apiHelper.sendMessage(message);
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Response<MessageResponse> response, Retrofit retrofit) {
+                Log.d("Respone", response.toString());
+                sendMessageDelegate.onSendMessageSuccess();
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+                sendMessageDelegate.onSendMessageFailed();
+            }
+        });
         // change return when operate code
         return true;
     }
@@ -570,6 +667,21 @@ public class FirebaseHelper {
     public interface FirebaseRelationshipDelegate{
         void onFindRelationshipSuccess(Relationship relationship, User partner);
         void onFindRelationshipFailed(String error);
+    }
+
+    public interface FirebaseChatMessageDelegate{
+        void onFindChatMessageSuccess(List<ChatMessage> chatMessages);
+        void onFindUserMessageFailed(String error);
+    }
+
+    public interface FirebaseCreateNewChatMessageDelegate{
+        void onCreateNewChatMessageSuccess();
+        void onCreateNewChatMessageFailed();
+    }
+
+    public interface FirebaseSendMessageDelegate{
+        void onSendMessageSuccess();
+        void onSendMessageFailed();
     }
 
     public interface FirebaseHelperDelegate {

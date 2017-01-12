@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.adapter.ChatListAdapter;
 import launamgoc.halfoflove.helper.FirebaseAPIHelper;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Message;
@@ -129,11 +130,11 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                     Toast.makeText(LoginActivity.this, "Please input all fields!!!", Toast.LENGTH_SHORT).show();
                 }
 
-//                FirebaseHelper.loginWithUser(email,password);
+                FirebaseHelper.loginWithUser(email,password);
 
 //                TestGetToken();
 
-                TestSendPostAPI();
+                //TestSendPostAPI();
             }
         });
         FirebaseHelper.loginDelegate = this;
@@ -248,6 +249,16 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         startActivity(intent);
     }
 
+    private void testChatMessage(){
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
+
+    private void testChatList(){
+        Intent intent = new Intent(this, ChatListTabActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onLoginSuccess(final User user) {
         hd.post(new Runnable() {
@@ -264,7 +275,10 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 //                    }
 //                });
 
+                MyBundle.mUserBusiness.getToken();
                 startMainActivity();
+//                testChatMessage();
+//                testChatList();
             }
         });
     }

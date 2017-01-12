@@ -33,6 +33,7 @@ import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.UserBusiness;
 
+import static launamgoc.halfoflove.R.id.btnChat;
 import static launamgoc.halfoflove.R.id.num_follower;
 
 /**
@@ -65,6 +66,8 @@ public class FriendTimelineActivity extends AppCompatActivity {
     TextView tv_bio;
     @BindView(R.id.cover)
     LinearLayout layout_cover;
+    @BindView(R.id.btnChat)
+    Button btnChat;
     
     private RecyclerView recyclerView;
     private DiaryViewAdapter adapter;
@@ -140,6 +143,12 @@ public class FriendTimelineActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }

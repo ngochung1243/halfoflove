@@ -39,9 +39,9 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ChatListAdapter(listView);
+        adapter = new ChatListAdapter();
 
-        initializeView();
+//        initializeView();
 
         recyclerView.setAdapter(adapter);
     }
@@ -63,16 +63,16 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeView() {
-        adapter.addItem(listView.size(),
-                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-        adapter.addItem(listView.size(),
-                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-        adapter.addItem(listView.size(),
-                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-        adapter.addItem(listView.size(),
-                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-        adapter.addItem(listView.size(),
-                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
-    }
+//    private void initializeView() {
+//        adapter.addItem(listView.size(),
+//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
+//        adapter.addItem(listView.size(),
+//                new ChatElement(R.drawable.ava, "Kha Tran", listView.size()));
+//    }
 }

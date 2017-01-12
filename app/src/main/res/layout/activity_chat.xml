@@ -3,41 +3,30 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
-    
-    <ScrollView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvChatView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/com_facebook_button_background_color_disabled">
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ListView>
-
-    </ScrollView>
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:tint="@color/colorAccent"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_insert_emoticon"/>
-
         <EditText
+            android:id="@+id/edtInput"
             android:layout_weight="1"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            android:layout_marginLeft="5dp"/>
 
         <ImageButton
+            android:id="@+id/btnSend"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
