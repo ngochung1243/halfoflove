@@ -48,6 +48,7 @@ public class UserBusiness {
     public User pUser = null;
     public List<User> mFollowers = new ArrayList<>();
     public List<User> mFollowings = new ArrayList<>();
+    public List<Follow> following_objects = new ArrayList<>();
     public int mNum_followers = 0;
     public List<UserEvent>mEvents = new ArrayList<>();
     public List<UserEvent>allEvents = new ArrayList<>();
@@ -150,6 +151,11 @@ public class UserBusiness {
                 if (num_follower == 0){
                     listener.onComplete(UserBusinessResult.SUCCESS);
                 }
+            }
+
+            @Override
+            public void onFindFollowingObjectSuccess(List<Follow> followings) {
+                following_objects = followings;
             }
 
             @Override

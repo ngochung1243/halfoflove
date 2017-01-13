@@ -38,6 +38,8 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+import static android.R.attr.key;
+
 /**
  * Created by Admin on 11/21/2016.
  */
@@ -546,12 +548,20 @@ public class FirebaseHelper {
                 Map snapshot = (HashMap)dataSnapshot.getValue();
                 if (snapshot != null){
                     final List<User>follow_users = new ArrayList<User>();
+                    final List<Follow> followings = new ArrayList<Follow>();
                     followDelegate.onFindNumFollowing(snapshot.size());
 
                     for (int i = 0; i < snapshot.size(); i ++){
+                        Follow follow = new Follow();
                         String key = snapshot.keySet().toArray()[i].toString();
+                        follow.id = key;
                         Map value = (Map) snapshot.get(key);
                         String id_following =  (String)value.get("id_following");
+                        follow.id_following = id_following;
+                        follow.id_follower = (String)value.get("id_follower");
+
+                        followings.add(follow);
+
                         findUser(id_following, new FirebaseUserDelegate() {
                             @Override
                             public void onFindUserSuccess(User user) {
@@ -563,6 +573,9 @@ public class FirebaseHelper {
                             }
                         });
                     }
+
+                    followDelegate.onFindFollowingObjectSuccess(followings);
+
                 }else {
                     followDelegate.onFindFollowingFailed("Can't find anything");
                 }
@@ -712,6 +725,7 @@ public class FirebaseHelper {
 
     public interface FirebaseFollowingDelegate {
         void onFindNumFollowing(int num_follower);
+        void onFindFollowingObjectSuccess(List<Follow> followings);
         void onFindFollowingSuccess(User user);
         void onFindFollowingFailed(String error);
     }
