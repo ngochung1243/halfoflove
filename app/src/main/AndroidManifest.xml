@@ -35,12 +35,8 @@
         <activity android:name=".activity.CalendarActivity" />
         <activity android:name="launamgoc.halfoflove.activity.UpdateEventActivity" />
         <activity android:name="launamgoc.halfoflove.activity.EventInformationActivity" />
-        <activity android:name=".activity.TimelineActivity">
-
-        </activity>
-        <activity android:name=".activity.NewFeedTabActivity">
-
-        </activity>
+        <activity android:name=".activity.TimelineActivity" />
+        <activity android:name=".activity.NewFeedTabActivity" />
         <activity android:name=".activity.ChatListTabActivity" />
         <activity android:name=".activity.SettingsTabActivity" />
         <activity android:name=".activity.SearchActivity">

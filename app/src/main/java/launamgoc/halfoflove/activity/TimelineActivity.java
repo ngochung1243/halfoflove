@@ -1,12 +1,15 @@
 package launamgoc.halfoflove.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,29 +21,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.DiaryViewAdapter;
+import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.DiaryContent;
-import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.UserBusiness;
 
 import static launamgoc.halfoflove.R.id.num_follower;
+import static launamgoc.halfoflove.model.MyBundle.mUserBusiness;
 
 /**
  * Created by KhaTran on 12/16/2016.
  */
 
 public class TimelineActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static int SELECT_AVATAR_CODE = 100;
+    private static int SELECT_COVER_CODE = 101;
 
     @BindView(R.id.avatar)
     ImageView iv_avatar;
@@ -64,8 +72,12 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
     TextView tv_bio;
     @BindView(R.id.cover)
     LinearLayout layout_cover;
+    @BindView(R.id.btn_diary)
+    Button btn_diary;
 
-    private RecyclerView recyclerView;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
+
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -81,23 +93,20 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
         hd = new Handler(getMainLooper());
 
-        iv_avatar.setOnClickListener(this);
-        layout_cover.setOnClickListener(this);
-
         setActionBar();
-        setActions();
         setRecyclerView();
+        setActions();
         setTabs();
 
-//        loadInfo();
-//
-//        loadCover();
-//
-//        loadAvatar();
-//
-//        loadNumFollower();
-//
-//        loadBeingLove();
+        loadInfo();
+
+        loadAvatar();
+
+        loadCover();
+
+        loadNumFollower();
+
+        loadBeingLove();
     }
 
     private void setActionBar(){
@@ -114,20 +123,9 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             }
         });
-
-        Button btnDiary = (Button) findViewById(R.id.btn_diary);
-        btnDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), CalendarActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            }
-        });
     }
 
     private void setRecyclerView(){
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -156,66 +154,135 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         tab.setCurrentTab(0);
     }
 
-    private void setActions(){
+    private void setActions() {
         tv_name_partner.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv_num_follower.setPaintFlags(tv_name_partner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        tv_name_partner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        tv_num_follower.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        iv_avatar.setOnClickListener(this);
+        layout_cover.setOnClickListener(this);
+        tv_name_partner.setOnClickListener(this);
+        tv_num_follower.setOnClickListener(this);
+        btn_diary.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(view == iv_avatar) {
-            Toast.makeText(this, "Change ava", Toast.LENGTH_SHORT).show();
+        int id = view.getId();
+        Intent intent;
+
+        switch (id) {
+            case R.id.avatar:
+                intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_AVATAR_CODE);
+                break;
+            case R.id.cover:
+                intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_COVER_CODE);
+                break;
+            case R.id.name_partner:
+                break;
+            case R.id.num_follower:
+                break;
+            case R.id.btn_diary:
+                intent = new Intent(getBaseContext(), CalendarActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                break;
         }
-        else if(view == layout_cover) {
-            Toast.makeText(this, "Change cover", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == SELECT_AVATAR_CODE) {
+                Uri uri = data.getData();
+                try {
+                    FirebaseHelper.uploadImage(mUserBusiness.mUser.fid, "photo_url", convertUriToByteArray(uri),
+                            new FirebaseHelper.FirebaseUploadImagepDelegate() {
+                                @Override
+                                public void onUploadImageSuccess(String imageUrl) {
+                                    mUserBusiness.mUser.photo_url = imageUrl;
+                                    loadAvatar();
+                                }
+
+                                @Override
+                                public void onUploadImageFailed(String error) {
+
+                                }
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == SELECT_COVER_CODE) {
+                Uri uri = data.getData();
+                try {
+                    FirebaseHelper.uploadImage(mUserBusiness.mUser.fid, "cover_url", convertUriToByteArray(uri),
+                            new FirebaseHelper.FirebaseUploadImagepDelegate() {
+                                @Override
+                                public void onUploadImageSuccess(String imageUrl) {
+                                    mUserBusiness.mUser.cover_url = imageUrl;
+                                    loadCover();
+                                }
+
+                                @Override
+                                public void onUploadImageFailed(String error) {
+
+                                }
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     private void loadCover(){
-        new DownloadCoverImageAsyncTask().execute();
+        try {
+            new DownloadCoverImageAsyncTask().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadAvatar(){
-        new DownloadAvatarImageAsyncTask().execute();
+        try {
+            new DownloadAvatarImageAsyncTask().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadInfo(){
-        tv_name.setText(MyBundle.mUserBusiness.mUser.fullname);
-        tv_location.setText(MyBundle.mUserBusiness.mUser.location);
-        tv_birthday.setText(MyBundle.mUserBusiness.mUser.birthday);
-        tv_email.setText(MyBundle.mUserBusiness.mUser.email);
-        tv_interested.setText(MyBundle.mUserBusiness.mUser.email);
-        tv_bio.setText(MyBundle.mUserBusiness.mUser.bio);
+        tv_name.setText(mUserBusiness.mUser.fullname);
+        tv_location.setText(mUserBusiness.mUser.location);
+        tv_birthday.setText(mUserBusiness.mUser.birthday);
+        tv_email.setText(mUserBusiness.mUser.email);
+        tv_interested.setText(mUserBusiness.mUser.email);
+        tv_bio.setText(mUserBusiness.mUser.bio);
     }
 
     private void loadNumFollower(){
-        MyBundle.mUserBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
+        mUserBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
             @Override
             public void onComplete(UserBusiness.UserBusinessResult result) {
                 if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    tv_num_follower.setText(String.valueOf(MyBundle.mUserBusiness.mNum_followers));
+                    tv_num_follower.setText(String.valueOf(mUserBusiness.mNum_followers));
                 }
             }
         });
     }
 
     private void loadBeingLove() {
-        tv_first_date.setText(MyBundle.mUserBusiness.mRelationship.start_time);
-        tv_name_partner.setText(MyBundle.mUserBusiness.pUser.fullname);
+        tv_first_date.setText(mUserBusiness.mRelationship.start_time);
+        tv_name_partner.setText(mUserBusiness.pUser.fullname);
     }
 
     private void initializeDiary()
@@ -228,14 +295,21 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
                 new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
     }
 
+    private byte[] convertUriToByteArray(Uri uri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
     private class DownloadCoverImageAsyncTask extends AsyncTask<Void, Void, Bitmap>{
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                if (MyBundle.mUserBusiness.mUser.cover_url != null && !MyBundle.mUserBusiness.mUser.cover_url.equals("")){
-                    url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
+                if (mUserBusiness.mUser.cover_url != null && !mUserBusiness.mUser.cover_url.equals("")){
+                    url = new URL(mUserBusiness.mUser.cover_url);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                     return bmp;
                 }else {
@@ -267,8 +341,8 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         protected Bitmap doInBackground(Void... voids) {
             URL url = null;
             try {
-                if (MyBundle.mUserBusiness.mUser.photo_url != null && !MyBundle.mUserBusiness.mUser.photo_url.equals("")){
-                    url = new URL(MyBundle.mUserBusiness.mUser.cover_url);
+                if (mUserBusiness.mUser.photo_url != null && !mUserBusiness.mUser.photo_url.equals("")){
+                    url = new URL(mUserBusiness.mUser.photo_url);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                     return bmp;
                 }else {

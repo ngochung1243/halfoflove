@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -15,6 +17,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -235,10 +240,25 @@ public class FirebaseHelper {
      * @return
      */
 
-    static public String uploadImage() {
+    static public void uploadImage(final String fid, final String title, final byte[] data, final FirebaseUploadImagepDelegate uploadDelegate) {
 
-        // change return when operate code
-        return null;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child(title + "/" + fid + ".jpg");
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                uploadDelegate.onUploadImageFailed(exception.toString());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String downloadUrl = taskSnapshot.getDownloadUrl().toString();
+                changeInfoOfUser(fid, title, downloadUrl);
+                uploadDelegate.onUploadImageSuccess(downloadUrl);
+            }
+        });
     }
 
     /**
@@ -558,6 +578,11 @@ public class FirebaseHelper {
     public interface FirebaseRelationshipDelegate{
         void onFindRelationshipSuccess(Relationship relationship, User partner);
         void onFindRelationshipFailed(String error);
+    }
+
+    public interface FirebaseUploadImagepDelegate{
+        void onUploadImageSuccess(String imageUrl);
+        void onUploadImageFailed(String error);
     }
 
     public interface FirebaseHelperDelegate {
