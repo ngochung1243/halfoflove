@@ -8,54 +8,16 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Message" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29fb4cb2-9693-4ac6-b3e9-5d3e35b91f69" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/FollowingActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatMessageAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/SearchAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseAPIHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/ChatMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/MessageResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/MessageResponseResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/service/FirebaseHelperInstanceIdService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/service/FirebaseHelperMessagingService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_left.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_right.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cardview_seach.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.firebase/firebase-core/9.8.0/jars/classes.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.firebase/firebase-core/9.8.0/jars/classes.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatListTabActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatListTabActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/FriendTimelineActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/FriendTimelineActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SearchActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SearchActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SettingsTabActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SettingsTabActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/DiaryViewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/DiaryViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/AppEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/AppEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/DiaryContent.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/DiaryContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/User.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/actionbar_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/actionbar_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_timeline.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_timeline.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_search.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_search.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_timeline.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_timeline.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" />
     </list>
     <ignored path="halfoflove.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,9 +53,21 @@
       <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="278" column="16" selection-start-line="278" selection-start-column="16" selection-end-line="278" selection-end-column="16" />
+            <state relative-caret-position="116">
+              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimelineActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2487">
+              <caret line="216" column="41" selection-start-line="216" selection-start-column="41" selection-end-line="216" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,11 +75,21 @@
       <file leaf-file-name="FirebaseHelper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="758" column="51" selection-start-line="758" selection-start-column="51" selection-end-line="758" selection-end-column="51" />
+            <state relative-caret-position="-658">
+              <caret line="610" column="23" selection-start-line="610" selection-start-column="23" selection-end-line="610" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewFeedTabActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="57" column="68" selection-start-line="57" selection-start-column="68" selection-end-line="57" selection-end-column="68" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -136,71 +120,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider editor-type-id="android-manifest">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="37" column="54" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TimelineActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2116">
-              <caret line="366" column="74" selection-start-line="366" selection-start-column="74" selection-end-line="366" selection-end-column="74" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyBundle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/MyBundle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UserBusiness.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4403">
-              <caret line="305" column="12" selection-start-line="305" selection-start-column="12" selection-end-line="305" selection-end-column="12" />
+            <state relative-caret-position="102">
+              <caret line="256" column="28" selection-start-line="256" selection-start-column="28" selection-end-line="256" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirebaseHelperMessagingService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/service/FirebaseHelperMessagingService.java">
+      <file leaf-file-name="UserEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2397">
-              <caret line="141" column="13" selection-start-line="141" selection-start-column="13" selection-end-line="141" selection-end-column="13" />
+            <state relative-caret-position="102">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatListAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatListAdapter.java">
+      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1853">
-              <caret line="140" column="9" selection-start-line="111" selection-start-column="8" selection-end-line="140" selection-end-column="9" />
+            <state relative-caret-position="248">
+              <caret line="162" column="56" selection-start-line="162" selection-start-column="56" selection-end-line="162" selection-end-column="56" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1285#1286#0" expanded="false" />
-                <element signature="e#1328#1329#0" expanded="false" />
+                <element signature="e#5753#5754#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChatMessageAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatMessageAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="73" column="52" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -2206,7 +2163,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/ChatMessage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatListTabActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_left.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_right.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatMessageAdapter.java" />
@@ -2221,6 +2177,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_timeline.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java" />
       </list>
     </option>
   </component>
@@ -2330,6 +2287,28 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="halfoflove" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HalfOfLove" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="halfoflove" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2712,7 +2691,7 @@
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35494882" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35494882" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2794,18 +2773,11 @@
           <option name="timeStamp" value="152" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="153" />
+      <option name="time" value="154" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../Java/Software/android-sdks/sources/android-25/android/os/Looper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="122" column="23" selection-start-line="122" selection-start-column="23" selection-end-line="122" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../Java/Software/android-sdks/sources/android-25/android/os/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
@@ -2989,14 +2961,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-99">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="45" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../Java/Software/android-sdks/sources/android-25/android/os/AsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="116">
@@ -3034,6 +2998,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1717">
           <caret line="125" column="27" selection-start-line="125" selection-start-column="27" selection-end-line="125" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#810#826#0" expanded="false" />
+            <element signature="e#888#889#0" expanded="false" />
+            <element signature="e#928#929#0" expanded="false" />
+            <element signature="e#975#976#0" expanded="false" />
+            <element signature="e#1013#1014#0" expanded="false" />
+            <element signature="e#1799#1800#0" expanded="false" />
+            <element signature="e#1831#1832#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3075,13 +3049,6 @@
       </provider>
       <provider editor-type-id="android-designer2">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatMessageAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
@@ -3134,14 +3101,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="77" column="50" selection-start-line="77" selection-start-column="50" selection-end-line="77" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseAPIHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -3168,14 +3127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4403">
-          <caret line="305" column="12" selection-start-line="305" selection-start-column="12" selection-end-line="305" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1853">
@@ -3196,29 +3147,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="278" column="16" selection-start-line="278" selection-start-column="16" selection-end-line="278" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/MyBundle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2116">
-          <caret line="366" column="74" selection-start-line="366" selection-start-column="74" selection-end-line="366" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3255,10 +3188,70 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="57" column="68" selection-start-line="57" selection-start-column="68" selection-end-line="57" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/ChatMessageAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="73" column="52" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/ChatActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="162" column="56" selection-start-line="162" selection-start-column="56" selection-end-line="162" selection-end-column="56" />
+          <folding>
+            <element signature="e#5753#5754#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/TimelineActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2487">
+          <caret line="216" column="41" selection-start-line="216" selection-start-column="41" selection-end-line="216" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="256" column="28" selection-start-line="256" selection-start-column="28" selection-end-line="256" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/helper/FirebaseHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="758" column="51" selection-start-line="758" selection-start-column="51" selection-end-line="758" selection-end-column="51" />
+        <state relative-caret-position="-658">
+          <caret line="610" column="23" selection-start-line="610" selection-start-column="23" selection-end-line="610" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
