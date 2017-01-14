@@ -163,6 +163,9 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             if (requestCode == EditProfileActivity.REQUEST_CODE){
                 setMyLayout();
             }
+            if (requestCode == TimelineActivity.TIMELINE_CODE){
+                setMyLayout();
+            }
         }
     }
 
@@ -171,7 +174,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         if (v == mTimeline) {
             Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
+            getParent().startActivityForResult(intent, TimelineActivity.TIMELINE_CODE);
         }
         if (v == mTimelinePartner) {
             FriendTimelineActivity.userBusiness = MyBundle.pUserBusiness;
