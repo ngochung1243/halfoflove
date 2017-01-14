@@ -1,5 +1,10 @@
 package launamgoc.halfoflove.model;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.activity.ChatActivity;
 import launamgoc.halfoflove.activity.LoginActivity;
 import launamgoc.halfoflove.helper.FirebaseAPIHelper;
 import launamgoc.halfoflove.helper.FirebaseHelper;
