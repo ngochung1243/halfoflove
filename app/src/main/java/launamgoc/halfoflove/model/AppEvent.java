@@ -15,6 +15,7 @@ public class AppEvent {
     public String post_time;
     public String description;
     public String photo_url;
+    public String video_url;
 
     public AppEvent(){
         id = UUID.randomUUID().toString();
@@ -25,5 +26,6 @@ public class AppEvent {
         post_time = "";
         description = "";
         photo_url = "";
+        video_url = "";
     }
 }

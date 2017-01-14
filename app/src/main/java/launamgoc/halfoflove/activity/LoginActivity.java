@@ -26,13 +26,31 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.adapter.ChatListAdapter;
+import launamgoc.halfoflove.helper.FirebaseAPIHelper;
 import launamgoc.halfoflove.helper.FirebaseHelper;
+import launamgoc.halfoflove.model.Message;
+import launamgoc.halfoflove.model.MessageResponse;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+import static launamgoc.halfoflove.helper.FirebaseHelper.getToken;
 
 public class LoginActivity extends AppCompatActivity implements FirebaseHelper.FirebaseLoginHelperDelegate {
 
@@ -113,6 +131,10 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                 }
 
                 FirebaseHelper.loginWithUser(email,password);
+
+//                TestGetToken();
+
+                //TestSendPostAPI();
             }
         });
         FirebaseHelper.loginDelegate = this;
@@ -136,6 +158,52 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                 startRegisterActivity();
             }
         });
+    }
+
+    private void TestGetToken(){
+        String token = FirebaseHelper.getToken();
+        Toast.makeText(LoginActivity.this, "Token: ["+token+"]", Toast.LENGTH_SHORT).show();
+        Log.d("FirebaseToken","Token: ["+token+"]");
+    }
+
+    private void TestSendPostAPI(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://fcm.googleapis.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FirebaseAPIHelper apiHelper = retrofit.create(FirebaseAPIHelper.class);
+        Message testMessage = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("userID", "123456789");
+        data.put("kind", "message");
+        data.put("message", "hung dep trai");
+
+        testMessage.setData(data);
+        testMessage.setTo("chtmjx4Hiuk:APA91bGxdHe5NDhmfGRl-TaBq3u2bKsNuqTaRYTn_PIUnhxCvdte-7Cjl-8Ed9h9GYZuL-whGabzsQAEBtpv4D_QfTiaM9oflD9T4-KCs8Ym_NPoObkAS7KNhKz4uKVpgtPBhGI3l5aP");
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(testMessage);
+        try {
+            JSONObject json = new JSONObject(jsonString);
+            Log.d("json", jsonString);
+
+            String test = "{to : chtmjx4Hiuk:APA91bGxdHe5NDhmfGRl-TaBq3u2bKsNuqTaRYTn_PIUnhxCvdte-7Cjl-8Ed9h9GYZuL-whGabzsQAEBtpv4D_QfTiaM9oflD9T4-KCs8Ym_NPoObkAS7KNhKz4uKVpgtPBhGI3l5aP}";
+            Call<MessageResponse> call =apiHelper.sendMessage(testMessage);
+            call.enqueue(new Callback<MessageResponse>() {
+                @Override
+                public void onResponse(Response<MessageResponse> response, Retrofit retrofit) {
+                    Log.d("Respone", response.toString());
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    int a = 0;
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -181,6 +249,16 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
         startActivity(intent);
     }
 
+    private void testChatMessage(){
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
+
+    private void testChatList(){
+        Intent intent = new Intent(this, ChatListTabActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onLoginSuccess(final User user) {
         hd.post(new Runnable() {
@@ -197,7 +275,10 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 //                    }
 //                });
 
+                MyBundle.mUserBusiness.getToken();
                 startMainActivity();
+//                testChatMessage();
+//                testChatList();
             }
         });
     }

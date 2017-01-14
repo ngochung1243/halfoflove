@@ -89,7 +89,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 MyBundle.mUserBusiness.mUser.allow_see_timeline = b;
-                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid, "allow_see_timeline", String.valueOf(MyBundle.mUserBusiness.mUser.allow_see_timeline));
+                FirebaseHelper.changeInfoOfUser(MyBundle.mUserBusiness.mUser.fid, "allow_see_timeline", MyBundle.mUserBusiness.mUser.allow_see_timeline);
             }
         });
 
@@ -174,6 +174,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             startActivity(intent);
         }
         if (v == mTimelinePartner) {
+            FriendTimelineActivity.userBusiness = MyBundle.pUserBusiness;
             Intent intent = new Intent(getBaseContext(), FriendTimelineActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);

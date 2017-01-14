@@ -20,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +30,20 @@ import java.util.List;
 import java.util.Map;
 
 import launamgoc.halfoflove.model.AppEvent;
+import launamgoc.halfoflove.model.ChatMessage;
 import launamgoc.halfoflove.model.Follow;
+import launamgoc.halfoflove.model.Message;
+import launamgoc.halfoflove.model.MessageResponse;
 import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserEvent;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+import static android.R.attr.key;
 
 /**
  * Created by Admin on 11/21/2016.
@@ -56,6 +69,12 @@ public class FirebaseHelper {
 
     static public FirebaseHelperDelegate delegate;
     static public FirebaseLoginHelperDelegate loginDelegate;
+
+    static private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://fcm.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    static private FirebaseAPIHelper apiHelper = retrofit.create(FirebaseAPIHelper.class);
 
     /**
      * Create new User with email and password
@@ -310,13 +329,60 @@ public class FirebaseHelper {
                     }
                     eventDelegate.onFindEventSuccess(events);
                 }else {
-                    eventDelegate.onFindEventSuccess(null);
+                    eventDelegate.onFindEventSuccess(new ArrayList<UserEvent>());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 eventDelegate.onFindEventFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+
+    static public void findUserByName(final String fullname, final FirebaseFindUserDelegate findUserDelegate){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("users");
+        Query query_event = mapsrefrence.orderByChild("fullname").equalTo(fullname);
+        query_event.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<User> users = new ArrayList<User>();
+                Map snapshot = (Map)dataSnapshot.getValue();
+                if (snapshot != null){
+                    for (int i = 0; i < snapshot.size();i ++){
+                        final User user = new User();
+                        user.fid = (String)snapshot.keySet().toArray()[i];
+                        Map value = (Map)snapshot.get(user.fid);
+                        user.allow_find = (Boolean)value.get("allow_find");
+                        if(user.allow_find){
+                            user.fullname = (String)value.get("fullname");
+                            user.birthday = (String)value.get("birthday");
+                            user.photo_url = (String)value.get("photo_url");
+                            user.cover_url = (String)value.get("cover_url");
+                            user.gender = (String)value.get("gender");
+                            user.location = (String)value.get("location");
+                            user.mobile = (String)value.get("mobile");
+                            user.email = (String)value.get("email");
+                            user.hobby = (String)value.get("hobby");
+                            user.bio = (String)value.get("bio");
+                            user.mood = (String)value.get("mood");
+                            user.interested = (String)value.get("interested");
+                            user.allow_see_timeline = (Boolean)value.get("allow_see_timeline");
+                            users.add(user);
+                        }
+
+                    }
+                    findUserDelegate.onFindUserByNameSuccess(users);
+                }else {
+                    findUserDelegate.onFindUserByNameSuccess(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                findUserDelegate.onFindUserFailed();
             }
         });
     }
@@ -502,12 +568,20 @@ public class FirebaseHelper {
                 Map snapshot = (HashMap)dataSnapshot.getValue();
                 if (snapshot != null){
                     final List<User>follow_users = new ArrayList<User>();
+                    final List<Follow> followings = new ArrayList<Follow>();
                     followDelegate.onFindNumFollowing(snapshot.size());
 
                     for (int i = 0; i < snapshot.size(); i ++){
+                        Follow follow = new Follow();
                         String key = snapshot.keySet().toArray()[i].toString();
+                        follow.id = key;
                         Map value = (Map) snapshot.get(key);
                         String id_following =  (String)value.get("id_following");
+                        follow.id_following = id_following;
+                        follow.id_follower = (String)value.get("id_follower");
+
+                        followings.add(follow);
+
                         findUser(id_following, new FirebaseUserDelegate() {
                             @Override
                             public void onFindUserSuccess(User user) {
@@ -519,6 +593,9 @@ public class FirebaseHelper {
                             }
                         });
                     }
+
+                    followDelegate.onFindFollowingObjectSuccess(followings);
+
                 }else {
                     followDelegate.onFindFollowingFailed("Can't find anything");
                 }
@@ -531,13 +608,105 @@ public class FirebaseHelper {
         });
     }
 
+    static public void getChatMessage(final String userId, final FirebaseChatMessageDelegate chatMessageDelegate){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mapsrefrence = database.getReference().child("chat_message");
+
+        final Query query_chat_sender = mapsrefrence.orderByChild("id_sender").equalTo(userId);
+        query_chat_sender.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                final List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
+                Map snapshot = (Map)dataSnapshot.getValue();
+                if (snapshot != null){
+                    for (int i = 0; i < snapshot.size();i ++){
+                        final ChatMessage chatMessage = new ChatMessage();
+                        chatMessage.id = (String)snapshot.keySet().toArray()[i];
+                        Map value = (Map)snapshot.get(chatMessage.id);
+                        chatMessage.id_sender = (String)value.get("id_sender");
+                        chatMessage.id_receiver = (String)value.get("id_receiver");
+                        chatMessage.id_receiver = (String)value.get("id_receiver");
+                        chatMessage.name_sender = (String)value.get("name_sender");
+                        chatMessage.name_receiver = (String)value.get("name_receiver");
+                        chatMessage.message = (String)value.get("message");
+                        chatMessage.datetime = (String)value.get("datetime");
+                        chatMessages.add(chatMessage);
+                    }
+
+                }
+                    Query query_chat_receiver = mapsrefrence.orderByChild("id_receiver").equalTo(userId);
+                    query_chat_receiver.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(final DataSnapshot dataSnapshot) {
+
+                            Map snapshot = (Map)dataSnapshot.getValue();
+                            if (snapshot != null) {
+                                for (int i = 0; i < snapshot.size(); i++) {
+                                    final ChatMessage chatMessage = new ChatMessage();
+                                    chatMessage.id = (String) snapshot.keySet().toArray()[i];
+                                    Map value = (Map) snapshot.get(chatMessage.id);
+                                    chatMessage.id_sender = (String) value.get("id_sender");
+                                    chatMessage.id_receiver = (String) value.get("id_receiver");
+                                    chatMessage.id_receiver = (String) value.get("id_receiver");
+                                    chatMessage.name_sender = (String) value.get("name_sender");
+                                    chatMessage.name_receiver = (String) value.get("name_receiver");
+                                    chatMessage.message = (String) value.get("message");
+                                    chatMessage.datetime = (String) value.get("datetime");
+                                    chatMessages.add(chatMessage);
+                                }
+                            }
+
+                            chatMessageDelegate.onFindChatMessageSuccess(chatMessages);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            chatMessageDelegate.onFindUserMessageFailed(databaseError.getMessage());
+                        }
+                    });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                chatMessageDelegate.onFindUserMessageFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+    static public String getToken() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        return token;
+    }
+
+    static public void sendRequestRelationshipToUser(User user_to){
+
+    }
+
+    static public void createNewChatMessageInDb(ChatMessage chatMessage){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("chat_message");
+        mapsrefrence.child(chatMessage.id).setValue(chatMessage);
+    }
+
     /**
      * Chat with another User (add necessary parameter)
      *
      * @return
      */
-    static public boolean chatToUser() {
+    static public boolean sendMessage(Message message, final FirebaseSendMessageDelegate sendMessageDelegate) {
+        Call<MessageResponse> call = apiHelper.sendMessage(message);
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Response<MessageResponse> response, Retrofit retrofit) {
+                Log.d("Respone", response.toString());
+                sendMessageDelegate.onSendMessageSuccess();
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+                sendMessageDelegate.onSendMessageFailed();
+            }
+        });
         // change return when operate code
         return true;
     }
@@ -558,6 +727,11 @@ public class FirebaseHelper {
         void onFindUserFailed();
     }
 
+    public interface FirebaseFindUserDelegate{
+        void onFindUserByNameSuccess(List<User> users);
+        void onFindUserFailed();
+    }
+
     public interface FirebaseEventDelegate{
         void onFindEventSuccess(List<UserEvent>events);
         void onFindEventFailed(String error);
@@ -571,6 +745,7 @@ public class FirebaseHelper {
 
     public interface FirebaseFollowingDelegate {
         void onFindNumFollowing(int num_follower);
+        void onFindFollowingObjectSuccess(List<Follow> followings);
         void onFindFollowingSuccess(User user);
         void onFindFollowingFailed(String error);
     }
@@ -580,9 +755,25 @@ public class FirebaseHelper {
         void onFindRelationshipFailed(String error);
     }
 
-    public interface FirebaseUploadImagepDelegate{
+    public interface FirebaseUploadImagepDelegate {
         void onUploadImageSuccess(String imageUrl);
+
         void onUploadImageFailed(String error);
+    }
+
+    public interface FirebaseChatMessageDelegate{
+        void onFindChatMessageSuccess(List<ChatMessage> chatMessages);
+        void onFindUserMessageFailed(String error);
+    }
+
+    public interface FirebaseCreateNewChatMessageDelegate{
+        void onCreateNewChatMessageSuccess();
+        void onCreateNewChatMessageFailed();
+    }
+
+    public interface FirebaseSendMessageDelegate{
+        void onSendMessageSuccess();
+        void onSendMessageFailed();
     }
 
     public interface FirebaseHelperDelegate {
