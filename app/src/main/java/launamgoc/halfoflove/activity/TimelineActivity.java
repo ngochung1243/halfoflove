@@ -35,16 +35,10 @@ import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.DiaryViewAdapter;
 import launamgoc.halfoflove.helper.FirebaseHelper;
-import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.DiaryContent;
 import launamgoc.halfoflove.model.MyBundle;
-import launamgoc.halfoflove.model.NewFeedElement;
-import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
-import launamgoc.halfoflove.helper.FirebaseHelper;
-import launamgoc.halfoflove.model.UserEvent;
-import retrofit.http.HEAD;
 
 import static launamgoc.halfoflove.R.id.num_follower;
 import static launamgoc.halfoflove.model.MyBundle.mUserBusiness;
@@ -57,6 +51,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
     private static int SELECT_AVATAR_CODE = 100;
     private static int SELECT_COVER_CODE = 101;
+    public static int TIMELINE_CODE = 103;
 
     @BindView(R.id.avatar)
     ImageView iv_avatar;
@@ -129,6 +124,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(1);
                 finish();
             }
         });
@@ -296,12 +292,6 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
     private void initializeDiary()
     {
-//        adapter.addItem(listView.size(),
-//                new DiaryContent(R.drawable.ava, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new DiaryContent(0, R.raw.video, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
-//        adapter.addItem(listView.size(),
-//                new DiaryContent(0, 0, "17 August 2016", "Cuộc đời là những cuộc chơi.", listView.size()));
         adapter.clear();
         MyBundle.mUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
             @Override
