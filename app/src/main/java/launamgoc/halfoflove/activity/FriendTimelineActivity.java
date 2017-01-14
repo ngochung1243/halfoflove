@@ -31,6 +31,7 @@ import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.DiaryViewAdapter;
 import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.DiaryContent;
+import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
@@ -121,6 +122,38 @@ public class FriendTimelineActivity extends AppCompatActivity {
                         startActivity(i_Following);
                     }
                 });
+            }
+        });
+
+        btn_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //lấy danh sách theo dõi
+                List<User> lwFollower = MyBundle.mUserBusiness.mFollowers;
+                int Dem = 0;
+                for (int i = 0; i < lwFollower.size(); i++) {
+                    Dem++;
+                    if (userBusiness.mUser.fid.equals(lwFollower.get(i).fid)) {
+                        String id = "";
+                        for (int j = 0; j < MyBundle.mUserBusiness.following_objects.size(); j++) {
+                            if (MyBundle.mUserBusiness.following_objects.get(j).id_follower.equals(userBusiness.mUser.fid)) {
+                                id = MyBundle.mUserBusiness.following_objects.get(j).id;
+                            }
+                        }
+                        Dem = 0;
+                        MyBundle.mUserBusiness.removeFollow(id);
+                        btn_follow.setText("FOLLOW");
+                        break;
+                    }
+                }
+                if (Dem != 0 || lwFollower.size() == 0) {
+                    Follow mFollow = new Follow();
+                    mFollow.id_following = MyBundle.mUserBusiness.mUser.fid;
+                    mFollow.id_follower = userBusiness.mUser.fid;
+                    MyBundle.mUserBusiness.addFollow(mFollow);
+                    btn_follow.setText("UNFOLLOW");
+                }
             }
         });
     }
@@ -218,7 +251,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void startChatActivity(){
+    private void startChatActivity() {
         ChatActivity.targetUser = userBusiness.mUser;
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
@@ -251,20 +284,26 @@ public class FriendTimelineActivity extends AppCompatActivity {
             }
         });
     }
+
     private void processFollowButton() {
-        List<User> lwFollowing = MyBundle.mUserBusiness.mFollowings;
-        for (int i = 0; i < lwFollowing.size(); i++) {
-            if (userBusiness.mUser.fid == lwFollowing.get(i).fid && userBusiness.mUser.fid == MyBundle.mUserBusiness.pUser.fid) {
+        List<User> lwFollower = MyBundle.mUserBusiness.mFollowers;
+        int Dem = 0;
+        for (int i = 0; i < lwFollower.size(); i++) {
+            Dem++;
+            if (userBusiness.mUser.fid.equals(lwFollower.get(i).fid) && MyBundle.pUserBusiness.mUser.fid.equals(lwFollower.get(i).fid)) {
+                Dem = 0;
                 btn_follow.setVisibility(View.INVISIBLE);
-                return;
+                break;
             } else {
-                if ((userBusiness.mUser.fid == lwFollowing.get(i).fid && userBusiness.mUser.fid != MyBundle.mUserBusiness.pUser.fid)) {
+                if (userBusiness.mUser.fid.equals(lwFollower.get(i).fid) && !MyBundle.pUserBusiness.mUser.fid.equals(lwFollower.get(i).fid)) {
+                    Dem = 0;
                     btn_follow.setText("UNFOLLOW");
-                    return;
-                } else {
-                    btn_follow.setText("FOLLOW");
+                    break;
                 }
             }
+        }
+        if (Dem != 0 || lwFollower.size() == 0) {
+            btn_follow.setText("FOLLOW");
         }
     }
 

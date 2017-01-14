@@ -104,6 +104,22 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         loadNumFollower();
 
         loadBeingLove();
+
+        tv_num_follower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FollowingActivity.listView = MyBundle.mUserBusiness.mFollowers;
+
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i_Following = new Intent(TimelineActivity.this, FollowingActivity.class);
+                        startActivity(i_Following);
+                    }
+                });
+            }
+        });
     }
 
     private void setActionBar(){
