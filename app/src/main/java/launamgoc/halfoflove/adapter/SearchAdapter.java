@@ -63,6 +63,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         notifyItemInserted(position);
     }
 
+    public void setListView(List<User> users){
+        listView = users;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {

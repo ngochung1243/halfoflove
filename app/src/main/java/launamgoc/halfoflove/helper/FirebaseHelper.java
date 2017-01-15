@@ -223,7 +223,7 @@ public class FirebaseHelper {
         mapsrefrence.child(changedValue).setValue(changedData);
     }
 
-    static public void getAllUser(){
+    static public void getAllUser(final FirebaseGetAllUserDelegate getAllUserDelegate){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mapsrefrence = database.getReference().child("users");
         mapsrefrence.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -235,16 +235,37 @@ public class FirebaseHelper {
                     snapshot.keySet();
                     for (Object entry : snapshot.entrySet())
                     {
-                        Entry<String, Map<String, String>> entry1 = (Entry<String, Map<String, String>>)entry;
-                        Map<String, String> user_map = entry1.getValue();
-                        String test = user_map.get("email");
+                        Entry<String, Map<String, Object>> entry1 = (Entry<String, Map<String, Object>>)entry;
+                        Map<String, Object> user_map = entry1.getValue();
+                        User user = new User();
+                        user.fid = (String)user_map.get("fid");
+                        user.fullname = (String)user_map.get("fullname");
+                        user.birthday = (String)user_map.get("birthday");
+                        user.bio = (String)user_map.get("bio");
+                        user.hobby = (String)user_map.get("hobby");
+                        user.mobile = (String)user_map.get("mobile");
+                        user.email = (String)user_map.get("email");
+                        user.gender = (String)user_map.get("gender");
+                        user.interested = (String)user_map.get("interested");
+                        user.allow_find = (boolean)user_map.get("allow_find");
+                        user.allow_see_timeline = (boolean)user_map.get("allow_see_timeline");
+                        user.photo_url = (String)user_map.get("photo_url");
+                        user.cover_url = (String)user_map.get("cover_url");
+                        user.mood = (String)user_map.get("mood");
+                        user.location = (String)user_map.get("location");
+                        user.token = (String)user_map.get("token");
+
+                        users.add(user);
                     }
+
+                    getAllUserDelegate.onGetAllUserSuccess(users);
+
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                getAllUserDelegate.onGetAllUserFailed();
             }
         });
     }
@@ -754,6 +775,11 @@ public class FirebaseHelper {
         void onFindUserSuccess(User user);
 
         void onFindUserFailed();
+    }
+
+    public interface FirebaseGetAllUserDelegate{
+        void onGetAllUserSuccess(List<User> users);
+        void onGetAllUserFailed();
     }
 
     public interface FirebaseFindUserDelegate{

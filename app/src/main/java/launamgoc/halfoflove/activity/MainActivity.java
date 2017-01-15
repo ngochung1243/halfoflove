@@ -3,6 +3,7 @@ package launamgoc.halfoflove.activity;
 import android.annotation.TargetApi;
 import android.app.LocalActivityManager;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
     public static LocalActivityManager mLocalActivityManager;
+    FrameLayout frameLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
         tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(mLocalActivityManager);
 
+        frameLayout = (FrameLayout)findViewById(R.id.search_placeholder);
+
         setTabs();
         setActionBar();
-        setSearchFragment();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setCustomView(R.layout.actionbar_main);
 
         final EditText ed_Search = (EditText) findViewById(R.id.ab_et_search);
+        final ImageButton btnBack = (ImageButton)findViewById(R.id.ab_btn_back);
+
+        ed_Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnBack.setVisibility(View.VISIBLE);
+                setSearchFragment();
+            }
+        });
+
         ImageView im_Seach = (ImageView) findViewById(R.id.im_Seach);
         im_Seach.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +106,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnBack.setVisibility(View.GONE);
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void setSearchFragment(){
+
+        frameLayout.setVisibility(View.VISIBLE);
+
         // Begin the transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 // Replace the contents of the container with the new fragment

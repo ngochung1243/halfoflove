@@ -60,6 +60,16 @@ public class SearchFragment extends Fragment {
     }
 
     private void getAllUsers(){
-        FirebaseHelper.getAllUser();
+        FirebaseHelper.getAllUser(new FirebaseHelper.FirebaseGetAllUserDelegate() {
+            @Override
+            public void onGetAllUserSuccess(List<User> users) {
+                adapter.setListView(users);
+            }
+
+            @Override
+            public void onGetAllUserFailed() {
+
+            }
+        });
     }
 }
