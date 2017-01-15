@@ -198,7 +198,16 @@ public class FriendTimelineActivity extends AppCompatActivity {
         tv_num_follower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FollowingActivity.listView = MyBundle.mUserBusiness.mFollowers;
 
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i_Following = new Intent(FriendTimelineActivity.this, FollowingActivity.class);
+                        startActivity(i_Following);
+                    }
+                });
             }
         });
 
@@ -286,24 +295,17 @@ public class FriendTimelineActivity extends AppCompatActivity {
     }
 
     private void processFollowButton() {
-        List<User> lwFollower = MyBundle.mUserBusiness.mFollowers;
-        int Dem = 0;
-        for (int i = 0; i < lwFollower.size(); i++) {
-            Dem++;
-            if (userBusiness.mUser.fid.equals(lwFollower.get(i).fid) && MyBundle.pUserBusiness.mUser.fid.equals(lwFollower.get(i).fid)) {
-                Dem = 0;
+        List<User> lwFollowing = MyBundle.mUserBusiness.mFollowings;
+        for (int i = 0; i < lwFollowing.size(); i++) {
+            if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid) && MyBundle.pUserBusiness.mUser.fid.equals(userBusiness.mUser.fid)) {
                 btn_follow.setVisibility(View.INVISIBLE);
                 break;
             } else {
-                if (userBusiness.mUser.fid.equals(lwFollower.get(i).fid) && !MyBundle.pUserBusiness.mUser.fid.equals(lwFollower.get(i).fid)) {
-                    Dem = 0;
+                if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid) && !MyBundle.pUserBusiness.mUser.fid.equals(userBusiness.mUser.fid)) {
                     btn_follow.setText("UNFOLLOW");
                     break;
                 }
             }
-        }
-        if (Dem != 0 || lwFollower.size() == 0) {
-            btn_follow.setText("FOLLOW");
         }
     }
 
