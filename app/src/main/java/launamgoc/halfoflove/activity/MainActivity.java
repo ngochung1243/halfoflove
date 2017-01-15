@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TabHost;
 import java.util.List;
 
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.fragment.SearchFragment;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTabs();
         setActionBar();
+        setSearchFragment();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -89,6 +92,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setSearchFragment(){
+        // Begin the transaction
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+// Replace the contents of the container with the new fragment
+        ft.replace(R.id.search_placeholder, new SearchFragment());
+// or ft.add(R.id.your_placeholder, new FooFragment());
+// Complete the changes added above
+        ft.commit();
     }
 
     @Override

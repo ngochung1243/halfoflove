@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import launamgoc.halfoflove.model.AppEvent;
 import launamgoc.halfoflove.model.ChatMessage;
@@ -220,6 +222,33 @@ public class FirebaseHelper {
         DatabaseReference mapsrefrence = database.getReference().child("users").child(fid);
         mapsrefrence.child(changedValue).setValue(changedData);
     }
+
+    static public void getAllUser(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mapsrefrence = database.getReference().child("users");
+        mapsrefrence.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    List<User> users = new ArrayList<User>();
+                    Map snapshot = (Map)dataSnapshot.getValue();
+                    snapshot.keySet();
+                    for (Object entry : snapshot.entrySet())
+                    {
+                        Entry<String, Map<String, String>> entry1 = (Entry<String, Map<String, String>>)entry;
+                        Map<String, String> user_map = entry1.getValue();
+                        String test = user_map.get("email");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     /**
      * Find an User (add necessary parameter)
