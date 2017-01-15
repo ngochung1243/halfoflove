@@ -18,6 +18,11 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,10 +51,14 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
     @BindView(R.id.layout_relationship_setting)
     LinearLayout mRelaSet;
 
+    @BindView(R.id.tv_daytogether)
+    TextView tv_daytogether;
     @BindView(R.id.tv_name)
     TextView tv_name;
     @BindView(R.id.tv_name_partner)
     TextView tv_name_partner;
+    @BindView(R.id.ll_been_together)
+    LinearLayout ll_been_together;
 
     @BindView(R.id.iv_avatar)
     ImageView iv_avatar;
@@ -119,6 +128,29 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
         new DownloadPartnerAvatarImageAsyncTask().execute();
     }
 
+    void setDayTogether() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        Date startTime = null;
+        Date currentTime = null;
+        try {
+            startTime = dateFormat.parse(MyBundle.mUserBusiness.mRelationship.start_time);
+            currentTime = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar date1 = Calendar.getInstance();
+        date1.setTime(startTime);
+        Calendar date2 = Calendar.getInstance();
+        date2.setTime(currentTime);
+
+        long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
+        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        tv_daytogether.setText(String.valueOf((int) dayCount));
+    }
+
     private void loadRelationship(){
         MyBundle.mUserBusiness.getRelationShip(new UserBusiness.UserBusinessListener() {
             @Override
@@ -129,7 +161,9 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
                         @Override
                         public void run() {
                             cardview_partner.setVisibility(View.VISIBLE);
+                            ll_been_together.setVisibility(View.VISIBLE);
                             setPartnerLayout();
+                            setDayTogether();
 
                             MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
                             MyBundle.pUserBusiness.pUser = MyBundle.mUserBusiness.mUser;
@@ -140,6 +174,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
                     hd.post(new Runnable() {
                         @Override
                         public void run() {
+                            ll_been_together.setVisibility(View.GONE);
                             cardview_partner.setVisibility(View.GONE);
                         }
                     });
