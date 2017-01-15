@@ -153,6 +153,7 @@
                 android:orientation="vertical" >
 
                 <LinearLayout
+                    android:id="@+id/ll_been_together"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -169,15 +170,29 @@
                         android:textSize="15sp"
                         android:textStyle="bold|italic"/>
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="200 DAYS"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="15sp"
-                        android:textStyle="bold|italic"/>
+                        android:layout_height="wrap_content">
 
+                        <TextView
+                            android:id="@+id/tv_daytogether"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="15sp"
+                            android:textStyle="bold|italic"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="DAYS"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="15sp"
+                            android:textStyle="bold|italic"
+                            android:layout_toRightOf="@id/tv_daytogether"/>
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -187,7 +202,9 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -218,7 +235,8 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:layout_marginBottom="15dp" >
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp" >
 
                     <ImageView
                         android:layout_width="30dp"
@@ -246,7 +264,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="15dp" >
 
                     <ImageView
                         android:layout_width="30dp"
@@ -268,7 +287,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_marginLeft="15dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -291,7 +311,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_marginLeft="15dp">
 
                     <TextView
                         android:layout_width="0dp"
