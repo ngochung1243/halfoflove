@@ -68,9 +68,10 @@
                 android:id="@+id/text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" from"
-                android:textSize="13dp"
-                android:layout_marginTop="7dp"
+                android:text="from"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="3dp"
                 android:textStyle="italic"
                 android:layout_toRightOf="@+id/relationship"/>
 
@@ -78,12 +79,12 @@
                 android:id="@+id/first_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 08/10/2016"
-                android:textSize="13dp"
+                android:text="08/10/2016"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="3dp"
                 android:textStyle="italic"
-                android:layout_alignTop="@+id/relationship"
-                android:layout_toRightOf="@+id/text2"
-                android:layout_toEndOf="@+id/text2" />
+                android:layout_toRightOf="@+id/text2" />
 
         </RelativeLayout>
 
