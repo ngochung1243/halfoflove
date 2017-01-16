@@ -22,6 +22,7 @@ import java.net.URL;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
@@ -109,6 +110,9 @@ public class RelationshipPreviewActivity extends AppCompatActivity {
 
     private void acceptRequest(){
         MyBundle.mUserBusiness.setRelationship(relationship);
+
+        addFollow();
+
         MyBundle.mUserBusiness.sendRelationshipAcceptance(sendRequestUser);
         setResult(1);
         finish();
@@ -118,6 +122,19 @@ public class RelationshipPreviewActivity extends AppCompatActivity {
         MyBundle.mUserBusiness.sendRelationshipDenial(sendRequestUser);
         setResult(1);
         finish();
+    }
+
+    private void addFollow(){
+        Follow newFollow1= new Follow();
+        newFollow1.id_follower = MyBundle.mUserBusiness.mUser.fid;
+        newFollow1.id_following = sendRequestUser.fid;
+
+        Follow newFollow2= new Follow();
+        newFollow2.id_following = MyBundle.mUserBusiness.mUser.fid;
+        newFollow2.id_follower = sendRequestUser.fid;
+
+        MyBundle.mUserBusiness.addFollow(newFollow1);
+        MyBundle.mUserBusiness.addFollow(newFollow2);
     }
 
     private class DownloadCoverImageAsyncTask extends AsyncTask<Void, Void, Bitmap> {

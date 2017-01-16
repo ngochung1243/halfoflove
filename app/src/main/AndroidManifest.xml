@@ -31,7 +31,8 @@
         <activity android:name=".activity.RelationshipActivity" />
         <activity android:name=".activity.RenewPasswordActivity" />
         <activity android:name=".activity.FriendTimelineActivity" />
-        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.ChatActivity"
+            android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.CalendarActivity" />
         <activity android:name=".activity.UpdateEventActivity" />
         <activity android:name=".activity.EventInformationActivity" />
