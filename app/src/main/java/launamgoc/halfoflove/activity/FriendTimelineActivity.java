@@ -302,7 +302,7 @@ public class FriendTimelineActivity extends AppCompatActivity {
         List<User> lwFollowing = MyBundle.mUserBusiness.mFollowings;
         for (int i = 0; i < lwFollowing.size(); i++) {
             if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid) && MyBundle.pUserBusiness.mUser.fid.equals(userBusiness.mUser.fid)) {
-                btn_follow.setVisibility(View.INVISIBLE);
+                btn_follow.setVisibility(View.GONE);
                 break;
             } else {
                 if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid) && !MyBundle.pUserBusiness.mUser.fid.equals(userBusiness.mUser.fid)) {
