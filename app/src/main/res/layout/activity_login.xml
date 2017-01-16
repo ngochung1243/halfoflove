@@ -4,19 +4,20 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="75dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:background="#000000" />
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_app" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:text="FIND A PART OF HEART"
-        android:textSize="15sp" />
+        android:text="HALF OF LOVE"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,14 +37,14 @@
             android:textStyle="normal" />
 
         <Button
+            android:id="@+id/btnSignInGG"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
             android:text="@string/signinwithGG"
             android:textAllCaps="false"
-            android:textStyle="normal"
-            android:id="@+id/btnSignInGG" />
+            android:textStyle="normal" />
     </LinearLayout>
 
     <TextView
@@ -76,8 +77,8 @@
         android:drawableLeft="@drawable/password"
         android:drawablePadding="10dp"
         android:hint="@string/password"
-        android:padding="10dp"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:padding="10dp" />
 
     <Button
         android:id="@+id/btnLogin"
