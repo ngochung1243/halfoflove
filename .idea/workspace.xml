@@ -11,20 +11,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29fb4cb2-9693-4ac6-b3e9-5d3e35b91f69" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/FriendTimelineActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/FriendTimelineActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SplashScreenActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SplashScreenActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/NewFeedAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/NewFeedAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java" afterPath="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_app.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/actionbar_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/actionbar_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_timeline.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_timeline.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_relationship.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_relationship.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splashscreen.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splashscreen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_timeline.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_timeline.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_left.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_left.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_right.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cardview_chat_message_right.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/toast_notification.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/toast_notification.xml" />
     </list>
     <ignored path="halfoflove.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,8 +73,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="117" column="23" selection-start-line="117" selection-start-column="23" selection-end-line="117" selection-end-column="23" />
+            <state relative-caret-position="64">
+              <caret line="110" column="23" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -149,7 +146,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SplashScreenActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SplashScreenActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SplashScreenActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
@@ -162,14 +159,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tablelayout_settings.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tablelayout_settings.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml">
           <provider editor-type-id="android-designer2">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="166" column="35" selection-start-line="166" selection-start-column="35" selection-end-line="166" selection-end-column="35" />
+            <state relative-caret-position="863">
+              <caret line="165" column="42" selection-start-line="165" selection-start-column="42" selection-end-line="165" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -2189,8 +2186,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/NewFeedTabActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/adapter/NewFeedAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/model/UserBusiness.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SplashScreenActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml" />
       </list>
     </option>
   </component>
@@ -2766,7 +2763,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28854963" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28854963" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -3248,8 +3245,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="117" column="23" selection-start-line="117" selection-start-column="23" selection-end-line="117" selection-end-column="23" />
+        <state relative-caret-position="64">
+          <caret line="110" column="23" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -3276,17 +3273,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="166" column="35" selection-start-line="166" selection-start-column="35" selection-end-line="166" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/launamgoc/halfoflove/activity/SettingsTabActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -3303,6 +3289,17 @@
             <element signature="e#2240#2241#0" expanded="true" />
             <element signature="e#2264#2265#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tablelayout_settings.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="863">
+          <caret line="165" column="42" selection-start-line="165" selection-start-column="42" selection-end-line="165" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>

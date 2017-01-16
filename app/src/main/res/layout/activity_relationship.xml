@@ -1,145 +1,137 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:text="Relationship"
         android:textSize="25dp" />
 
 
     <Spinner
         android:id="@+id/spnRelatioship"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </Spinner>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="30dp"></Spinner>
 
     <LinearLayout
         android:id="@+id/lnLayoutSetRelationship"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/edtSearchName"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:hint="Enter a name" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:hint="Enter a name"
+                android:textSize="15dp" />
 
             <ImageButton
                 android:id="@+id/btnSearchName"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_search"
-                android:layout_gravity="center"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search" />
 
         </LinearLayout>
 
-        <include layout="@layout/cardview_seach"
+        <include
             android:id="@+id/cardviewSearch"
-            android:visibility="gone"
-            />
+            layout="@layout/cardview_seach"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Anniversary: "
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
+                android:text="Anniversary: "
                 android:textSize="15dp"
-                android:layout_marginLeft="12dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
 
             <Spinner
                 android:id="@+id/spnYear"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-            </Spinner>
+                android:layout_height="match_parent"></Spinner>
 
             <Spinner
                 android:id="@+id/spnMonth"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-            </Spinner>
+                android:layout_height="match_parent"></Spinner>
 
             <Spinner
                 android:id="@+id/spnDay"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-            </Spinner>
+                android:layout_height="match_parent"></Spinner>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Love Statement: "
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtLoveStatement"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="start"
-                android:paddingLeft="10dp"
-                />
+                android:paddingLeft="10dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="right"
-        android:layout_marginTop="10dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnSendRequest"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Send Request"/>
+            android:text="Send Request" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Cancel"/>
+            android:text="Cancel" />
     </LinearLayout>
 
 
