@@ -135,5 +135,5 @@
         android:text="Love Diary"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:background="@color/darkpink"/>
+        android:background="@color/colorAccent"/>
 </LinearLayout>

@@ -15,9 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="HALF OF LOVE"
         android:layout_marginBottom="10dp"
-        android:textSize="20sp" />
+        android:text="HALF OF LOVE"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,20 +32,24 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+            android:background="#3a5a97"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="@string/signinwithFB"
             android:textAllCaps="false"
+            android:textColor="#FFF"
             android:textStyle="normal" />
 
         <Button
             android:id="@+id/btnSignInGG"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="#d3423d"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
             android:text="@string/signinwithGG"
             android:textAllCaps="false"
+            android:textColor="#FFF"
             android:textStyle="normal" />
     </LinearLayout>
 
@@ -52,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:text="or" />
+        android:text="or"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edtEmail"
