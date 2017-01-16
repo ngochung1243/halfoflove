@@ -35,6 +35,8 @@ public class DivorceActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setActionBar();
+
+        setListener();
     }
 
     private void setActionBar() {

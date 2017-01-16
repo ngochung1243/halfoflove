@@ -38,7 +38,7 @@ public class RelationshipPreviewActivity extends AppCompatActivity {
     LinearLayout lnLayoutCover;
     @BindView(R.id.avatar)
     ImageView imvAvatar;
-    @BindView(R.id.tv_name)
+    @BindView(R.id.name)
     TextView tvName;
     @BindView(R.id.tvStartTime)
     TextView tvStartTime;
@@ -62,6 +62,8 @@ public class RelationshipPreviewActivity extends AppCompatActivity {
         setActionBar();
 
         setInfoOfRelationshipRequest();
+
+        setListener();
     }
 
     private void setActionBar() {

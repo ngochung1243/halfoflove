@@ -22,7 +22,7 @@
         android:layout_gravity="center_vertical"
         android:textColor="#ffffff"
         android:layout_marginLeft="10dp"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/ab_btn_next"

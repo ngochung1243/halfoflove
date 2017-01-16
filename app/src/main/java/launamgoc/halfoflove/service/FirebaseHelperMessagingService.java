@@ -177,7 +177,8 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                         .setSmallIcon(R.drawable.ic_chat)
                         .setContentTitle(sender_name)
                         .setContentText(message)
-                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                        .setAutoCancel(true);
 
         Intent resultIntent = new Intent(this, ChatActivity.class);
 
@@ -199,7 +200,7 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
     }
 
     private void postRelationshipNotification(User sender, Relationship relationship){
-        relationship = relationship;
+        RelationshipPreviewActivity.relationship = relationship;
         RelationshipPreviewActivity.sendRequestUser = sender;
 
         NotificationCompat.Builder mBuilder =
@@ -207,7 +208,8 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                         .setSmallIcon(R.drawable.ic_relationshiprequest)
                         .setContentTitle("Relationship Request!!!")
                         .setContentText(sender.fullname + " wants to being love with you")
-                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI)
+                        .setAutoCancel(true);
 
         Intent resultIntent = new Intent(this, RelationshipPreviewActivity.class);
 
@@ -237,7 +239,8 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                         .setSmallIcon(R.drawable.ic_divorce)
                         .setContentTitle("Divorce Request!!!")
                         .setContentText(sender.fullname + " wants to divorce you")
-                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI)
+                        .setAutoCancel(true);
 
         Intent resultIntent = new Intent(this, DivorceActivity.class);
 
@@ -273,13 +276,17 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_divorce)
-                        .setContentTitle(title)
-                        .setContentText(sender.fullname + content)
+                        .setContentTitle("Divorce Acceptance!!!")
+                        .setContentText(sender.fullname + " has accepted your divorce request")
                         .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
@@ -310,11 +317,16 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                         .setSmallIcon(R.drawable.ic_relationshiprequest)
                         .setContentTitle(title)
                         .setContentText(sender.fullname + content)
-                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI)
+                        .setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(

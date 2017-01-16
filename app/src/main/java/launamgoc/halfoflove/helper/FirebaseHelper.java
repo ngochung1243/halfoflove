@@ -420,6 +420,7 @@ public class FirebaseHelper {
                             user.mood = (String)value.get("mood");
                             user.interested = (String)value.get("interested");
                             user.allow_see_timeline = (Boolean)value.get("allow_see_timeline");
+                            user.token = (String)value.get("token");
                             users.add(user);
                         }
 
@@ -458,7 +459,7 @@ public class FirebaseHelper {
     static public boolean removeRelationship(String relationship_id) {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("event").child(relationship_id).removeValue();
+        mDatabase.child("relationship").child(relationship_id).removeValue();
         // change return when operate code
         return true;
     }

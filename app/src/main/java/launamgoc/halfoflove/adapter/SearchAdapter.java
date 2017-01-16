@@ -103,7 +103,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                         if(FriendTimelineActivity.userBusiness == null){
                             FriendTimelineActivity.userBusiness = new UserBusiness();
                         }
-                        FriendTimelineActivity.userBusiness.mUser = data;
+
+                        UserBusiness userBusiness = new UserBusiness();
+                        userBusiness.mUser = data;
+                        FriendTimelineActivity.userBusiness = userBusiness;
 
                         Intent intent = new Intent(context, FriendTimelineActivity.class);
                         context.startActivity(intent);
