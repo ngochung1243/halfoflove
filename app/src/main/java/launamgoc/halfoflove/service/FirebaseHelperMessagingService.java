@@ -81,6 +81,8 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                 final Relationship relationship = new Relationship();
                 relationship.start_time = data.get("start_time");
                 relationship.love_statement = data.get("love_statement");
+                relationship.id_request = sender_id;
+                relationship.id_accept = MyBundle.mUserBusiness.mUser.fid;
                 FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
                     @Override
                     public void onFindUserSuccess(User user) {
@@ -215,7 +217,7 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(RelationshipPreviewActivity.class);
 
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -246,7 +248,7 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(DivorceActivity.class);
 
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -278,7 +280,8 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
                         .setSmallIcon(R.drawable.ic_divorce)
                         .setContentTitle("Divorce Acceptance!!!")
                         .setContentText(sender.fullname + " has accepted your divorce request")
-                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI)
+                        .setAutoCancel(true);
 
         Intent resultIntent = new Intent(this, MainActivity.class);
 

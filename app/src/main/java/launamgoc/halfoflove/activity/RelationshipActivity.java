@@ -350,6 +350,7 @@ public class RelationshipActivity extends AppCompatActivity {
                                     String toastMessage = "You has already been single now!!!";
                                     showToast(toastMessage, R.drawable.ic_single);
                                 }
+                                finish();
                             }
                         });
 

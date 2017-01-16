@@ -61,8 +61,10 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.RelationshipPreviewActivity" />
-        <activity android:name=".activity.DivorceActivity"></activity>
+        <activity android:name=".activity.RelationshipPreviewActivity"
+            android:parentActivityName=".activity.MainActivity"/>
+        <activity android:name=".activity.DivorceActivity"
+            android:parentActivityName=".activity.MainActivity"></activity>
     </application>
 
 </manifest>

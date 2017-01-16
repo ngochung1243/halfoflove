@@ -29,6 +29,8 @@ import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.Relationship;
+import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
 
 /**
@@ -176,6 +178,8 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
                         public void run() {
                             ll_been_together.setVisibility(View.GONE);
                             cardview_partner.setVisibility(View.GONE);
+                            MyBundle.mUserBusiness.pUser = new User();
+                            MyBundle.pUserBusiness.mUser = new User();
                         }
                     });
 
@@ -224,6 +228,7 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             getParent().startActivityForResult(intent, EditProfileActivity.REQUEST_CODE);
         }
         if (v == mRelaSet) {
+            RelationshipActivity.requestUser = MyBundle.pUserBusiness.mUser;
             Intent intent = new Intent(getBaseContext(), RelationshipActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             getParent().startActivityForResult(intent, RelationshipActivity.RELATIONSHIP_CODE);
