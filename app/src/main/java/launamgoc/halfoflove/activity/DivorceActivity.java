@@ -13,6 +13,7 @@ import org.w3c.dom.Text;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
 
@@ -81,9 +82,29 @@ public class DivorceActivity extends AppCompatActivity {
 
     private void acceptRequest(){
         MyBundle.mUserBusiness.removeRelationship();
+
+        removeFollow();
+
         MyBundle.mUserBusiness.sendDivorceAcceptance(senderUser);
+
         setResult(1);
         finish();
+    }
+
+    private void removeFollow(){
+        for (Follow follow : MyBundle.mUserBusiness.follower_objects){
+            if (follow.id_follower.equals(senderUser.fid)){
+                MyBundle.mUserBusiness.removeFollow(follow.id);
+                break;
+            }
+        }
+
+        for (Follow follow : MyBundle.mUserBusiness.following_objects){
+            if (follow.id_following.equals(senderUser.fid)){
+                MyBundle.mUserBusiness.removeFollow(follow.id);
+                break;
+            }
+        }
     }
 
     private void cancelRequest(){

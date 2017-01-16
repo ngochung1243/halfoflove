@@ -38,12 +38,14 @@ import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.adapter.SearchAdapter;
 import launamgoc.halfoflove.helper.FirebaseHelper;
+import launamgoc.halfoflove.model.Follow;
 import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 
 import static android.R.attr.data;
 import static android.R.attr.thickness;
+import static launamgoc.halfoflove.activity.DivorceActivity.senderUser;
 
 public class RelationshipActivity extends AppCompatActivity {
 
@@ -328,6 +330,25 @@ public class RelationshipActivity extends AppCompatActivity {
 
     private void setSingle(){
         MyBundle.mUserBusiness.removeRelationship();
+        removeFollow();
+        setResult(1);
+        finish();
+    }
+
+    private void removeFollow(){
+        for (Follow follow : MyBundle.mUserBusiness.follower_objects){
+            if (follow.id_follower.equals(requestUser.fid)){
+                MyBundle.mUserBusiness.removeFollow(follow.id);
+                break;
+            }
+        }
+
+        for (Follow follow : MyBundle.mUserBusiness.following_objects){
+            if (follow.id_following.equals(requestUser.fid)){
+                MyBundle.mUserBusiness.removeFollow(follow.id);
+                break;
+            }
+        }
     }
 
     private void showDecisionDialog(String message, final RequestType type){

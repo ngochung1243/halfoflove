@@ -186,7 +186,7 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(ChatActivity.class);
 
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =

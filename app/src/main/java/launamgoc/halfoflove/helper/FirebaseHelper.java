@@ -579,12 +579,20 @@ public class FirebaseHelper {
                 Map snapshot = (HashMap)dataSnapshot.getValue();
                 if (snapshot != null){
                     final List<User>follow_users = new ArrayList<User>();
+                    final List<Follow> followers = new ArrayList<Follow>();
                     followDelegate.onFindNumFollower(snapshot.size());
 
                     for (int i = 0; i < snapshot.size(); i ++){
+                        Follow follow = new Follow();
                         String key = snapshot.keySet().toArray()[i].toString();
+                        follow.id = key;
                         Map value = (Map) snapshot.get(key);
                         String id_follower =  (String)value.get("id_follower");
+                        follow.id_follower = id_follower;
+                        follow.id_following = (String)value.get("id_following");
+
+                        followers.add(follow);
+
                         findUser(id_follower, new FirebaseUserDelegate() {
                             @Override
                             public void onFindUserSuccess(User user) {
@@ -596,6 +604,9 @@ public class FirebaseHelper {
                             }
                         });
                     }
+
+                    followDelegate.onFindFollowerObjectSuccess(followers);
+
                 }else {
                     followDelegate.onFindFollowerFailed("Can't find anything");
                 }
@@ -795,6 +806,7 @@ public class FirebaseHelper {
 
     public interface FirebaseFollowerDelegate {
         void onFindNumFollower(int num_follower);
+        void onFindFollowerObjectSuccess(List<Follow> followers);
         void onFindFollowerSuccess(User user);
         void onFindFollowerFailed(String error);
     }
