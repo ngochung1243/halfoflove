@@ -71,11 +71,21 @@ public class MainActivity extends AppCompatActivity {
         final EditText ed_Search = (EditText) findViewById(R.id.ab_et_search);
         final ImageButton btnBack = (ImageButton)findViewById(R.id.ab_btn_back);
 
-        ed_Search.setOnClickListener(new View.OnClickListener() {
+//        ed_Search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                btnBack.setVisibility(View.VISIBLE);
+//                setSearchFragment();
+//            }
+//        });
+
+        ed_Search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                btnBack.setVisibility(View.VISIBLE);
-                setSearchFragment();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    btnBack.setVisibility(View.VISIBLE);
+                    setSearchFragment();
+                }
             }
         });
 

@@ -67,11 +67,16 @@ public class SplashScreenActivity extends Activity {
         hd.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                startActivityForResult(new Intent(SplashScreenActivity.this, LoginActivity.class), 200);
             }
         }, 2000);
 
 //        getUser();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        finish();
     }
 
     public void getKeyHash(){

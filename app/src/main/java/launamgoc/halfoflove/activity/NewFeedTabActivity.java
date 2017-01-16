@@ -61,6 +61,8 @@ public class NewFeedTabActivity extends Activity {
                         adapter.addItem(listView.size(),
                                 new NewFeedElement(targetUser.photo_url, targetUser.fullname, targetEvent.start_time, targetEvent.end_time, targetEvent.description, targetEvent.photo_url, listView.size()));
                     }
+                }else {
+                    adapter.clear();
                 }
             }
         });

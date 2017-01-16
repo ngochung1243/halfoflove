@@ -132,19 +132,23 @@ public class FriendTimelineActivity extends AppCompatActivity {
 
                 if (btn_follow.getText().toString().equals("UNFOLLOW")){
                     //lấy danh sách theo dõi
-                    List<User> lwFollowing = MyBundle.mUserBusiness.mFollowings;
+                    List<Follow> lwFollowing = MyBundle.mUserBusiness.following_objects;
                     for (int i = 0; i < lwFollowing.size(); i++) {
-                        if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid)) {
-                            String id = "";
-                            for (int j = 0; j < MyBundle.mUserBusiness.following_objects.size(); j++) {
-                                if (MyBundle.mUserBusiness.following_objects.get(j).id_following.equals(userBusiness.mUser.fid)) {
-                                    id = MyBundle.mUserBusiness.following_objects.get(j).id;
-                                }
-                            }
-                            MyBundle.mUserBusiness.removeFollow(id);
+                        if (lwFollowing.get(i).id_following.equals(userBusiness.mUser.fid)){
+                            MyBundle.mUserBusiness.removeFollow(lwFollowing.get(i).id);
+                            MyBundle.mUserBusiness.mFollowings.remove(i);
                             btn_follow.setText("FOLLOW");
                             break;
                         }
+//                        if (userBusiness.mUser.fid.equals(lwFollowing.get(i).fid)) {
+//                            String id = "";
+//                            for (int j = 0; j < MyBundle.mUserBusiness.following_objects.size(); j++) {
+//                                if (MyBundle.mUserBusiness.following_objects.get(j).id_following.equals(userBusiness.mUser.fid)) {
+//                                    id = MyBundle.mUserBusiness.following_objects.get(j).id;
+//                                }
+//                            }
+//
+//                        }
                     }
                 }else {
                     Follow newFollow = new Follow();

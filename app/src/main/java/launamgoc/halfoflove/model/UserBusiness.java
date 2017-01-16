@@ -190,6 +190,8 @@ public class UserBusiness {
             @Override
             public void onFindFollowingFailed(String error) {
                 Log.d("Firebase", "Firebase:FindFollowError: " + error);
+                mFollowings.clear();
+                following_objects.clear();
                 listener.onComplete(UserBusinessResult.FAILED);
             }
         });
@@ -222,12 +224,13 @@ public class UserBusiness {
 
     public void getAllEvents(final UserBusinessListener listener){
         count = 0;
-        allEvents.clear();
 //        allEvents.addAll(mEvents);
 
         getFollowings(new UserBusinessListener() {
             @Override
             public void onComplete(UserBusinessResult result) {
+
+                allEvents.clear();
                 if (mFollowings.size() != 0){
                     for (int i = 0; i < mFollowings.size(); i ++){
                         User targetUser = mFollowings.get(i);
@@ -252,7 +255,7 @@ public class UserBusiness {
                         }
                     }
                 }else{
-                    listener.onComplete(UserBusinessResult.SUCCESS);
+                    listener.onComplete(UserBusinessResult.FAILED);
                 }
             }
         });

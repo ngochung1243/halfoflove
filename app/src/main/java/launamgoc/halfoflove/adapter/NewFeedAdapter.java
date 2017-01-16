@@ -59,6 +59,7 @@ public class NewFeedAdapter  extends
 
     public void clear(){
         listView.clear();
+        notifyDataSetChanged();
     }
 
     public class NewFeedHolder extends RecyclerView.ViewHolder {
