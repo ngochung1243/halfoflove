@@ -22,67 +22,104 @@
     </Spinner>
 
     <LinearLayout
+        android:id="@+id/lnLayoutSetRelationship"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:orientation="vertical"
+        >
 
-        <EditText
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:hint="Enter a name" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-        <ImageButton
-            android:id="@+id/btnSeachName"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_search"
-            android:layout_gravity="center"/>
+            <EditText
+                android:id="@+id/edtSearchName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:hint="Enter a name" />
+
+            <ImageButton
+                android:id="@+id/btnSearchName"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_search"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/cardview_seach"
+            android:id="@+id/cardviewSearch"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Anniversary: "
+                android:gravity="center"
+                android:textSize="15dp"
+                android:layout_marginLeft="12dp"
+                android:textStyle="bold"/>
+
+
+            <Spinner
+                android:id="@+id/spnYear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/spnMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/spnDay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Love Statement: "
+                android:textSize="15dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/edtLoveStatement"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="start"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <include layout="@layout/cardview_seach"
-        android:visibility="gone"
-        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Anniversary: "
-            android:gravity="center"
-            android:textSize="15dp"
-            android:layout_marginLeft="12dp"
-            android:textStyle="bold"/>
-
-
-        <Spinner
-            android:id="@+id/spnYear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-        </Spinner>
-
-        <Spinner
-            android:id="@+id/spnMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-        </Spinner>
-
-        <Spinner
-            android:id="@+id/spnDay"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-        </Spinner>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,11 +130,13 @@
         android:layout_marginTop="10dp">
 
         <Button
+            android:id="@+id/btnSendRequest"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Send Request"/>
 
         <Button
+            android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Cancel"/>

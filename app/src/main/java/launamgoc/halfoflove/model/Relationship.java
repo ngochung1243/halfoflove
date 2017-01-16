@@ -11,13 +11,13 @@ public class Relationship {
     public String id_request;
     public String id_accept;
     public String start_time;
-    public String end_time;
+    public String love_statement;
 
     public Relationship(){
         id = UUID.randomUUID().toString();
         id_accept = "";
         id_request = "";
         start_time = "";
-        end_time = "";
+        love_statement = "";
     }
 }

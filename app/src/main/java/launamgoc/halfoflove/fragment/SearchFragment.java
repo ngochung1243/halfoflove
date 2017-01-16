@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchAdapter(listView, getContext());
+        adapter = new SearchAdapter(listView, getActivity(), true);
         recyclerView.setAdapter(adapter);
     }
 

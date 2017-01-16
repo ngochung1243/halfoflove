@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.EditDetailActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
@@ -33,14 +33,15 @@
         <activity android:name=".activity.FriendTimelineActivity" />
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.CalendarActivity" />
-        <activity android:name="launamgoc.halfoflove.activity.UpdateEventActivity" />
-        <activity android:name="launamgoc.halfoflove.activity.EventInformationActivity" />
+        <activity android:name=".activity.UpdateEventActivity" />
+        <activity android:name=".activity.EventInformationActivity" />
         <activity android:name=".activity.TimelineActivity" />
         <activity android:name=".activity.NewFeedTabActivity" />
         <activity android:name=".activity.ChatListTabActivity" />
         <activity android:name=".activity.SettingsTabActivity" />
-        <activity android:name=".activity.SearchActivity"/>
-        <activity android:name=".activity.FollowingActivity"></activity>
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.SearchRelationshipActivity" />
+        <activity android:name=".activity.FollowingActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -49,22 +50,19 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <service
-            android:name="launamgoc.halfoflove.service.FirebaseHelperMessagingService">
+        <service android:name=".service.FirebaseHelperMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.FirebaseHelperInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="launamgoc.halfoflove.service.FirebaseHelperInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-
+        <activity android:name=".activity.RelationshipPreviewActivity" />
+        <activity android:name=".activity.DivorceActivity"></activity>
     </application>
-
-
 
 </manifest>

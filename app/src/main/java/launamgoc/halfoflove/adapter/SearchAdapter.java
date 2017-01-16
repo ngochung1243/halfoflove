@@ -1,5 +1,6 @@
 package launamgoc.halfoflove.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,10 +23,8 @@ import java.util.List;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.activity.FriendTimelineActivity;
-import launamgoc.halfoflove.activity.SearchActivity;
-import launamgoc.halfoflove.activity.TimelineActivity;
-import launamgoc.halfoflove.model.MyBundle;
-import launamgoc.halfoflove.model.NewFeedElement;
+import launamgoc.halfoflove.activity.RelationshipActivity;
+import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
 
@@ -36,11 +35,13 @@ import launamgoc.halfoflove.model.UserBusiness;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
 
     private List<User> listView = new ArrayList<User>();
-    private Context context;
+    private Activity context;
+    public boolean isSearchInMain = true;
 
-    public SearchAdapter(List<User> listView, Context context) {
+    public SearchAdapter(List<User> listView, Activity context, boolean isSearchInMain) {
         this.context = context;
         this.listView = listView;
+        this.isSearchInMain = isSearchInMain;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
     public class SearchHolder extends RecyclerView.ViewHolder {
 
-        public CardView cvSeach;
+        public CardView cvSearch;
         public ImageView ivAvatar;
         public TextView tvName;
         public TextView tvLocation;
@@ -87,7 +88,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             ivAvatar = (ImageView) itemView.findViewById(R.id.cv_search_avatar);
             tvName = (TextView) itemView.findViewById(R.id.cv_search_name);
             tvLocation = (TextView) itemView.findViewById(R.id.cv_search_location);
-            cvSeach = (CardView) itemView.findViewById(R.id.cv_Search);
+            cvSearch = (CardView) itemView.findViewById(R.id.cv_Search);
         }
 
         public void load(@NonNull final User data) {
@@ -95,17 +96,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             tvName.setText(data.fullname);
             tvLocation.setText("Address: " + data.location);
             new DownloadImageAsyncTask().execute(data);
-            cvSeach.setOnClickListener(new View.OnClickListener() {
+            cvSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isSearchInMain){
+                        if(FriendTimelineActivity.userBusiness == null){
+                            FriendTimelineActivity.userBusiness = new UserBusiness();
+                        }
+                        FriendTimelineActivity.userBusiness.mUser = data;
 
-                    if(FriendTimelineActivity.userBusiness == null){
-                        FriendTimelineActivity.userBusiness = new UserBusiness();
+                        Intent intent = new Intent(context, FriendTimelineActivity.class);
+                        context.startActivity(intent);
+                    }else {
+                        RelationshipActivity.requestUser = data;
+                        context.setResult(1);
+                        context.finish();
                     }
-                    FriendTimelineActivity.userBusiness.mUser = data;
 
-                    Intent intent = new Intent(context, FriendTimelineActivity.class);
-                    context.startActivity(intent);
                 }
             });
         }

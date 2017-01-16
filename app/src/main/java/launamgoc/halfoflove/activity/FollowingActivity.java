@@ -40,7 +40,7 @@ public class FollowingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchAdapter(listView, this);
+        adapter = new SearchAdapter(listView, this, true);
         recyclerView.setAdapter(adapter);
 
     }

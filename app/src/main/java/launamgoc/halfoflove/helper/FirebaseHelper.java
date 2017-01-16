@@ -479,7 +479,7 @@ public class FirebaseHelper {
                     relationship.id_request = fid;
                     relationship.id_accept = (String)value.get("id_accept");
                     relationship.start_time = (String)value.get("start_time");
-                    relationship.end_time = (String)value.get("end_time");
+                    relationship.love_statement = (String)value.get("love_statement");
                     findUser(relationship.id_accept, new FirebaseUserDelegate() {
                         @Override
                         public void onFindUserSuccess(User user) {
@@ -505,7 +505,7 @@ public class FirebaseHelper {
                                 relationship.id_request = (String)value.get("id_request");
                                 relationship.id_accept = fid;
                                 relationship.start_time = (String)value.get("start_time");
-                                relationship.end_time = (String)value.get("end_time");
+                                relationship.love_statement = (String)value.get("love_statement");
                                 findUser(relationship.id_request, new FirebaseUserDelegate() {
                                     @Override
                                     public void onFindUserSuccess(User user) {

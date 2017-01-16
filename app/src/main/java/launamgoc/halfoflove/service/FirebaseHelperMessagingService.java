@@ -27,16 +27,20 @@ import java.util.Map;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.activity.ChatActivity;
+import launamgoc.halfoflove.activity.DivorceActivity;
 import launamgoc.halfoflove.activity.MainActivity;
+import launamgoc.halfoflove.activity.RelationshipPreviewActivity;
 import launamgoc.halfoflove.helper.FirebaseHelper;
 import launamgoc.halfoflove.model.Message;
 import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.Relationship;
 import launamgoc.halfoflove.model.User;
 import retrofit.http.Url;
 
 import static android.R.attr.data;
 import static android.R.id.message;
 import static com.google.android.gms.internal.zzs.TAG;
+import static launamgoc.halfoflove.activity.RelationshipPreviewActivity.relationship;
 
 /**
  * Created by Admin on 1/9/2017.
@@ -58,19 +62,103 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 //            MyBundle.mUserBusiness.actionWhenReceiveMessage(remoteMessage.getData());
             final Map<String, String> data = remoteMessage.getData();
-            String sender_id = data.get("senderID");
-            FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
-                @Override
-                public void onFindUserSuccess(User user) {
-                    postNotification(data.get("message"), user.fullname);
-                }
+            if (data.get("kind").equals("message")){
+                String sender_id = data.get("senderID");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        ChatActivity.targetUser = user;
+                        postMessageNotification(data.get("message"), user.fullname);
+                    }
 
-                @Override
-                public void onFindUserFailed() {
+                    @Override
+                    public void onFindUserFailed() {
 
-                }
-            });
+                    }
+                });
+            }else if (data.get("kind").equals("relationship")){
+                String sender_id = data.get("senderID");
+                final Relationship relationship = new Relationship();
+                relationship.start_time = data.get("start_time");
+                relationship.love_statement = data.get("love_statement");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postRelationshipNotification(user, relationship);
+                    }
 
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }else if (data.get("kind").equals("divorce")){
+                String sender_id = data.get("senderID");
+                final String relationship_id = data.get("relationship_id");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postDivorceNotification(user, relationship_id);
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }else if (data.get("kind").equals("divorce_acceptance")){
+                String sender_id = data.get("senderID");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postDivorceResponseNotification(user, true);
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }else if (data.get("kind").equals("divorce_denial")) {
+                String sender_id = data.get("senderID");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postDivorceResponseNotification(user, false);
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }else if (data.get("kind").equals("relationship_acceptance")) {
+                String sender_id = data.get("senderID");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postRelationshipResponseNotification(user, true);
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }else if (data.get("kind").equals("relationship_denial")) {
+                String sender_id = data.get("senderID");
+                FirebaseHelper.findUser(sender_id, new FirebaseHelper.FirebaseUserDelegate() {
+                    @Override
+                    public void onFindUserSuccess(User user) {
+                        postRelationshipResponseNotification(user, false);
+                    }
+
+                    @Override
+                    public void onFindUserFailed() {
+
+                    }
+                });
+            }
         }
 
         // Check if message contains a notification payload.
@@ -82,24 +170,21 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
         // message, here is where that should be initiated. See sendNotification method below.
     }
 
-    private void postNotification(String message, String sender_name){
+    private void postMessageNotification(String message, String sender_name){
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_chat)
                         .setContentTitle(sender_name)
                         .setContentText(message)
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-// Creates an explicit intent for an Activity in your app
+
         Intent resultIntent = new Intent(this, ChatActivity.class);
 
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
+
         stackBuilder.addParentStack(MainActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
+
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
@@ -109,37 +194,137 @@ public class FirebaseHelperMessagingService extends FirebaseMessagingService{
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
+
         mNotificationManager.notify(1000, mBuilder.build());
     }
 
-    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
+    private void postRelationshipNotification(User sender, Relationship relationship){
+        relationship = relationship;
+        RelationshipPreviewActivity.sendRequestUser = sender;
 
-        @Override
-        protected Bitmap doInBackground(String... photo_urls) {
-            URL ava_url = null;
-            try {
-                Bitmap ava_bmp = null;
-                if (photo_urls[0] != null && !photo_urls[0].equals("")){
-                    ava_url = new URL(photo_urls[0]);
-                    ava_bmp = BitmapFactory.decodeStream(ava_url.openConnection().getInputStream());
-                }
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_relationshiprequest)
+                        .setContentTitle("Relationship Request!!!")
+                        .setContentText(sender.fullname + " wants to being love with you")
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
 
-                return ava_bmp;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+        Intent resultIntent = new Intent(this, RelationshipPreviewActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1001, mBuilder.build());
+    }
+
+    private void postDivorceNotification(User sender, String relationship_id){
+
+        DivorceActivity.senderUser = sender;
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_divorce)
+                        .setContentTitle("Divorce Request!!!")
+                        .setContentText(sender.fullname + " wants to divorce you")
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+
+        Intent resultIntent = new Intent(this, DivorceActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1002, mBuilder.build());
+    }
+
+    private void postDivorceResponseNotification(User sender, boolean accept){
+
+        String title = "";
+        String content = "";
+        if (accept){
+            title = "Divorce Acceptance!!!";
+            content = " has accepted your divorce request";
+        }else {
+            title = "Divorce Denial!!!";
+            content = " has denied your divorce request";
         }
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap == null){
-                bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-            }
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_divorce)
+                        .setContentTitle(title)
+                        .setContentText(sender.fullname + content)
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        stackBuilder.addParentStack(MainActivity.class);
+
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1003, mBuilder.build());
+    }
+
+    private void postRelationshipResponseNotification(User sender, boolean accept){
+
+        String title = "";
+        String content = "";
+        if (accept){
+            title = "Relationship Acceptance!!!";
+            content = " has accepted your relationship request";
+        }else {
+            title = "Relationship Denial!!!";
+            content = " has denied your relationship request";
         }
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_relationshiprequest)
+                        .setContentTitle(title)
+                        .setContentText(sender.fullname + content)
+                        .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        stackBuilder.addParentStack(MainActivity.class);
+
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1004, mBuilder.build());
     }
 }

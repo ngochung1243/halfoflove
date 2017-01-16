@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 
         callbackManager = CallbackManager.Factory.create();
 
-        MyBundle.mUserBusiness.logout();
+//        MyBundle.mUserBusiness.logout();
 
         // Callback registration
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

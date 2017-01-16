@@ -30,18 +30,22 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        setActionBar();
         if(listView==null)
         {
             listView = new ArrayList<User>();
         }
 
+        setActionBar();
+        setRecyclerView(true);
+    }
+
+    public void setRecyclerView(boolean isSearchInMain){
         // Set RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchAdapter(listView, this);
+        adapter = new SearchAdapter(listView, this, isSearchInMain);
         recyclerView.setAdapter(adapter);
     }
 

@@ -52,7 +52,7 @@ public class UserBusiness {
 
     public User mUser = new User();
     public Relationship mRelationship = new Relationship();
-    public User pUser = null;
+    public User pUser = new User();
     public List<User> mFollowers = new ArrayList<>();
     public List<User> mFollowings = new ArrayList<>();
     public List<Follow> following_objects = new ArrayList<>();
@@ -110,6 +110,14 @@ public class UserBusiness {
                 listener.onComplete(UserBusinessResult.FAILED);
             }
         });
+    }
+
+    public void setRelationship(Relationship relationship){
+        FirebaseHelper.addRelationship(relationship);
+    }
+
+    public void removeRelationship(){
+        FirebaseHelper.removeRelationship(mRelationship.id);
     }
 
     public void addFollow(Follow follow){
@@ -304,7 +312,6 @@ public class UserBusiness {
         Message message = new Message();
         Map<String, String> data = new HashMap<>();
         data.put("senderID", mUser.fid);
-        data.put("sender_url", mUser.photo_url);
         data.put("kind", "message");
         data.put("message", content_message);
 
@@ -314,6 +321,129 @@ public class UserBusiness {
             @Override
             public void onSendMessageSuccess() {
                 postNewMessage(to_user, content_message);
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendRelationshipRequestToUser(final User to_user, final Relationship relationship){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "relationship");
+        data.put("start_time", relationship.start_time);
+        data.put("love_statement", relationship.love_statement);
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendRelationshipAcceptance(User to_user){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "relationship_acceptance");
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendRelationshipDenial(User to_user){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "relationship_denial");
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendDivorceRequestToUser(final User to_user){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "divorce");
+        data.put("relationship_id", mRelationship.id);
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendDivorceAcceptance(User to_user){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "divorce_acceptance");
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
+            }
+
+            @Override
+            public void onSendMessageFailed() {
+            }
+        });
+    }
+
+    public void sendDivorceDenial(User to_user){
+        Message message = new Message();
+        Map<String, String> data = new HashMap<>();
+        data.put("senderID", mUser.fid);
+        data.put("kind", "divorce_denial");
+
+        message.setData(data);
+        message.setTo(to_user.token);
+        FirebaseHelper.sendMessage(message, new FirebaseHelper.FirebaseSendMessageDelegate() {
+            @Override
+            public void onSendMessageSuccess() {
+
             }
 
             @Override
