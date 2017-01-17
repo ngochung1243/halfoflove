@@ -2,6 +2,7 @@ package launamgoc.halfoflove.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,11 +41,14 @@ public class ViewEventActivity extends AppCompatActivity {
         txtDescription.setText(bundle.getString("Description"));
         photoUrl = bundle.getString("PhotoUrl");
         videoUrl = bundle.getString("VideoUrl");
-        if(photoUrl != "" && photoUrl != null){
+        if(photoUrl.length() != 0){
             new GeImageAsyncTask().execute(photoUrl);
             imgPic.setVisibility(View.VISIBLE);
             videoView.setVisibility(View.GONE);
-        }else if(videoUrl != "" && videoUrl != null){
+        }else if(videoUrl.length() != 0){
+            Uri uri=Uri.parse(videoUrl);
+            videoView.setVideoURI(uri);
+            videoView.start();
             imgPic.setVisibility(View.GONE);
             videoView.setVisibility(View.VISIBLE);
         }else{

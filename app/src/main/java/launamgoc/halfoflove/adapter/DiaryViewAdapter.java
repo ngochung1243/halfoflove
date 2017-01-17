@@ -87,7 +87,7 @@ public class DiaryViewAdapter extends
                 new GeImageAsyncTask().execute(data);
             }
 
-            if(data.getVideo()!= "" && data.getVideo() != null) {
+            else if(data.getVideo()!= "" && data.getVideo() != null) {
                 String uriPath = "android.resource://launamgoc.halfoflove/" + data.getVideo();
                 Uri uri = Uri.parse(uriPath);
                 vvContent.getLayoutParams().height = 500;

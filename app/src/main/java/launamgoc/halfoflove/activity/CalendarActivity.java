@@ -313,17 +313,17 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
 
             if (day_color[1].equals("GREY")) {
                 _gridcell.setTextColor(getResources()
-                        .getColor(R.color.pink2));
+                        .getColor(R.color.gray));
                 _gridcell.setTextSize(15);
             }
             if (day_color[1].equals("WHITE")) {
                 _gridcell.setTextColor(getResources()
-                        .getColor(R.color.pink));
+                        .getColor(R.color.gray));
                 _gridcell.setTextSize(15);
             }
             if (day_color[1].equals("GREEN")) {
                 _gridcell.setTextColor(getResources()
-                        .getColor(R.color.lightgreen));
+                        .getColor(R.color.pink));
                 _gridcell.setTextSize(15);
             }
             if (day_color[1].equals("BLUE")) {
@@ -352,7 +352,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-            if(date_month_year.compareTo("11-December-2016") == 0)
+            else if(date_month_year.compareTo("11-December-2016") == 0)
             {
                 Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
                 startActivity(intent);

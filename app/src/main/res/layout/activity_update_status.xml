@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="15dp"
-        android:background="@color/lightgray"
-        android:padding="5dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Event's name"/>
+    <!--<EditText-->
+        <!--android:id="@+id/et_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:textSize="15dp"-->
+        <!--android:background="@color/lightgray"-->
+        <!--android:padding="5dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:hint="Event's name"/>-->
 
     <EditText
         android:id="@+id/et_content"
@@ -116,11 +116,19 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:id ="@+id/uploadImage"/>
+
+    <VideoView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id ="@+id/uploadVideo"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,11 +44,12 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
     static int PICK_IMAGE = 1;
     static int PICK_VIDEO = 2;
     Boolean chooseImage = false;
+    Boolean chooseVideo = false;
     String date;
     Uri uri;
 
-    @BindView(R.id.et_name)
-    EditText mName;
+//    @BindView(R.id.et_name)
+//    EditText mName;
     @BindView(R.id.et_content)
     EditText mContent;
     @BindView(R.id.rdb_public)
@@ -62,6 +64,8 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
     Button mBtnPost;
     @BindView(R.id.uploadImage)
     ImageView uploadImage;
+    @BindView(R.id.uploadVideo)
+    VideoView uploadVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,9 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
         mPrivate.setOnClickListener(this);
         mImage.setOnClickListener(this);
         mVideo.setOnClickListener(this);
+
+        uploadImage.setVisibility(View.VISIBLE);
+        uploadVideo.setVisibility(View.GONE);
 
         // Set ActionBar
         ActionBar actionBar = getSupportActionBar();
@@ -114,7 +121,6 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 progressDialog.setMessage("Uploading");
                 progressDialog.show();
                 final AppEvent event = new AppEvent();
-                event.name = mName.getText().toString();
                 event.description = mContent.getText().toString();
                 event.fid = mUserBusiness.mUser.fid;
                 Calendar now = Calendar.getInstance();
@@ -135,6 +141,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                                             progressDialog.dismiss();
                                             Toast.makeText(getApplicationContext(), "Fail in proccess upload event", Toast.LENGTH_SHORT).show();
                                         }
+                                        finish();
                                     }
 
                                     @Override
@@ -145,14 +152,14 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else{
+                }else if(chooseVideo == true){
                     try {
                         FirebaseHelper.uploadImage(mUserBusiness.mUser.fid + event.id,
                                 "Love in peace video", convertVideoUriToByteArray(uri),
                             new FirebaseHelper.FirebaseUploadImagepDelegate() {
                                 @Override
                                 public void onUploadImageSuccess(String imageUrl) {
-                                    event.photo_url = imageUrl;
+                                    event.video_url = imageUrl;
                                     Boolean success = mUserBusiness.addEvent(event);
                                     if (success) {
                                         progressDialog.dismiss();
@@ -163,6 +170,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                                         Toast.makeText(getApplicationContext(),
                                                 "Fail in proccess upload event", Toast.LENGTH_SHORT).show();
                                     }
+                                    finish();
                                 }
 
                                 @Override
@@ -174,6 +182,16 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                     }catch (IOException e) {
                         e.printStackTrace();
                     }
+                }else{
+                    Boolean success = mUserBusiness.addEvent(event);
+                    if(success){
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Event is added in calendar", Toast.LENGTH_SHORT).show();
+                    }else{
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Fail in proccess upload event", Toast.LENGTH_SHORT).show();
+                    }
+                    finish();
                 }
             }
         });
@@ -195,6 +213,8 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
         }
         if (v == mVideo) {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("video/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, PICK_VIDEO);
         }
     }
@@ -207,10 +227,18 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 uri = data.getData();
                 uploadImage.setImageURI(uri);
                 chooseImage = true;
+                uploadImage.setVisibility(View.VISIBLE);
+                uploadVideo.setVisibility(View.GONE);
             }
             else if(requestCode == PICK_VIDEO) {
                 uri = data.getData();
-                chooseImage = false;
+                uploadVideo.setVideoURI(uri);
+                chooseVideo = true;
+                uploadVideo.setVisibility(View.VISIBLE);
+                uploadImage.setVisibility(View.GONE);
+            }else{
+                uploadImage.setVisibility(View.GONE);
+                uploadVideo.setVisibility(View.GONE);
             }
         }
     }

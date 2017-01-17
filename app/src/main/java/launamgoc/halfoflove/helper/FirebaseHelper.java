@@ -383,6 +383,7 @@ public class FirebaseHelper {
                         event.end_time = (String)value.get("end_time");
                         event.post_time = (String)value.get("post_time");
                         event.photo_url = (String)value.get("photo_url");
+                        event.video_url = (String)value.get("video_url");
                         UserEvent u_event = new UserEvent(user, event);
                         events.add(u_event);
                     }
