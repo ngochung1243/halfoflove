@@ -31,7 +31,12 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import launamgoc.halfoflove.R;
+import launamgoc.halfoflove.model.AppEvent;
+import launamgoc.halfoflove.model.DiaryContent;
+import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.UserBusiness;
 
+import static java.lang.Integer.parseInt;
 import static launamgoc.halfoflove.R.id.num_events_per_day;
 
 public class CalendarActivity extends Activity implements View.OnClickListener {
@@ -58,6 +63,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
     @SuppressLint({"NewApi", "NewApi", "NewApi", "NewApi"})
     private final DateFormat _dateFormatter = new DateFormat();
     private static final String _dateTemplate = "MMMM yyyy";
+    private List<DiaryContent> diaryContents = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,18 +82,45 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
         mCalendarHeader.setScaleType(ImageView.ScaleType.FIT_XY);
         mCurrentMonth.setText(DateFormat.format(_dateTemplate, _calendar.getTime()));
 
-        _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, _month, _year);
-        _adapter.notifyDataSetChanged();
-        mCalendarView.setAdapter(_adapter);
+        MyBundle.mUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
+            @Override
+            public void onComplete(UserBusiness.UserBusinessResult result) {
+                if (result == UserBusiness.UserBusinessResult.SUCCESS){
+                    for (int i = 0; i < MyBundle.mUserBusiness.mEvents.size(); i ++){
+                        AppEvent targetEvent = MyBundle.mUserBusiness.mEvents.get(i).event;
+                        diaryContents.add(new DiaryContent(targetEvent.post_time, targetEvent.description,
+                                targetEvent.photo_url, targetEvent.video_url, i));
+                    }
+                    List<DiaryContent> events = findEventInMonth(diaryContents, _month);
+                    _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell,
+                            _month, _year, events);
+                    _adapter.notifyDataSetChanged();
+                    mCalendarView.setAdapter(_adapter);
+                }
+            }
+        });
     }
 
     private void setGridCellAdapterToDate(int month, int year) {
-        _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+        List<DiaryContent> events = findEventInMonth(diaryContents, month);
+        _adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year, events);
         _calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
         _adapter.notifyDataSetChanged();
 
         mCurrentMonth.setText(DateFormat.format(_dateTemplate, _calendar.getTime()));
         mCalendarView.setAdapter(_adapter);
+    }
+
+    private List<DiaryContent> findEventInMonth(List<DiaryContent> diaryContents, int month){
+        List<DiaryContent> result = new ArrayList<>();
+        for(int i = 0; i < diaryContents.size(); i++){
+            String posttime = diaryContents.get(i).getTitle();
+            int m = parseInt(posttime.substring(posttime.indexOf("/")+1, posttime.lastIndexOf("/")));
+            if(m == month){
+                result.add(diaryContents.get(i));
+            }
+        }
+        return result;
     }
 
     @Override
@@ -196,9 +229,11 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                 "October", "November", "December"};
         private final int[] _daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30,
                 31, 30, 31};
+        private final List<Integer> _listDayEvent = new ArrayList<>();
+        private List<DiaryContent> _diaryEvents;
 
         public GridCellAdapter(Context context, int textViewResourceId,
-                               int month, int year) {
+                               int month, int year, List<DiaryContent> diaryContents) {
             super();
             this._context = context;
             this._list = new ArrayList<String>();
@@ -207,6 +242,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
             setCurrentDayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
             setCurrentWeekDay(calendar.get(Calendar.DAY_OF_WEEK));
 
+            _diaryEvents = diaryContents;
             printMonth(month, year);
 
             _eventsPerMonthMap = findNumberOfEventsPerMonth(year, month);
@@ -285,6 +321,11 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                         .getColor(R.color.pink));
                 _gridcell.setTextSize(15);
             }
+            if (day_color[1].equals("GREEN")) {
+                _gridcell.setTextColor(getResources()
+                        .getColor(R.color.lightgreen));
+                _gridcell.setTextSize(15);
+            }
             if (day_color[1].equals("BLUE")) {
                 _gridcell.setTextColor(getResources()
                         .getColor(R.color.violet));
@@ -297,7 +338,20 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             String date_month_year = (String) view.getTag();
+            int selectDate = parseInt(date_month_year.substring(0, date_month_year.indexOf("-")));
 
+            if(_listDayEvent.get(selectDate) != -1){
+                DiaryContent diary = null;
+                diary = _diaryEvents.get(_listDayEvent.get(selectDate));
+                Intent intent = new Intent(CalendarActivity.this, ViewEventActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("PostTime", diary.getTitle());
+                bundle.putString("Description", diary.getContent());
+                bundle.putString("PhotoUrl", diary.getImage());
+                bundle.putString("VideoUrl", diary.getVideo());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
             if(date_month_year.compareTo("11-December-2016") == 0)
             {
                 Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
@@ -379,6 +433,14 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                     _list.add(String.valueOf(i) + "-WHITE" + "-"
                             + getMonthAsString(currentMonth) + "-" + yy);
                 }
+                _listDayEvent.add(-1);
+            }
+
+            for(int i = 0; i < _diaryEvents.size(); i++){
+                String posttime = _diaryEvents.get(i).getTitle();
+                int d = parseInt(posttime.substring(0, posttime.indexOf("/")));
+                _list.set(d-1, String.valueOf(d) + "-GREEN" + "-" + getMonthAsString(currentMonth) + "-" + yy);
+                _listDayEvent.set(d, i);
             }
 
             for (int i = 0; i < _list.size() % 7; i++) {

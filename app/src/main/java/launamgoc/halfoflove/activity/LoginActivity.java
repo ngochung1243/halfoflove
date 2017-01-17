@@ -278,7 +278,9 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 //                        }
 //                    }
 //                });
-                progressDialog.dismiss();
+                if(progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 MyBundle.mUserBusiness.getToken();
                 startMainActivity();
 //                testChatMessage();

@@ -209,6 +209,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 chooseImage = true;
             }
             else if(requestCode == PICK_VIDEO) {
+                uri = data.getData();
                 chooseImage = false;
             }
         }
