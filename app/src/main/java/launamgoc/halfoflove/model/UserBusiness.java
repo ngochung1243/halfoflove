@@ -197,8 +197,8 @@ public class UserBusiness {
         });
     }
 
-    public void addEvent(AppEvent event){
-        FirebaseHelper.addEvent(event);
+    public boolean addEvent(AppEvent event){
+        return FirebaseHelper.addEvent(event);
     }
 
     public void removeEvent(String follow_id){
