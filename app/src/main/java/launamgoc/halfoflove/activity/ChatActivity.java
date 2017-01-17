@@ -76,7 +76,6 @@ public class ChatActivity extends AppCompatActivity {
 
         TextView actionBarTitle = (TextView) findViewById(R.id.ab_tv_title);
         actionBarTitle.setText(targetUser.fullname);
-        actionBarTitle.setGravity(Gravity.RIGHT);
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

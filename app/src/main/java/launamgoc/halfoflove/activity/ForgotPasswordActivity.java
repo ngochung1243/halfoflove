@@ -27,7 +27,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         actionBar.setCustomView(R.layout.actionbar);
 
         TextView title = (TextView) findViewById(R.id.ab_tv_title);
-        title.setText("Reset password");
+        title.setText("Reset Password");
 
         EditText text_email = (EditText) findViewById(R.id.et_mail);
         Button btn_continue = (Button) findViewById(R.id.btn_continue);

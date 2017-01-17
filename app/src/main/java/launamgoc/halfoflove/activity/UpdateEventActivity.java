@@ -55,7 +55,6 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.darkpink)));
 
         TextView title = (TextView) findViewById(R.id.ab_tv_title);
         title.setText("Update AppEvent");

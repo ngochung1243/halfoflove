@@ -93,7 +93,7 @@ public class EditProfileActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
         TextView title = (TextView) findViewById(R.id.ab_tv_title);
-        title.setText("Edit profile");
+        title.setText("Edit Profile");
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_arrow_back", "drawable", getPackageName()));

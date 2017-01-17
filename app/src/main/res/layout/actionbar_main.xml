@@ -12,7 +12,8 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_back"
         android:tint="#ffffff"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"/>
 
     <EditText
         android:id="@+id/ab_et_search"
