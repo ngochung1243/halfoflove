@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:textSize="15dp"
         android:background="@color/lightgray"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_marginBottom="10dp"
         android:hint="Event's name"/>
 
@@ -20,7 +20,7 @@
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:hint="What's on your mind?"
         android:textSize="15dp"
         android:background="@color/lightgray"
@@ -85,7 +85,8 @@
             android:text="Hình ảnh"
             android:textSize="17dp"
             android:paddingTop="5dp"
-            android:paddingLeft="30dp"/>
+            android:paddingLeft="30dp"
+            android:id="@+id/textView2" />
 
     </LinearLayout>
 
@@ -113,5 +114,18 @@
             android:paddingLeft="30dp"/>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id ="@+id/uploadImage"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="POST"
+        android:id="@+id/btn_Post"/>
 
 </LinearLayout>

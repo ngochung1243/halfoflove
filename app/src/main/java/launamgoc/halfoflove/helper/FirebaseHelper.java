@@ -21,6 +21,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 
@@ -309,7 +312,8 @@ public class FirebaseHelper {
      * @return
      */
 
-    static public void uploadImage(final String fid, final String title, final byte[] data, final FirebaseUploadImagepDelegate uploadDelegate) {
+    static public void uploadImage(final String fid, final String title, final byte[] data,
+                                   final FirebaseUploadImagepDelegate uploadDelegate) {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -337,10 +341,15 @@ public class FirebaseHelper {
      */
     static public boolean addEvent(AppEvent event) {
 
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("event").child(event.id).setValue(event);
-        // change return when operate code
+        try {
+            DatabaseReference mDatabase;
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("event").child(event.id).setValue(event);
+            // change return when operate code
+        }catch (Exception e) {
+            return false;
+        }
+
         return true;
     }
 

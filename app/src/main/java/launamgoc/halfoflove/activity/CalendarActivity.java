@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -121,10 +122,11 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
     }
 
-    private void showCustomDialog() {
+    private void showCustomDialog(String date) {
         AlertDialog chooseDialog;
 
         final CharSequence[] items = {"Create a new event", "Set notification"};
+        final String dateVal = date;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -133,6 +135,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                 switch (item) {
                     case 0:
                         Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
+                        intent.putExtra("PostDate", dateVal);
                         startActivity(intent);
                         break;
                     case 1:
@@ -295,16 +298,16 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
         public void onClick(View view) {
             String date_month_year = (String) view.getTag();
 
-//            if(date_month_year.compareTo("11-December-2016") == 0)
-//            {
-//                Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
-//                startActivity(intent);
-//            }
-//            else
-//            {
-//                showCustomDialog();
-//            }
-//
+            if(date_month_year.compareTo("11-December-2016") == 0)
+            {
+                Intent intent = new Intent(CalendarActivity.this, EventInformationActivity.class);
+                startActivity(intent);
+            }
+            else
+            {
+                showCustomDialog(date_month_year);
+            }
+
 //            try {
 //                Date parsedDate = _dateFormatter.parse(date_month_year);
 //

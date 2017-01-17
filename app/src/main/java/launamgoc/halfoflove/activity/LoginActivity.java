@@ -1,5 +1,6 @@
 package launamgoc.halfoflove.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
     Button btnSignInFb;
     Button btnSignInGG;
     TextView btnRegister;
+    ProgressDialog progressDialog;
 
     CallbackManager callbackManager;
 
@@ -131,7 +133,9 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
                 }
 
                 FirebaseHelper.loginWithUser(email,password);
-
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("Loading");
+                progressDialog.show();
 //                TestGetToken();
 
                 //TestSendPostAPI();
@@ -274,7 +278,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseHelper.F
 //                        }
 //                    }
 //                });
-
+                progressDialog.dismiss();
                 MyBundle.mUserBusiness.getToken();
                 startMainActivity();
 //                testChatMessage();
