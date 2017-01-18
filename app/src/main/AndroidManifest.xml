@@ -9,7 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,8 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true"/>
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.MainActivity"
-            android:noHistory="true"/>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.EditDetailActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
@@ -47,8 +46,7 @@
         <activity android:name=".activity.TimelineActivity" />
         <activity android:name=".activity.NewFeedTabActivity" />
         <activity android:name=".activity.ChatListTabActivity" />
-        <activity android:name=".activity.SettingsTabActivity"
-            android:noHistory="true"/>
+        <activity android:name=".activity.SettingsTabActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SearchRelationshipActivity" />
         <activity android:name=".activity.FollowingActivity" />

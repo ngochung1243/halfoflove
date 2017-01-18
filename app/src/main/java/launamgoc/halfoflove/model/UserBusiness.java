@@ -243,6 +243,7 @@ public class UserBusiness {
                                     }
                                     count ++;
                                     if (count == mFollowings.size()){
+                                        sortEvent();
                                         listener.onComplete(UserBusinessResult.SUCCESS);
                                     }
                                 }
@@ -295,6 +296,29 @@ public class UserBusiness {
                     Date d1 = format.parse(o1.datetime);
                     Date d2 = format.parse(o2.datetime);
                     return d1.compareTo(d2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return 0;
+            }
+        });
+    }
+
+    private void sortEvent(){
+        Collections.sort(allEvents, new Comparator<UserEvent>() {
+            @Override
+            public int compare(UserEvent o1, UserEvent o2) {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                try {
+                    Date d1 = format.parse(o1.event.post_time);
+                    Date d2 = format.parse(o2.event.post_time);
+                    int result = d1.compareTo(d2);
+                    if (result == 1){
+                        return -1;
+                    }else if(result == -1){
+                        return 1;
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

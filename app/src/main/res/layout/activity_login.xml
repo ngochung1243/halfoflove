@@ -9,7 +9,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_app" />
+        android:src="@drawable/ic_app_launcher" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_marginBottom="10dp"
         android:text="HALF OF LOVE"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#ff4081"
         android:textStyle="bold" />
 
     <LinearLayout

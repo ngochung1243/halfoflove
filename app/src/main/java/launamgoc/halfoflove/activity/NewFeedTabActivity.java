@@ -26,8 +26,6 @@ public class NewFeedTabActivity extends Activity {
     private NewFeedAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<NewFeedElement> listView = new ArrayList<NewFeedElement>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,25 +42,17 @@ public class NewFeedTabActivity extends Activity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new NewFeedAdapter(listView);
+        adapter = new NewFeedAdapter(MyBundle.mUserBusiness.allEvents);
         recyclerView.setAdapter(adapter);
 
     }
 
     private void initializeView() {
-        adapter.clear();
         MyBundle.mUserBusiness.getAllEvents(new UserBusiness.UserBusinessListener() {
             @Override
             public void onComplete(UserBusiness.UserBusinessResult result) {
                 if (result == UserBusiness.UserBusinessResult.SUCCESS){
-                    for (int i = 0; i < MyBundle.mUserBusiness.allEvents.size(); i ++){
-                        User targetUser = MyBundle.mUserBusiness.allEvents.get(i).user;
-                        AppEvent targetEvent = MyBundle.mUserBusiness.allEvents.get(i).event;
-                        adapter.addItem(listView.size(),
-                                new NewFeedElement(targetUser.photo_url, targetUser.fullname, targetEvent.start_time, targetEvent.end_time, targetEvent.description, targetEvent.photo_url, listView.size()));
-                    }
-                }else {
-                    adapter.clear();
+                    adapter.setUserEvents(MyBundle.mUserBusiness.allEvents);
                 }
             }
         });

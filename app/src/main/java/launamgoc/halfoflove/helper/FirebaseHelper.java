@@ -312,12 +312,12 @@ public class FirebaseHelper {
      * @return
      */
 
-    static public void uploadImage(final String fid, final String title, final byte[] data,
+    static public void uploadImage(final String eventId, final String title, final byte[] data,
                                    final FirebaseUploadImagepDelegate uploadDelegate) {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        StorageReference imageRef = storageRef.child(title + "/" + fid + ".jpg");
+        StorageReference imageRef = storageRef.child(eventId + ".jpg");
         UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -328,7 +328,6 @@ public class FirebaseHelper {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String downloadUrl = taskSnapshot.getDownloadUrl().toString();
-                changeInfoOfUser(fid, title, downloadUrl);
                 uploadDelegate.onUploadImageSuccess(downloadUrl);
             }
         });

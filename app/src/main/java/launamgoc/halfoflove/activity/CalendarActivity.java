@@ -88,7 +88,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
                 if (result == UserBusiness.UserBusinessResult.SUCCESS){
                     for (int i = 0; i < MyBundle.mUserBusiness.mEvents.size(); i ++){
                         AppEvent targetEvent = MyBundle.mUserBusiness.mEvents.get(i).event;
-                        diaryContents.add(new DiaryContent(targetEvent.post_time, targetEvent.description,
+                        diaryContents.add(new DiaryContent(targetEvent.start_time, targetEvent.description,
                                 targetEvent.photo_url, targetEvent.video_url, i));
                     }
                     List<DiaryContent> events = findEventInMonth(diaryContents, _month);
@@ -359,7 +359,10 @@ public class CalendarActivity extends Activity implements View.OnClickListener {
             }
             else
             {
-                showCustomDialog(date_month_year);
+                Intent intent = new Intent(CalendarActivity.this, UpdateEventActivity.class);
+                intent.putExtra("PostDate", date_month_year);
+                startActivity(intent);
+//                showCustomDialog(date_month_year);
             }
 
 //            try {

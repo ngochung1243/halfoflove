@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,8 +50,8 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
     String date;
     Uri uri;
 
-//    @BindView(R.id.et_name)
-//    EditText mName;
+    @BindView(R.id.et_name)
+    EditText mName;
     @BindView(R.id.et_content)
     EditText mContent;
     @BindView(R.id.rdb_public)
@@ -120,14 +122,23 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 progressDialog.setMessage("Uploading");
                 progressDialog.show();
                 final AppEvent event = new AppEvent();
-                event.description = mContent.getText().toString();
-                event.fid = mUserBusiness.mUser.fid;
+
                 Calendar now = Calendar.getInstance();
                 String time = now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
-                event.post_time = formatDate(date) + " " + time;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+
+                event.description = mContent.getText().toString();
+                event.name = mName.getText().toString();
+                event.fid = mUserBusiness.mUser.fid;
+                event.post_time = currentDateandTime;
+                event.start_time = formatDate(date);
+                event.end_time = formatDate(date);
+
                 if(chooseImage == true){
                     try {
-                        FirebaseHelper.uploadImage(mUserBusiness.mUser.fid + event.id, "Love in peace", convertUriToByteArray(uri),
+                        FirebaseHelper.uploadImage(mUserBusiness.mUser.fid, "image_url", convertUriToByteArray(uri),
                                 new FirebaseHelper.FirebaseUploadImagepDelegate() {
                                     @Override
                                     public void onUploadImageSuccess(String imageUrl) {
@@ -153,8 +164,8 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                     }
                 }else if(chooseVideo == true){
                     try {
-                        FirebaseHelper.uploadImage(mUserBusiness.mUser.fid + event.id,
-                                "Love in peace video", convertVideoUriToByteArray(uri),
+                        FirebaseHelper.uploadImage(event.id,
+                                "video_url", convertVideoUriToByteArray(uri),
                             new FirebaseHelper.FirebaseUploadImagepDelegate() {
                                 @Override
                                 public void onUploadImageSuccess(String imageUrl) {
