@@ -157,6 +157,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         adapter = new DiaryViewAdapter(listView);
         initializeDiary();
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(0);
     }
 
     private void setTabs()

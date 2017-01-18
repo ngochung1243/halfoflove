@@ -1,6 +1,7 @@
 package launamgoc.halfoflove.activity;
 
 import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -234,8 +235,10 @@ public class SettingsTabActivity extends Activity implements View.OnClickListene
             getParent().startActivityForResult(intent, RelationshipActivity.RELATIONSHIP_CODE);
         }
         if (v == cardview_logout){
+            SplashScreenActivity.isLogin = false;
             MyBundle.mUserBusiness.logout();
-            getParent().finish();
+            Intent intent = new Intent(SettingsTabActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 

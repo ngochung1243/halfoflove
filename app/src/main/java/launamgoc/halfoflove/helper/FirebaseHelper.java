@@ -395,7 +395,7 @@ public class FirebaseHelper {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mapsrefrence = database.getReference().child("users");
         Query query_event = mapsrefrence.orderByChild("fullname").equalTo(fullname);
-        query_event.addValueEventListener(new ValueEventListener() {
+        query_event.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<User> users = new ArrayList<User>();
