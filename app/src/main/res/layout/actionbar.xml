@@ -12,7 +12,7 @@
         android:gravity="center"
         android:background="@android:color/transparent"
         android:tint="#ffffff"
-        android:layout_gravity="left"/>
+        android:layout_gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/ab_tv_title"
@@ -22,7 +22,7 @@
         android:layout_gravity="center_vertical"
         android:textColor="#ffffff"
         android:layout_marginLeft="10dp"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <ImageButton
         android:id="@+id/ab_btn_next"

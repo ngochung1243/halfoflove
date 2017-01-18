@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,9 @@ public class SearchRelationshipActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
+
+        TextView actionBarTitle = (TextView) findViewById(R.id.ab_tv_title);
+        actionBarTitle.setText("Find People");
 
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()

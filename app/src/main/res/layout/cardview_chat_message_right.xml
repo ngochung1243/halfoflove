@@ -11,9 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f97fa9"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:background="#f97fa9"
         android:padding="10dp">
 
         <LinearLayout
@@ -54,8 +54,9 @@
             <ImageView
                 android:id="@+id/cv_chat_ava"
                 android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_height="40dp" />
+                android:background="@drawable/ic_avatar" />
 
         </LinearLayout>
 

@@ -18,6 +18,7 @@
             android:id="@+id/cv_search_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@drawable/ic_avatar"
             android:layout_gravity="center_vertical" />
 
         <LinearLayout

@@ -134,6 +134,10 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
+
+        TextView actionBarTitle = (TextView) findViewById(R.id.ab_tv_title);
+        actionBarTitle.setText("Timeline");
+
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_arrow_back", "drawable", getPackageName()));
@@ -153,6 +157,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         adapter = new DiaryViewAdapter(listView);
         initializeDiary();
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(0);
     }
 
     private void setTabs()

@@ -12,13 +12,26 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -38,14 +51,14 @@ import launamgoc.halfoflove.model.MyBundle;
 import launamgoc.halfoflove.model.User;
 import launamgoc.halfoflove.model.UserBusiness;
 
-public class SplashScreenActivity extends Activity {
+import static launamgoc.halfoflove.R.id.btnLogin;
+import static launamgoc.halfoflove.R.id.edtEmail;
+import static launamgoc.halfoflove.R.id.edtPassword;
+import static launamgoc.halfoflove.activity.LoginActivity.mGoogleApiClient;
 
-    LoginButton loginButton;
+public class SplashScreenActivity extends AppCompatActivity implements FirebaseHelper.FirebaseLoginHelperDelegate{
 
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
-
-    CallbackManager callbackManager;
+    public static boolean isLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +74,33 @@ public class SplashScreenActivity extends Activity {
 
 //        TestData();
 
-
+        FirebaseHelper.loginDelegate = this;
 
         Handler hd = new Handler(getMainLooper());
         hd.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivityForResult(new Intent(SplashScreenActivity.this, LoginActivity.class), 200);
+                if (!isLogin){
+                    startActivityForResult(new Intent(SplashScreenActivity.this, LoginActivity.class), 200);
+                }
             }
-        }, 2000);
+        }, 3000);
 
 //        getUser();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseHelper.mAuth.addAuthStateListener(FirebaseHelper.mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (FirebaseHelper.mAuthListener != null) {
+            FirebaseHelper.mAuth.removeAuthStateListener(FirebaseHelper.mAuthListener);
+        }
     }
 
     @Override
@@ -100,219 +129,50 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
-    void TestData(){
-        User mUser = new User();
-        mUser.fid = "db17jjCUowTHWqjbhZlO61lV5wW2";
-        mUser.photo_url = "http://www.w3schools.com/css/img_fjords.jpg";
-        mUser.cover_url = "http://www.w3schools.com/css/img_fjords.jpg";
-        mUser.fullname = "Hung Mai";
-        MyBundle.mUserBusiness.mUser = mUser;
-
-        getEvent();
+    private void startMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
-    User anoUser = null;
-    void getUser(){
-        FirebaseUser fuser = new FirebaseUser() {
-            @NonNull
+    @Override
+    public void onLoginSuccess(final User user) {
+        isLogin = true;
+        Handler hd = new Handler(getMainLooper());
+        hd.post(new Runnable() {
             @Override
-            public String getUid() {
-                return "db17jjCUowTHWqjbhZlO61lV5wW2";
-            }
-
-            @NonNull
-            @Override
-            public String getProviderId() {
-                return null;
-            }
-
-            @Override
-            public boolean isAnonymous() {
-                return false;
-            }
-
-            @Nullable
-            @Override
-            public List<String> getProviders() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public List<? extends UserInfo> getProviderData() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public FirebaseUser zzaq(@NonNull List<? extends UserInfo> list) {
-                return null;
-            }
-
-            @Override
-            public FirebaseUser zzcu(boolean b) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public FirebaseApp zzcow() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public String getDisplayName() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public Uri getPhotoUrl() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public String getEmail() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public GetTokenResponse zzcox() {
-                return null;
-            }
-
-            @Override
-            public void zza(@NonNull GetTokenResponse getTokenResponse) {
-
-            }
-
-            @NonNull
-            @Override
-            public String zzcoy() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public String zzcoz() {
-                return null;
-            }
-
-            @Override
-            public boolean isEmailVerified() {
-                return false;
-            }
-        };
-
-        FirebaseHelper.checkExitedUser(fuser, new FirebaseHelper.FirebaseLoginHelperDelegate() {
-            @Override
-            public void onLoginSuccess(User user) {
+            public void run() {
                 MyBundle.mUserBusiness.mUser = user;
-                FirebaseHelper.findUser("ogx5wuS7FwefoAURIYrrQ6dQ8fl1", new FirebaseHelper.FirebaseUserDelegate() {
-                    @Override
-                    public void onFindUserSuccess(User user) {
-                        anoUser = user;
-                        getEvent();
-                    }
+//                MyBundle.mUserBusiness.load(new UserBusiness.UserBusinessListener() {
+//                    @Override
+//                    public void onComplete(UserBusiness.UserBusinessResult result) {
+//                        if (result == UserBusiness.UserBusinessResult.SUCCESS){
+//                            MyBundle.pUserBusiness.mUser = MyBundle.mUserBusiness.pUser;
+//                            startMainActivity();
+//                        }
+//                    }
+//                });
 
-                    @Override
-                    public void onFindUserFailed() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onLoginFailed(Exception ex) {
-
-            }
-
-            @Override
-            public void onLogoutSuccess() {
-
-            }
-
-            @Override
-            public void onLogoutFailed(Exception ex) {
-
-            }
-        });
-//        FirebaseHelper.findUser("db17jjCUowTHWqjbhZlO61lV5wW2", new FirebaseHelper.FirebaseUserDelegate() {
-//            @Override
-//            public void onFindUserSuccess(User user) {
-//            }
-//
-//            @Override
-//            public void onFindUserFailed() {
-//
-//            }
-//        });
-    }
-
-    void createFollow(){
-        Follow follow = new Follow();
-        follow.id_follower = anoUser.fid;
-        follow.id_following = MyBundle.mUserBusiness.mUser.fid;
-        MyBundle.mUserBusiness.addFollow(follow);
-    }
-
-    void getFollowers(){
-        MyBundle.mUserBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
-            @Override
-            public void onComplete(UserBusiness.UserBusinessResult result) {
-                Log.d("test", "followers: " + MyBundle.mUserBusiness.mFollowers.size());
+                MyBundle.mUserBusiness.getToken();
+                startMainActivity();
+//                testChatMessage();
+//                testChatList();
             }
         });
     }
 
 
 
-    void createEvent(String fid){
-        AppEvent event = new AppEvent();
-        event.fid = fid;
-        event.name = "Alo";
-        event.description = "sdlfhsdjkfhskjfhkdjsfhsdkjfsdhjkfhsdkjflhsdklfdsfkjsdhfkjsdfdshfkjshdfkjsdfhjklsdhfkjsdhfkjlsdhjfkl";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        event.start_time = currentDateandTime;
-        event.end_time = currentDateandTime;
-        event.post_time = currentDateandTime;
-        MyBundle.mUserBusiness.addEvent(event);
+    @Override
+    public void onLoginFailed(Exception ex) {
     }
 
-    void getEvent(){
-        // Test get event
-        MyBundle.mUserBusiness.getFollowers(new UserBusiness.UserBusinessListener() {
-            @Override
-            public void onComplete(UserBusiness.UserBusinessResult result) {
-                MyBundle.mUserBusiness.getMyEvents(new UserBusiness.UserBusinessListener() {
-                    @Override
-                    public void onComplete(UserBusiness.UserBusinessResult result) {
-                        if (result == UserBusiness.UserBusinessResult.SUCCESS){
+    @Override
+    public void onLogoutSuccess() {
 
-                            MyBundle.mUserBusiness.getAllEvents(new UserBusiness.UserBusinessListener() {
-                                @Override
-                                public void onComplete(UserBusiness.UserBusinessResult result) {
-                                    for (int i = 0 ; i < MyBundle.mUserBusiness.allEvents.size(); i++){
-                                        Log.d("test", MyBundle.mUserBusiness.allEvents.get(i).event.name);
-                                    }
-                                    Log.d("test", "ok");
-                                    Handler hd = new Handler(Looper.getMainLooper());
-                                    hd.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        });
+    }
+
+    @Override
+    public void onLogoutFailed(Exception ex) {
+
     }
 }

@@ -72,6 +72,10 @@ public class RelationshipPreviewActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.actionbar);
+
+        TextView actionBarTitle = (TextView) findViewById(R.id.ab_tv_title);
+        actionBarTitle.setText("Relationship Preview");
+
         ImageButton btnBack = (ImageButton) findViewById(R.id.ab_btn_back);
         btnBack.setImageResource(getResources()
                 .getIdentifier("ic_arrow_back", "drawable", getPackageName()));

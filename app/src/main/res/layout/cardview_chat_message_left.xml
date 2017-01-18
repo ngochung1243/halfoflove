@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,16 +23,16 @@
             <ImageView
                 android:id="@+id/cv_chat_ava"
                 android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_height="40dp" />
+                android:background="@drawable/ic_avatar" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
-                >
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/cv_chat_message"
@@ -50,7 +50,6 @@
                     android:textSize="10sp" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

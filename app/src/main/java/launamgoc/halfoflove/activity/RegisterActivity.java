@@ -1,5 +1,6 @@
 package launamgoc.halfoflove.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
                     else
                     {
                         FirebaseHelper.createNewUser(email, password, RegisterActivity.this);
+
                     }
                 }
 
@@ -70,6 +72,11 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
         edtReEmail.setText("");
         edtPassword.setText("");
         edtRePassword.setText("");
+    }
+
+    private void startEditProfile(){
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        startActivity(intent);
     }
 
     @Override

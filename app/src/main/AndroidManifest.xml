@@ -17,20 +17,21 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activity.SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true"/>
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity"
+            android:noHistory="true"/>
         <activity android:name=".activity.EditDetailActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
@@ -46,7 +47,8 @@
         <activity android:name=".activity.TimelineActivity" />
         <activity android:name=".activity.NewFeedTabActivity" />
         <activity android:name=".activity.ChatListTabActivity" />
-        <activity android:name=".activity.SettingsTabActivity" />
+        <activity android:name=".activity.SettingsTabActivity"
+            android:noHistory="true"/>
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SearchRelationshipActivity" />
         <activity android:name=".activity.FollowingActivity" />
