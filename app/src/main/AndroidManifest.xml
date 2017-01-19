@@ -50,6 +50,15 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SearchRelationshipActivity" />
         <activity android:name=".activity.FollowingActivity" />
+        <activity android:name=".activity.FirstEditProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.RelationshipPreviewActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.DivorceActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.ViewEventActivity"></activity>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -69,13 +78,7 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.RelationshipPreviewActivity"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
-            android:name=".activity.DivorceActivity"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity android:name=".activity.ViewEventActivity"></activity>
+
     </application>
 
 </manifest>

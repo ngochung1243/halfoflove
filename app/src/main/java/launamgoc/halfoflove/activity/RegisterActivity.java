@@ -1,5 +1,6 @@
 package launamgoc.halfoflove.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,8 +12,12 @@ import android.widget.Toast;
 
 import launamgoc.halfoflove.R;
 import launamgoc.halfoflove.helper.FirebaseHelper;
+import launamgoc.halfoflove.model.MyBundle;
+import launamgoc.halfoflove.model.User;
 
-public class RegisterActivity extends AppCompatActivity implements FirebaseHelper.FirebaseHelperDelegate{
+import static launamgoc.halfoflove.activity.SplashScreenActivity.isLogin;
+
+public class RegisterActivity extends AppCompatActivity implements FirebaseHelper.FirebaseHelperDelegate, FirebaseHelper.FirebaseLoginHelperDelegate{
 
     Button btnDangKy;
     EditText edtEmail;
@@ -20,7 +25,9 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
     EditText edtPassword;
     EditText edtRePassword;
 
+    ProgressDialog progressDialog;
 
+    private boolean isLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +55,37 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
                     }
                     else
                     {
+                        progressDialog.show();
                         FirebaseHelper.createNewUser(email, password, RegisterActivity.this);
-
                     }
                 }
 
             }
         });
+
+        setProgressDialog();
+
         FirebaseHelper.delegate = this;
+        FirebaseHelper.loginDelegate = this;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseHelper.mAuth.addAuthStateListener(FirebaseHelper.mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (FirebaseHelper.mAuthListener != null) {
+            FirebaseHelper.mAuth.removeAuthStateListener(FirebaseHelper.mAuthListener);
+        }
+    }
+
+    private void setProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registering...");
     }
 
     private void MapControler()
@@ -74,8 +104,8 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
         edtRePassword.setText("");
     }
 
-    private void startEditProfile(){
-        Intent intent = new Intent(this, EditProfileActivity.class);
+    private void startFirstEditProfile(){
+        Intent intent = new Intent(this, FirstEditProfileActivity.class);
         startActivity(intent);
     }
 
@@ -85,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
         hd.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(RegisterActivity.this, "Create account successfuly!!!", Toast.LENGTH_LONG).show();
+                FirebaseHelper.loginWithUser(edtEmail.getText().toString(), edtPassword.getText().toString());
             }
         });
     }
@@ -97,9 +127,36 @@ public class RegisterActivity extends AppCompatActivity implements FirebaseHelpe
             @Override
             public void run() {
                 refreshView();
+                progressDialog.dismiss();
                 Toast.makeText(RegisterActivity.this, "Account existed or network had problem!!!", Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+    @Override
+    public void onLoginSuccess(User user) {
+        progressDialog.dismiss();
+        MyBundle.mUserBusiness.mUser = user;
+        if (isLogin){
+            return;
+        }
+        isLogin = true;
+        startFirstEditProfile();
+    }
+
+    @Override
+    public void onLoginFailed(Exception ex) {
+
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onLogoutFailed(Exception ex) {
 
     }
 }
