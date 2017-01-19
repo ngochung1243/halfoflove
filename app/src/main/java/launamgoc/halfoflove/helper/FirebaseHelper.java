@@ -333,6 +333,27 @@ public class FirebaseHelper {
         });
     }
 
+    static public void uploadVideo(final String eventId, final String title, final byte[] data,
+                                   final FirebaseUploadImagepDelegate uploadDelegate) {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child(eventId + ".mp4");
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                uploadDelegate.onUploadImageFailed(exception.toString());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String downloadUrl = taskSnapshot.getDownloadUrl().toString();
+                uploadDelegate.onUploadImageSuccess(downloadUrl);
+            }
+        });
+    }
+
     /**
      * Adding an AppEvent when User setup (add necessary parameter)
      *

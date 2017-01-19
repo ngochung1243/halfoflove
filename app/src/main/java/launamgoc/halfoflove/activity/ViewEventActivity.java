@@ -2,11 +2,14 @@ package launamgoc.halfoflove.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -28,7 +31,11 @@ public class ViewEventActivity extends AppCompatActivity {
     ImageView imgPic;
     @BindView(R.id.video)
     VideoView videoView;
+    @BindView(R.id.imgBtnPlayBack)
+    ImageButton imgBtnPlayBack;
     String photoUrl, videoUrl;
+    Boolean isPlaying = false;
+    Boolean isStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +52,48 @@ public class ViewEventActivity extends AppCompatActivity {
             new GeImageAsyncTask().execute(photoUrl);
             imgPic.setVisibility(View.VISIBLE);
             videoView.setVisibility(View.GONE);
+            imgBtnPlayBack.setVisibility(View.GONE);
         }else if(videoUrl.length() != 0){
             Uri uri=Uri.parse(videoUrl);
             videoView.setVideoURI(uri);
-            videoView.start();
             imgPic.setVisibility(View.GONE);
             videoView.setVisibility(View.VISIBLE);
+            imgBtnPlayBack.setVisibility(View.VISIBLE);
         }else{
             imgPic.setVisibility(View.GONE);
             videoView.setVisibility(View.GONE);
+            imgBtnPlayBack.setVisibility(View.GONE);
         }
+
+        imgBtnPlayBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isStart == false){
+                    videoView.start();
+                    isStart = true;
+                    imgBtnPlayBack.setImageResource(R.drawable.ic_pause);
+                }else {
+                    if (isPlaying == false) {
+                        videoView.resume();
+                        isPlaying = true;
+                        imgBtnPlayBack.setImageResource(R.drawable.ic_pause);
+                    } else {
+                        videoView.pause();
+                        isPlaying = false;
+                        imgBtnPlayBack.setImageResource(R.drawable.ic_play_back);
+                    }
+                }
+            }
+        });
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                isStart = false;
+                isPlaying = false;
+                imgBtnPlayBack.setImageResource(R.drawable.ic_play_back);
+            }
+        });
     }
 
     private class GeImageAsyncTask extends AsyncTask<String, Void, Bitmap> {

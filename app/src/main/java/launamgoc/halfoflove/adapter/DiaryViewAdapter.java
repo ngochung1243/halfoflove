@@ -2,11 +2,13 @@ package launamgoc.halfoflove.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -70,6 +72,8 @@ public class DiaryViewAdapter extends
         public TextView tvContent;
         public ImageView ivContent;
         public VideoView vvContent;
+        private Boolean isPlaying = false;
+        private Boolean isStart = false;
 
         public InformationHolder(View itemView) {
             super(itemView);
@@ -83,19 +87,54 @@ public class DiaryViewAdapter extends
             tvTitle.setText(data.getTitle());
             tvContent.setText(data.getContent());
 
-            if(data.getImage() != "" && data.getImage() != null) {
+            if(data.getImage() != null && data.getImage().length() != 0) {
+                ivContent.setVisibility(View.VISIBLE);
+                vvContent.setVisibility(View.GONE);
                 new GeImageAsyncTask().execute(data);
             }
 
-            else if(data.getVideo()!= "" && data.getVideo() != null) {
-                String uriPath = "android.resource://launamgoc.halfoflove/" + data.getVideo();
-                Uri uri = Uri.parse(uriPath);
+            else if(data.getVideo() != null && data.getVideo().length() != 0) {
+                //String uriPath = "android.resource://launamgoc.halfoflove/" + data.getVideo();
+                ivContent.setVisibility(View.GONE);
+                vvContent.setVisibility(View.VISIBLE);
+                Uri uri = Uri.parse(data.getVideo());
                 vvContent.getLayoutParams().height = 500;
                 vvContent.getLayoutParams().width = 500;
                 vvContent.requestLayout();
                 vvContent.setVideoURI(uri);
-                vvContent.requestFocus();
                 vvContent.start();
+                vvContent.requestFocus();
+
+                vvContent.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if(isStart == false){
+                            vvContent.start();
+                            isStart = true;
+                        }else {
+                            if (isPlaying == false) {
+                                vvContent.resume();
+                                isPlaying = true;
+                            } else {
+                                vvContent.pause();
+                                isPlaying = false;
+                            }
+                        }
+                        return true;
+                    }
+                });
+
+                vvContent.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        isStart = false;
+                        isPlaying = false;
+                    }
+                });
+            }
+            else{
+                ivContent.setVisibility(View.GONE);
+                vvContent.setVisibility(View.GONE);
             }
         }
 

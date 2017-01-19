@@ -164,7 +164,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                     }
                 }else if(chooseVideo == true){
                     try {
-                        FirebaseHelper.uploadImage(event.id,
+                        FirebaseHelper.uploadVideo(event.id,
                                 "video_url", convertVideoUriToByteArray(uri),
                             new FirebaseHelper.FirebaseUploadImagepDelegate() {
                                 @Override
@@ -237,6 +237,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 uri = data.getData();
                 uploadImage.setImageURI(uri);
                 chooseImage = true;
+                chooseVideo = false;
                 uploadImage.setVisibility(View.VISIBLE);
                 uploadVideo.setVisibility(View.GONE);
             }
@@ -244,6 +245,7 @@ public class UpdateEventActivity extends AppCompatActivity implements View.OnCli
                 uri = data.getData();
                 uploadVideo.setVideoURI(uri);
                 chooseVideo = true;
+                chooseImage = false;
                 uploadVideo.setVisibility(View.VISIBLE);
                 uploadImage.setVisibility(View.GONE);
             }else{

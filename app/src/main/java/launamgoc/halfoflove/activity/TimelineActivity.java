@@ -1,6 +1,7 @@
 package launamgoc.halfoflove.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,7 +84,7 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
     private DiaryViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-
+    private ProgressDialog progressDialog;
 
     private List<DiaryContent> listView = new ArrayList<>();
 
@@ -96,6 +97,8 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         ButterKnife.bind(this);
 
         hd = new Handler(getMainLooper());
+
+        setProgressDialog();
 
         setActionBar();
         setRecyclerView();
@@ -129,6 +132,11 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    private void setProgressDialog(){
+        progressDialog = new ProgressDialog(TimelineActivity.this);
+        progressDialog.setMessage("Loading...");
+    }
+
     private void setActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -158,6 +166,8 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         initializeDiary();
         recyclerView.setAdapter(adapter);
         recyclerView.scrollToPosition(0);
+
+        progressDialog.dismiss();
     }
 
     private void setTabs()

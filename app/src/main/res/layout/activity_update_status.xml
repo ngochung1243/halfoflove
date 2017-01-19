@@ -134,6 +134,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="POST"
-        android:id="@+id/btn_Post"/>
+        android:id="@+id/btn_Post"
+        android:background="#08A1EE"
+        android:gravity="center"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
