@@ -36,13 +36,12 @@
         app:srcCompat="@drawable/calendar_header_1"
         android:id="@+id/imgPic" />
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imgBtnPlayBack"
-        android:src="@drawable/ic_play_back"
-        android:background="@android:color/transparent"
-        android:layout_marginBottom="10dp"/>
+    <!--<ImageButton-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imgBtnPlayBack"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:layout_marginBottom="10dp"/>-->
 
     <VideoView
         android:layout_width="match_parent"

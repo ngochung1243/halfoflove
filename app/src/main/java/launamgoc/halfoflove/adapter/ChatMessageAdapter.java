@@ -3,6 +3,7 @@ package launamgoc.halfoflove.adapter;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     public void setList(List<ChatMessage>chatMessages){
         this.chatMessages = chatMessages;
+        Log.d("message", "message count: " + chatMessages.size());
         notifyDataSetChanged();
     }
 
